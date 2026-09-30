@@ -1,0 +1,4367 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+
+<title>Superkomponenta</title>
+
+<style>
+
+:root {
+
+  /* ---------- Levá strana ---------- */
+
+  --left-bg: #1d2226;
+  --left-nav-btn: #2b3238;
+  --left-nav-btn-active: #c9a227;
+  --left-icon: #d7dde2;
+  --left-icon-active: #1d2226;
+
+  /* ---------- Pravá strana – military ---------- */
+
+  --mil-bg: #3b4032;
+  --mil-panel: #2e3327;
+  --mil-line: #6b7355;
+  --mil-text: #d4d6b8;
+  --mil-text-dim: #98a07f;
+  --mil-accent: #c9a227;
+
+  --font-mono: "Courier New", ui-monospace, Consolas, monospace;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+html,
+body {
+  height: 100%;
+  background: #101214;
+  font-family: var(--font-ui);
+}
+
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   HLAVNÍ APLIKACE 16:9
+   ========================================================= */
+
+.sc-app {
+
+  aspect-ratio: 16 / 9;
+
+  width: min(
+    100vw,
+    calc(100vh * 16 / 9)
+  );
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  grid-template-rows:
+    minmax(0, 1fr);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   LEVÁ STRANA
+   ========================================================= */
+
+.sc-left {
+
+  position: relative;
+
+  background: var(--left-bg);
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 0;
+}
+
+
+/* ---------- Levý navbar ---------- */
+
+.sc-left-nav {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: clamp(
+    12px,
+    2vw,
+    32px
+  );
+
+  padding: clamp(
+    12px,
+    1.6vw,
+    24px
+  );
+
+  list-style: none;
+}
+
+
+.sc-round-btn {
+
+  width: clamp(
+    44px,
+    5.2vw,
+    76px
+  );
+
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  border: 2px solid transparent;
+
+  background: var(--left-nav-btn);
+
+  color: var(--left-icon);
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  transition:
+    background .2s,
+    color .2s,
+    border-color .2s;
+}
+
+
+.sc-round-btn svg {
+
+  width: 52%;
+  height: 52%;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+.sc-round-btn:hover {
+
+  border-color:
+    var(--left-nav-btn-active);
+}
+
+
+.sc-round-btn:focus-visible {
+
+  outline:
+    3px solid
+    var(--left-nav-btn-active);
+
+  outline-offset: 3px;
+}
+
+
+.sc-round-btn.is-active {
+
+  background:
+    var(--left-nav-btn-active);
+
+  color:
+    var(--left-icon-active);
+}
+
+
+/* ---------- Obsah levé strany ---------- */
+
+.sc-left-content {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    0
+    clamp(12px, 1.6vw, 24px)
+    clamp(12px, 1.6vw, 24px);
+}
+
+
+.sc-panel {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  color: var(--left-icon);
+}
+
+
+.sc-panel[hidden] {
+  display: none;
+}
+
+
+.sc-panel-title {
+  
+  font-family: "Google Sans", sans-serif;
+  font-size:
+    clamp(48px, 2vw, 30px);
+
+  font-weight: 600;
+
+  margin-bottom:
+    clamp(12px, 1.4vw, 20px);
+}
+
+
+/* =========================================================
+   VYHLEDÁVAČ
+   ========================================================= */
+
+.sc-panel[data-panel="search"] {
+
+  background: #ffffff;
+
+  color: #1a1a1a;
+
+  padding:
+    clamp(20px, 2.4vw, 36px);
+
+  border-radius: 12px;
+}
+
+
+.sc-search-title {
+  letter-spacing: .01em;
+}
+
+
+.sc-letter-blue {
+  color: #4285f4;
+}
+
+.sc-letter-red {
+  color: #ea4335;
+}
+
+.sc-letter-yellow {
+  color: #fbbc05;
+}
+
+.sc-letter-green {
+  color: #34a853;
+}
+
+
+.sc-search-form {
+
+  display: flex;
+
+  gap: 10px;
+}
+
+
+.sc-search-input {
+
+  flex: 1;
+
+  min-width: 0;
+
+  padding:
+    clamp(10px, 1vw, 14px)
+    14px;
+
+  font: inherit;
+
+  font-size:
+    clamp(14px, 1.2vw, 17px);
+
+  color: #1a1a1a;
+
+  background:
+    #ffffff;
+
+  border:
+    2px solid #c7c9cc;
+
+  border-radius: 8px;
+}
+
+
+.sc-search-input::placeholder {
+  color: #8a8d91;
+}
+
+
+.sc-search-input:focus-visible {
+
+  outline: none;
+
+  border-color:
+    #1a1a1a;
+}
+
+
+.sc-search-btn {
+
+  padding:
+    0
+    clamp(16px, 1.8vw, 28px);
+
+  font: inherit;
+
+  font-size:
+    clamp(14px, 1.2vw, 17px);
+
+  font-weight: 600;
+
+  color:
+    #ffffff;
+
+  background:
+    #1a1a1a;
+
+  border:
+    2px solid #1a1a1a;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+
+.sc-search-btn:hover {
+
+  background: #4a4d51;
+
+  border-color: #4a4d51;
+}
+
+
+.sc-search-btn:focus-visible {
+
+  outline:
+    3px solid
+    #8a8d91;
+
+  outline-offset: 2px;
+}
+
+
+/* ---------- Výsledky vyhledávání ---------- */
+
+.sc-search-results
+
+ {
+    flex: 1;
+    min-height: 0;
+    margin-top: 20px;
+    padding-right: 4px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    grid-auto-rows: max-content;
+    align-content: start;
+    align-items: start;
+    gap: 12px;
+}
+
+
+.sc-result-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #dcdee0;
+
+  border-radius: 10px;
+
+  transition:
+    border-color .15s,
+    box-shadow .15s;
+}
+
+
+.sc-result-card:hover {
+  border-color: #1a1a1a;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+
+.sc-result-card[hidden] {
+  display: none;
+}
+
+
+.sc-result-image {
+
+  aspect-ratio: 16 / 9;
+
+  background: #f1f2f3;
+}
+
+
+.sc-result-image svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sc-result-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.sc-result-body {
+
+  padding:
+    clamp(10px, 1vw, 14px);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.sc-result-title {
+
+  font-size:
+    clamp(13px, 1.05vw, 16px);
+
+  font-weight: 700;
+
+  color: #1a1a1a;
+}
+
+
+.sc-result-context {
+
+  font-size:
+    clamp(11.5px, .95vw, 13.5px);
+
+  line-height: 1.4;
+
+  color: #55585c;
+}
+
+
+.sc-search-empty {
+
+  margin-top:
+    clamp(14px, 1.6vw, 22px);
+
+  color: #8a8d91;
+
+  font-size:
+    clamp(13px, 1.05vw, 15px);
+}
+
+.sc-search-empty[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+   GALERIE
+   ========================================================= */
+
+.sc-gallery-grid {
+
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  grid-auto-rows: max-content;
+
+  align-items: start;
+
+  align-content: start;
+
+  gap: 4px;
+}
+
+
+.sc-gallery-item {
+
+  width: 100%;
+
+  height: auto;
+
+  aspect-ratio: 1 / 1;
+
+  padding: 0;
+
+  border: none;
+
+  background:
+    var(--left-nav-btn);
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  align-self: start;
+}
+
+
+.sc-gallery-item img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform .25s;
+}
+
+
+.sc-gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+
+.sc-gallery-item:focus-visible {
+
+  outline:
+    3px solid
+    var(--left-nav-btn-active);
+
+  outline-offset: -3px;
+}
+
+
+/* =========================================================
+   PŘIJATÁ POSLOUPNOST
+   ========================================================= */
+
+.sc-received {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom:
+    clamp(8px, 1vw, 14px);
+}
+
+
+.sc-received-label {
+
+  margin-right: 4px;
+
+  font-size:
+    clamp(12px, 1vw, 14px);
+
+  color: #8b949b;
+}
+
+
+.sc-received-slot {
+
+  width:
+    clamp(36px, 3.6vw, 56px);
+
+  aspect-ratio: 1 / 1;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border:
+    2px dashed
+    #3c454c;
+
+  background: transparent;
+
+  cursor: default;
+}
+
+
+.sc-received-slot.is-filled {
+
+  border:
+    2px solid
+    var(--left-nav-btn-active);
+
+  cursor: pointer;
+}
+
+
+.sc-received-slot img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.sc-received-slot:focus-visible {
+
+  outline:
+    3px solid
+    var(--left-nav-btn-active);
+
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   LIGHTBOX
+   ========================================================= */
+
+.sc-lightbox {
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(10, 12, 14, .94);
+}
+
+
+.sc-lightbox[hidden] {
+  display: none;
+}
+
+
+.sc-lightbox-img {
+
+  width:
+    min(68%, 70vh);
+
+  aspect-ratio: 1 / 1;
+
+  object-fit: cover;
+
+  border-radius: 4px;
+}
+
+
+.sc-lb-btn {
+
+  position: absolute;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    var(--left-nav-btn);
+
+  color:
+    var(--left-icon);
+
+  font-size: 22px;
+
+  cursor: pointer;
+}
+
+
+.sc-lb-btn:hover {
+
+  background:
+    var(--left-nav-btn-active);
+
+  color:
+    var(--left-icon-active);
+}
+
+
+.sc-lb-btn:focus-visible {
+
+  outline:
+    3px solid
+    var(--left-nav-btn-active);
+
+  outline-offset: 2px;
+}
+
+
+.sc-lb-close {
+  top: 14px;
+  right: 14px;
+}
+
+
+.sc-lb-prev {
+  left: 14px;
+}
+
+
+.sc-lb-next {
+  right: 14px;
+}
+
+
+.sc-lb-counter {
+
+  position: absolute;
+
+  bottom: 14px;
+
+  left: 0;
+  right: 0;
+
+  text-align: center;
+
+  font-size: 14px;
+
+  color: #8b949b;
+}
+
+
+/* =========================================================
+   REKLAMNÍ PŘEKRYV
+   ========================================================= */
+
+.sc-ad-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 30;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: clamp(14px, 1.8vw, 24px);
+
+  background: rgba(6, 7, 8, .82);
+}
+
+
+.sc-ad-overlay[hidden] {
+  display: none;
+}
+
+
+.sc-ad-card {
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(10px, 1.2vw, 16px);
+
+  padding: clamp(24px, 3vw, 44px);
+
+  border-radius: 14px;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  overflow: hidden;
+}
+
+
+.sc-ad-card:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -6px;
+}
+
+
+/* ---------- Varianty podle typu reakce ---------- */
+
+.sc-ad-card.sc-ad-heart {
+
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255,255,255,.18), transparent 45%),
+    linear-gradient(160deg, #ff8fab, #ee4d78 55%, #c62368);
+}
+
+
+.sc-ad-card.sc-ad-happy {
+
+  background-color: #f2b705;
+
+  background-image:
+    linear-gradient(160deg, rgba(0,0,0,.12), rgba(0,0,0,0) 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='white' stroke-opacity='0.4' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='22' cy='22' r='15'/%3E%3Cpath d='M15 18c3-2 7-2 9 0'/%3E%3Ccircle cx='28' cy='17' r='1.5' fill='white' fill-opacity='0.4' stroke='none'/%3E%3Cpath d='M13 27q9 7 18-1'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: auto, 44px 44px;
+
+  color: #2a2100;
+}
+
+
+.sc-ad-card.sc-ad-angry {
+
+  background:
+    radial-gradient(circle at 75% 15%, rgba(255,255,255,.12), transparent 45%),
+    linear-gradient(160deg, #4a6b8a, #2c4864 55%, #182838);
+}
+
+
+.sc-ad-tag {
+
+  position: absolute;
+  top: clamp(12px, 1.4vw, 18px);
+  left: clamp(12px, 1.4vw, 18px);
+
+  padding: 4px 10px;
+
+  font-size: clamp(9px, .8vw, 11px);
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+
+  border-radius: 999px;
+
+  background: rgba(0, 0, 0, .32);
+}
+
+
+.sc-ad-icon {
+
+  width: clamp(90px, 11vw, 160px);
+}
+
+
+.sc-ad-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+.sc-ad-title {
+
+  font-size: clamp(19px, 2.2vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+
+  max-width: 34ch;
+}
+
+
+.sc-ad-body {
+
+  font-size: clamp(13px, 1.05vw, 16px);
+  line-height: 1.5;
+
+  max-width: 46ch;
+
+  opacity: .92;
+}
+
+
+.sc-ad-close {
+
+  position: absolute;
+  top: clamp(12px, 1.4vw, 18px);
+  right: clamp(12px, 1.4vw, 18px);
+
+  width: clamp(32px, 3vw, 42px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(255, 255, 255, .55);
+
+  background: rgba(0, 0, 0, .35);
+
+  color: #ffffff;
+
+  font: inherit;
+  font-weight: 700;
+  font-size: clamp(13px, 1.05vw, 16px);
+
+  display: grid;
+  place-items: center;
+
+  cursor: not-allowed;
+
+  transition: background .15s, border-color .15s;
+}
+
+
+.sc-ad-close:not(:disabled) {
+
+  cursor: pointer;
+
+  background: rgba(0, 0, 0, .5);
+}
+
+
+.sc-ad-close:not(:disabled):hover {
+  border-color: #ffffff;
+}
+
+
+.sc-ad-close:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   PRAVÁ STRANA
+   ========================================================= */
+
+.sc-right {
+
+  background:
+    var(--mil-bg);
+
+  color:
+    var(--mil-text);
+
+  font-family:
+    var(--font-mono);
+
+  display: flex;
+
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 0;
+
+  border-left:
+    3px solid
+    var(--mil-line);
+}
+
+
+/* ---------- Pravý navbar ---------- */
+
+.sc-right-nav {
+
+  display: flex;
+
+  list-style: none;
+
+  background:
+    var(--mil-panel);
+
+  border-bottom:
+    2px solid
+    var(--mil-line);
+}
+
+
+.sc-right-nav li {
+  flex: 1;
+}
+
+
+.sc-mil-link {
+
+  width: 100%;
+
+  padding:
+    clamp(10px, 1.3vw, 18px)
+    8px;
+
+  background: none;
+
+  border: none;
+
+  border-right:
+    1px solid
+    var(--mil-line);
+
+  color:
+    var(--mil-text-dim);
+
+  font: inherit;
+
+  font-size:
+    clamp(11px, 1.15vw, 16px);
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  cursor: pointer;
+
+  transition:
+    background .15s,
+    color .15s;
+}
+
+
+.sc-right-nav li:last-child .sc-mil-link {
+  border-right: none;
+}
+
+
+.sc-mil-link:hover {
+
+  color:
+    var(--mil-text);
+
+  background:
+    rgba(255,255,255,.04);
+}
+
+
+.sc-mil-link:focus-visible {
+
+  outline:
+    2px solid
+    var(--mil-accent);
+
+  outline-offset: -3px;
+}
+
+
+.sc-mil-link.is-active {
+
+  color:
+    var(--mil-panel);
+
+  background:
+    var(--mil-accent);
+}
+
+
+/* ---------- Reakční tlačítka (nahrazují Fotobanku) ---------- */
+
+.sc-mil-reactions {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(6px, .8vw, 12px);
+
+  padding:
+    clamp(6px, .8vw, 10px)
+    8px;
+}
+
+
+.sc-mil-round-btn {
+
+  width: clamp(28px, 2.8vw, 40px);
+
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  border: 2px solid var(--mil-line);
+
+  background: var(--mil-bg);
+
+  color: var(--mil-text);
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+
+  transition:
+    background .15s,
+    color .15s,
+    border-color .15s;
+}
+
+
+.sc-mil-round-btn svg {
+
+  width: 58%;
+  height: 58%;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+.sc-mil-round-btn:hover {
+  border-color: var(--mil-accent);
+  color: var(--mil-accent);
+}
+
+
+.sc-mil-round-btn:focus-visible {
+  outline: 2px solid var(--mil-accent);
+  outline-offset: 2px;
+}
+
+
+.sc-mil-round-btn.is-active {
+  background: var(--mil-accent);
+  border-color: var(--mil-accent);
+  color: var(--mil-panel);
+}
+
+
+/* ---------- Obsah dashboardu ---------- */
+
+.sc-right-content {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding:
+    clamp(10px, 1.2vw, 18px);
+}
+
+
+.sc-rpanel {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.sc-rpanel[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+   VYHLEDÁVAČ (pravá strana) – navbar s obrázkovými ikonami
+   ========================================================= */
+
+.sc-search-icon-nav {
+
+  display: flex;
+
+  gap: clamp(8px, 1vw, 14px);
+}
+
+
+.sc-search-icon-btn {
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: clamp(6px, .8vw, 10px);
+
+  padding:
+    clamp(10px, 1.3vw, 18px)
+    8px;
+
+  color: var(--mil-text);
+
+  background: var(--mil-panel);
+
+  border: 2px solid var(--mil-line);
+
+  cursor: pointer;
+}
+
+
+.sc-search-icon-btn svg {
+
+  width: clamp(26px, 2.6vw, 38px);
+
+  height: clamp(26px, 2.6vw, 38px);
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.6;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+
+.sc-search-icon-label {
+
+  font-size: clamp(9px, .85vw, 12px);
+
+  text-transform: uppercase;
+
+  letter-spacing: .1em;
+
+  color: var(--mil-text-dim);
+
+  text-align: center;
+}
+
+
+.sc-search-icon-btn:hover {
+  border-color: var(--mil-accent);
+  color: var(--mil-accent);
+}
+.sc-search-icon-btn:hover .sc-search-icon-label {
+  color: var(--mil-accent);
+}
+
+
+.sc-search-icon-btn:focus-visible {
+  outline: 2px solid var(--mil-accent);
+  outline-offset: 2px;
+}
+
+
+.sc-search-icon-btn.is-active {
+  color: var(--mil-panel);
+  background: var(--mil-accent);
+  border-color: var(--mil-accent);
+}
+.sc-search-icon-btn.is-active .sc-search-icon-label {
+  color: var(--mil-panel);
+}
+
+
+/* =========================================================
+   VÝBĚR FOTOGRAFIÍ
+   ========================================================= */
+
+.sc-picker {
+
+  flex: 1;
+
+  min-height: 0;
+
+  display: grid;
+
+  grid-template-rows:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(8px, 1vw, 14px);
+}
+
+
+/* ---------- Náhled databáze ---------- */
+
+.sc-picker-preview {
+
+  min-height: 0;
+
+  overflow-y: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(12, minmax(0, 1fr));
+
+  align-content: start;
+
+  gap: 2px;
+
+  padding: 3px;
+
+  background:
+    var(--mil-panel);
+
+  border:
+    1px solid
+    var(--mil-line);
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    var(--mil-line)
+    transparent;
+}
+
+
+.sc-thumb {
+
+  aspect-ratio: 1 / 1;
+
+  padding: 0;
+
+  border:
+    1px solid transparent;
+
+  background:
+    var(--mil-bg);
+
+  cursor: pointer;
+
+  overflow: hidden;
+}
+
+
+.sc-thumb img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+.sc-thumb:hover {
+  border-color: var(--mil-accent);
+}
+
+
+.sc-thumb:focus-visible {
+
+  outline:
+    2px solid
+    var(--mil-accent);
+
+  outline-offset: -2px;
+}
+
+
+/* =========================================================
+   SPODNÍ ČÁST PICKERU
+   ========================================================= */
+
+.sc-picker-bottom {
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+
+/* =========================================================
+   NOVÉ: VÝCHOZÍ OBRÁZKY
+   ========================================================= */
+
+.sc-default-images {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 8px;
+
+  width: 100%;
+  max-height: 11vh;
+}
+
+
+.sc-default-image {
+
+  position: relative;
+
+  min-width: 0;
+
+  aspect-ratio: 1 / 1;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border:
+    2px solid
+    var(--mil-line);
+
+  background:
+    var(--mil-panel);
+
+  cursor: pointer;
+
+  transition:
+    border-color .15s,
+    transform .15s;
+
+  max-height: 12vh;
+}
+
+
+.sc-default-image:hover {
+
+  border-color:
+    var(--mil-accent);
+
+  transform: translateY(-2px);
+}
+
+
+.sc-default-image:focus-visible {
+
+  outline:
+    2px solid
+    var(--mil-accent);
+
+  outline-offset: 2px;
+}
+
+
+.sc-default-image img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* Malý identifikační štítek přes obrázek */
+
+.sc-default-image-label {
+
+  visibility: hidden;
+    position: absolute;
+
+
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+
+  padding:
+    3px 5px;
+
+  background:
+    rgba(0, 0, 0, .72);
+
+  color:
+    var(--mil-text);
+
+  font-size:
+    clamp(8px, .75vw, 11px);
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
+
+  pointer-events: none;
+}
+
+
+/* ---------- Nadpis posloupnosti ---------- */
+
+.sc-picker-head {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size:
+    clamp(10px, 1vw, 14px);
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  color:
+    var(--mil-text-dim);
+}
+
+
+/* ---------- 4 sloty ---------- */
+
+.sc-slots {
+
+  display: flex;
+
+  gap: 8px;
+}
+
+
+.sc-slot {
+
+  flex:
+    0 0 calc(25% - 6px);
+
+  aspect-ratio: 1 / 1;
+
+  display: grid;
+
+  place-items: center;
+
+  overflow: hidden;
+
+  border:
+    2px dashed
+    var(--mil-line);
+
+  background:
+    var(--mil-panel);
+
+  color:
+    var(--mil-text-dim);
+
+  font-size:
+    clamp(14px, 1.6vw, 24px);
+}
+
+
+.sc-slot.is-filled {
+
+  border-style: solid;
+
+  border-color:
+    var(--mil-accent);
+}
+
+
+.sc-slot img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* ---------- Tlačítka ---------- */
+
+.sc-picker-actions {
+
+  display: flex;
+
+  gap: 8px;
+}
+
+
+.sc-mil-btn {
+
+  flex: 1;
+
+  padding:
+    clamp(8px, .9vw, 12px)
+    8px;
+
+  font: inherit;
+
+  font-size:
+    clamp(11px, 1.1vw, 15px);
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  cursor: pointer;
+
+  color:
+    var(--mil-text);
+
+  background: transparent;
+
+  border:
+    2px solid
+    var(--mil-line);
+}
+
+
+.sc-mil-btn:hover:not(:disabled) {
+
+  border-color:
+    var(--mil-accent);
+
+  color:
+    var(--mil-accent);
+}
+
+
+.sc-mil-btn:focus-visible {
+
+  outline:
+    2px solid
+    var(--mil-accent);
+
+  outline-offset: 2px;
+}
+
+
+.sc-mil-btn.is-primary {
+
+  background:
+    var(--mil-accent);
+
+  border-color:
+    var(--mil-accent);
+
+  color:
+    var(--mil-panel);
+
+  font-weight: 700;
+}
+
+
+.sc-mil-btn.is-primary:hover:not(:disabled) {
+
+  color:
+    var(--mil-panel);
+
+  filter: brightness(1.1);
+}
+
+
+.sc-mil-btn:disabled {
+
+  opacity: .4;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBIL
+   ========================================================= */
+
+.sc-mobile-warning {
+  display: none;
+}
+
+
+@media (max-width: 767px) {
+
+  .sc-app {
+    display: none;
+  }
+
+  .sc-mobile-warning {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    min-height: 100%;
+
+    padding: 32px 24px;
+
+    text-align: center;
+
+    background:
+      var(--mil-bg);
+
+    color:
+      var(--mil-text);
+
+    font-family:
+      var(--font-mono);
+  }
+
+  .sc-mobile-warning h1 {
+
+    font-size: 1.4rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+  }
+
+  .sc-mobile-warning p {
+
+    color:
+      var(--mil-text-dim);
+
+    line-height: 1.5;
+
+    max-width: 28ch;
+  }
+
+  body {
+    overflow: auto;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  * {
+    transition: none !important;
+  }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     MOBILNÍ UPOZORNĚNÍ
+     ======================================================= -->
+
+<div
+  class="sc-mobile-warning"
+  role="alert"
+>
+
+  <h1>
+    Nepodporované zobrazení
+  </h1>
+
+  <p>
+    Prosím přepněte do desktopové verze.
+  </p>
+
+</div>
+
+
+<!-- =======================================================
+     SUPERKOMPONENTA
+     ======================================================= -->
+
+<main class="sc-app">
+
+
+  <!-- =====================================================
+       LEVÁ STRANA
+       ===================================================== -->
+
+  <section
+    class="sc-left"
+    aria-label="Hlavní navigace"
+  >
+
+
+    <!-- ---------- Levý navbar ---------- -->
+
+    <ul class="sc-left-nav">
+
+      <li>
+
+        <button
+          class="sc-round-btn is-active"
+          data-section="search"
+          aria-label="Vyhledávač"
+          title="Vyhledávač"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+
+            <circle
+              cx="11"
+              cy="11"
+              r="6.5"
+            />
+
+            <path d="M16 16l5 5"/>
+
+          </svg>
+
+        </button>
+
+      </li>
+
+
+      <li>
+
+        <button
+          class="sc-round-btn"
+          data-section="gallery"
+          aria-label="Galerie"
+          title="Galerie"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+
+            <rect
+              x="3"
+              y="4"
+              width="18"
+              height="16"
+              rx="2"
+            />
+
+            <circle
+              cx="9"
+              cy="10"
+              r="1.6"
+            />
+
+            <path
+              d="M4 18l5-5 4 4 3-3 4 4"
+            />
+
+          </svg>
+
+        </button>
+
+      </li>
+
+
+      <li>
+
+        <button
+          class="sc-round-btn"
+          data-section="chatbot"
+          aria-label="Chatbot"
+          title="Chatbot"
+        >
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+
+            <path
+              d="M4 5h16v11H10l-4 4v-4H4z"
+            />
+
+            <path
+              d="M9 10h.01M15 10h.01"
+            />
+
+          </svg>
+
+        </button>
+
+      </li>
+
+
+    </ul>
+
+
+    <!-- ---------- Levý obsah ---------- -->
+
+    <div
+      class="sc-left-content"
+      id="left-content"
+    >
+
+
+      <!-- VYHLEDÁVAČ -->
+
+      <div
+        class="sc-panel"
+        data-panel="search"
+      >
+
+        <h2 class="sc-panel-title sc-search-title">
+
+          <span class="sc-letter sc-letter-blue">V</span><span class="sc-letter sc-letter-red">y</span><span class="sc-letter sc-letter-yellow">h</span><span class="sc-letter sc-letter-blue">l</span><span class="sc-letter sc-letter-green">e</span><span class="sc-letter sc-letter-red">d</span><span class="sc-letter sc-letter-blue">á</span><span class="sc-letter sc-letter-red">v</span><span class="sc-letter sc-letter-yellow">a</span><span class="sc-letter sc-letter-blue">č</span>
+
+        </h2>
+
+
+        <form
+          class="sc-search-form"
+          id="search-form"
+          role="search"
+        >
+
+          <input
+            class="sc-search-input"
+            id="search-input"
+            type="text"
+            placeholder="Zadejte hledaný výraz"
+            aria-label="Hledaný výraz"
+            autocomplete="off"
+          >
+
+          <button
+            class="sc-search-btn"
+            type="submit"
+          >
+            Hledej
+          </button>
+
+        </form>
+
+        <div
+          class="sc-search-results"
+          id="search-results"
+          aria-live="polite"
+        ></div>
+
+        <p class="sc-search-empty" id="search-empty" hidden>
+          Žádné výsledky neodpovídají hledanému výrazu.
+        </p>
+
+      </div>
+
+
+      <!-- GALERIE -->
+
+      <div
+        class="sc-panel"
+        data-panel="gallery"
+        hidden
+      >
+
+        <h2 class="sc-panel-title">
+          Galerie
+        </h2>
+
+
+        <!-- Přijatá posloupnost -->
+
+        <div
+          class="sc-received"
+          aria-label="Přijatá posloupnost"
+        >
+
+          <span class="sc-received-label">
+            Přijatá posloupnost:
+          </span>
+
+
+          <button
+            type="button"
+            class="sc-received-slot"
+            disabled
+            aria-label="Prázdný slot 1"
+          ></button>
+
+
+          <button
+            type="button"
+            class="sc-received-slot"
+            disabled
+            aria-label="Prázdný slot 2"
+          ></button>
+
+
+          <button
+            type="button"
+            class="sc-received-slot"
+            disabled
+            aria-label="Prázdný slot 3"
+          ></button>
+
+
+          <button
+            type="button"
+            class="sc-received-slot"
+            disabled
+            aria-label="Prázdný slot 4"
+          ></button>
+
+        </div>
+
+
+        <!-- Galerie 64 fotografií -->
+
+        <div
+          class="sc-gallery-grid"
+          id="gallery-grid"
+        ></div>
+
+      </div>
+
+
+      <!-- CHATBOT -->
+
+      <div
+        class="sc-panel"
+        data-panel="chatbot"
+        hidden
+      ></div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         LIGHTBOX
+         ================================================= -->
+
+    <div
+      class="sc-lightbox"
+      id="lightbox"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-label="Náhled obrázku"
+    >
+
+      <button
+        class="sc-lb-btn sc-lb-close"
+        id="lb-close"
+        aria-label="Zavřít"
+      >
+        &#10005;
+      </button>
+
+
+      <button
+        class="sc-lb-btn sc-lb-prev"
+        id="lb-prev"
+        aria-label="Předchozí"
+      >
+        &#8249;
+      </button>
+
+
+      <img
+        class="sc-lightbox-img"
+        id="lb-img"
+        alt=""
+      >
+
+
+      <button
+        class="sc-lb-btn sc-lb-next"
+        id="lb-next"
+        aria-label="Další"
+      >
+        &#8250;
+      </button>
+
+
+      <div
+        class="sc-lb-counter"
+        id="lb-counter"
+      ></div>
+
+    </div>
+
+
+    <!-- =================================================
+         REKLAMNÍ PŘEKRYV
+         ================================================= -->
+
+    <div
+      class="sc-ad-overlay"
+      id="ad-overlay"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-label="Reklama"
+    >
+
+      <div class="sc-ad-card" id="ad-card" tabindex="-1">
+
+        <span class="sc-ad-tag">Inzerce</span>
+
+        <div class="sc-ad-icon" id="ad-icon"></div>
+
+        <h3 class="sc-ad-title" id="ad-title"></h3>
+
+        <p class="sc-ad-body" id="ad-body"></p>
+
+        <button
+          type="button"
+          class="sc-ad-close"
+          id="ad-close"
+          disabled
+          aria-label="Reklamu bude možné zavřít za 10 s"
+        >
+          10
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       PRAVÁ STRANA – DASHBOARD
+       ===================================================== -->
+
+  <section
+    class="sc-right"
+    aria-label="Dashboard"
+  >
+
+
+    <!-- ---------- Pravý navbar ---------- -->
+
+    <ul class="sc-right-nav">
+
+      <li>
+
+        <button
+          class="sc-mil-link is-active"
+          data-section="search"
+        >
+          Vyhledávač
+        </button>
+
+      </li>
+
+
+      <li>
+
+        <button
+          class="sc-mil-link"
+          data-section="gallery"
+        >
+          Galerie
+        </button>
+
+      </li>
+
+
+      <li>
+
+        <button
+          class="sc-mil-link"
+          data-section="chatbot"
+        >
+          Chatbot
+        </button>
+
+      </li>
+
+
+      <li class="sc-mil-reactions">
+
+        <button
+          type="button"
+          class="sc-mil-round-btn"
+          id="reaction-heart"
+          aria-label="Srdíčko"
+          title="Srdíčko"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19.5s-7-4.3-8.8-8.4C2 8.2 3.5 5 6.6 5c1.9 0 3.4 1.1 4 2.4.6-1.3 2.1-2.4 4-2.4 3.1 0 4.6 3.2 3.4 6.1C19 15.2 12 19.5 12 19.5z"/>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="sc-mil-round-btn"
+          id="reaction-happy"
+          aria-label="Smějící se smajlík"
+          title="Smějící se smajlík"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M8.3 10c.4-.5 1-.5 1.4 0"/>
+            <path d="M14.3 10c.4-.5 1-.5 1.4 0"/>
+            <path d="M8 14.5q4 4 8 0"/>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="sc-mil-round-btn"
+          id="reaction-angry"
+          aria-label="Rozlobený smajlík"
+          title="Rozlobený smajlík"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M7.5 9.5l2.5-1.3"/>
+            <path d="M16.5 9.5l-2.5-1.3"/>
+            <path d="M8 16.5q4-4 8 0"/>
+          </svg>
+        </button>
+
+      </li>
+
+    </ul>
+
+
+    <!-- ---------- Dashboard obsah ---------- -->
+
+    <div
+      class="sc-right-content"
+      id="right-content"
+    >
+
+
+      <!-- Vyhledávač -->
+
+      <div
+        class="sc-rpanel"
+        data-rpanel="search"
+      >
+
+        <nav class="sc-search-icon-nav" aria-label="Rychlé odkazy vyhledávače">
+
+          <button
+            type="button"
+            class="sc-search-icon-btn"
+            id="search-icon-orloj"
+            aria-label="Astronomický orloj"
+            title="Astronomický orloj"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="13" width="8" height="9"/>
+              <circle cx="12" cy="8" r="6"/>
+              <path d="M12 8V4.5"/>
+              <path d="M12 8l2.5 1.5"/>
+              <path d="M9 22h6"/>
+            </svg>
+            <span class="sc-search-icon-label">Orloj</span>
+          </button>
+
+          <button
+            type="button"
+            class="sc-search-icon-btn"
+            id="search-icon-escort"
+            aria-label="Osoba s eskortou"
+            title="Osoba s eskortou"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="5" r="2.3"/>
+              <path d="M12 7.6v7.4"/>
+              <path d="M10 9.6h4"/>
+              <rect x="10.6" y="9" width="2.8" height="1.6" rx=".5"/>
+              <path d="M12 15l-2.6 6"/>
+              <path d="M12 15l2.6 6"/>
+            </svg>
+            <span class="sc-search-icon-label">Eskorta</span>
+          </button>
+
+          <button
+            type="button"
+            class="sc-search-icon-btn"
+            id="search-icon-sparta"
+            aria-label="AC Sparta – mistr ligy"
+            title="AC Sparta – mistr ligy"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/>
+              <path d="M12 8.3l1.1 2.2 2.4.35-1.75 1.7.4 2.4-2.15-1.15-2.15 1.15.4-2.4-1.75-1.7 2.4-.35L12 8.3z"/>
+            </svg>
+            <span class="sc-search-icon-label">AC Sparta</span>
+          </button>
+
+          <button
+            type="button"
+            class="sc-search-icon-btn sc-search-icon-btn-reset"
+            id="search-icon-reset"
+            aria-label="Reset výsledků vyhledávání"
+            title="Reset výsledků vyhledávání"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12a8 8 0 1 1 2.34 5.66"/>
+              <path d="M4 21v-5h5"/>
+            </svg>
+            <span class="sc-search-icon-label">Reset</span>
+          </button>
+
+        </nav>
+
+      </div>
+
+
+      <!-- Galerie -->
+
+      <div
+        class="sc-rpanel"
+        data-rpanel="gallery"
+        hidden
+      >
+
+        <div class="sc-picker">
+
+
+          <!-- 64 fotografií -->
+
+          <div
+            class="sc-picker-preview"
+            id="picker-preview"
+          ></div>
+
+
+          <!-- Spodní část -->
+
+          <div class="sc-picker-bottom">
+
+
+            <!-- =================================================
+                 NOVÉ: 3 VÝCHOZÍ OBRÁZKY
+                 ================================================= -->
+
+            <div
+              class="sc-default-images"
+              id="default-images"
+            ></div>
+
+
+            <!-- Nadpis posloupnosti -->
+
+            <div class="sc-picker-head">
+
+              <span>
+                Posloupnost
+              </span>
+
+              <span id="picker-count">
+                0 / 4
+              </span>
+
+            </div>
+
+
+            <!-- 4 sloty -->
+
+            <div
+              class="sc-slots"
+              id="picker-slots"
+            ></div>
+
+
+            <!-- Ovládání -->
+
+            <div class="sc-picker-actions">
+
+              <button
+                type="button"
+                class="sc-mil-btn is-primary"
+                id="picker-send"
+                disabled
+              >
+                Odeslat
+              </button>
+
+
+              <button
+                type="button"
+                class="sc-mil-btn"
+                id="picker-reset"
+              >
+                Reset
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Chatbot -->
+
+      <div
+        class="sc-rpanel"
+        data-rpanel="chatbot"
+        hidden
+      ></div>
+
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+(function () {
+
+
+  /* =========================================================
+     ZÁKLADNÍ NAVIGACE
+     ========================================================= */
+
+  const app =
+    document.querySelector('.sc-app');
+
+
+  const buttons =
+    app.querySelectorAll('[data-section]');
+
+
+  const panels =
+    app.querySelectorAll('[data-panel]');
+
+
+  const rpanels =
+    app.querySelectorAll('[data-rpanel]');
+
+
+  function setActive(section) {
+
+    buttons.forEach(btn => {
+
+      btn.classList.toggle(
+        'is-active',
+        btn.dataset.section === section
+      );
+
+    });
+
+
+    panels.forEach(panel => {
+
+      panel.hidden =
+        panel.dataset.panel !== section;
+
+    });
+
+
+    rpanels.forEach(panel => {
+
+      panel.hidden =
+        panel.dataset.rpanel !== section;
+
+    });
+
+
+    if (section !== 'gallery') {
+      closeLightbox();
+    }
+
+
+    app.dataset.active =
+      section;
+
+  }
+
+
+  buttons.forEach(btn => {
+
+    btn.addEventListener(
+      'click',
+      () => {
+
+        setActive(
+          btn.dataset.section
+        );
+
+      }
+    );
+
+  });
+
+
+  /* =========================================================
+     VYHLEDÁVAČ – DATOVÉ SADY VÝSLEDKŮ
+     ========================================================= */
+
+const searchDatasets = {
+
+  default: [
+    {
+      image: 'default/hasek-cechmanek.jpg',
+      title: 'Mistrovství v hokeji r. 1998',
+      text: 'Česká hokejová reprezentace získala na olympijském turnaji v Naganu zlaté medaile.'
+    },
+    {
+      image: 'default/jan-zizka.jpg',
+      title: 'Jan Žižka',
+      text: 'Husitský vojevůdce a jedna z nejvýznamnějších postav českých vojenských dějin.'
+    },
+    {
+      image: 'default/kafka1906.jpg',
+      title: 'Franz Kafka',
+      text: 'Pražský německy píšící spisovatel známý například romány Proces a Zámek.'
+    },
+    {
+      image: 'default/karel-iv.jpg',
+      title: 'Karel IV.',
+      text: 'Český král a římský císař, zakladatel Karlovy univerzity a významná osobnost českých dějin.'
+    },
+    {
+      image: 'default/kubismus-v-praze-praha.jpg',
+      title: 'Kubismus v Praze',
+      text: 'Architektonický směr zastoupený v Praze například Domem U Černé Matky Boží.'
+    },
+    {
+      image: 'default/listopad-1989.jpg',
+      title: 'Listopad 1989',
+      text: 'Sametová revoluce v roce 1989 vedla k pádu komunistického režimu v Československu.'
+    },
+    {
+      image: 'default/mucha.jpg',
+      title: 'Alfons Mucha',
+      text: 'Český malíř a grafik, jedna z nejvýraznějších osobností secese.'
+    },
+    {
+      image: 'default/narodni-divadlo.jpg',
+      title: 'Národní divadlo',
+      text: 'Významná pražská divadelní budova spojená s českým národním obrozením.'
+    },
+    {
+      image: 'default/praha-prazsky-hrad.jpg',
+      title: 'Pražský hrad',
+      text: 'Významná historická památka Prahy a tradiční sídlo českých panovníků a prezidentů.'
+    }
+  ],
+
+
+  eskorta: [
+    {
+      image: 'eskorta/hasek-cechmanek.jpg',
+      title: 'Mistrovství v hokeji r. 1998',
+      text: 'Česká hokejová reprezentace získala na olympijském turnaji v Naganu zlaté medaile.'
+    },
+    {
+      image: 'eskorta/jan-zizka.jpg',
+      title: 'Jan Žižka',
+      text: 'Husitský vojevůdce a jedna z nejvýznamnějších postav českých vojenských dějin.'
+    },
+    {
+      image: 'eskorta/kafka1906.jpg',
+      title: 'Franz Kafka',
+      text: 'Pražský německy píšící spisovatel známý například romány Proces a Zámek.'
+    },
+    {
+      image: 'eskorta/karel-iv.jpg',
+      title: 'Karel IV.',
+      text: 'Český král a římský císař, zakladatel Karlovy univerzity a významná osobnost českých dějin.'
+    },
+    {
+      image: 'eskorta/kubismus-v-praze-praha.jpg',
+      title: 'Kubismus v Praze',
+      text: 'Architektonický směr zastoupený v Praze například Domem U Černé Matky Boží.'
+    },
+    {
+      image: 'eskorta/listopad-1989.jpg',
+      title: 'Listopad 1989',
+      text: 'Sametová revoluce v roce 1989 vedla k pádu komunistického režimu v Československu.'
+    },
+    {
+      image: 'eskorta/mucha.jpg',
+      title: 'Alfons Mucha',
+      text: 'Český malíř a grafik, jedna z nejvýraznějších osobností secese.'
+    },
+    {
+      image: 'eskorta/narodni-divadlo.jpg',
+      title: 'Národní divadlo',
+      text: 'Významná pražská divadelní budova spojená s českým národním obrozením.'
+    },
+    {
+      image: 'eskorta/praha-prazsky-hrad.jpg',
+      title: 'Pražský hrad',
+      text: 'Významná historická památka Prahy a tradiční sídlo českých panovníků a prezidentů.'
+    }
+  ],
+
+
+  orloj: [
+    {
+      image: 'orloj/hasek-cechmanek.jpg',
+      title: 'Mistrovství v hokeji r. 1998',
+      text: 'Česká hokejová reprezentace získala na olympijském turnaji v Naganu zlaté medaile.'
+    },
+    {
+      image: 'orloj/jan-zizka.jpg',
+      title: 'Jan Žižka',
+      text: 'Husitský vojevůdce a jedna z nejvýznamnějších postav českých vojenských dějin.'
+    },
+    {
+      image: 'orloj/kafka1906.jpg',
+      title: 'Franz Kafka',
+      text: 'Pražský německy píšící spisovatel známý například romány Proces a Zámek.'
+    },
+    {
+      image: 'orloj/karel-iv.jpg',
+      title: 'Karel IV.',
+      text: 'Český král a římský císař, zakladatel Karlovy univerzity a významná osobnost českých dějin.'
+    },
+    {
+      image: 'orloj/kubismus-v-praze-praha.jpg',
+      title: 'Kubismus v Praze',
+      text: 'Architektonický směr zastoupený v Praze například Domem U Černé Matky Boží.'
+    },
+    {
+      image: 'orloj/listopad-1989.jpg',
+      title: 'Listopad 1989',
+      text: 'Sametová revoluce v roce 1989 vedla k pádu komunistického režimu v Československu.'
+    },
+    {
+      image: 'orloj/mucha.jpg',
+      title: 'Alfons Mucha',
+      text: 'Český malíř a grafik, jedna z nejvýraznějších osobností secese.'
+    },
+    {
+      image: 'orloj/narodni-divadlo.jpg',
+      title: 'Národní divadlo',
+      text: 'Významná pražská divadelní budova spojená s českým národním obrozením.'
+    },
+    {
+      image: 'orloj/praha-prazsky-hrad.jpg',
+      title: 'Pražský hrad',
+      text: 'Významná historická památka Prahy a tradiční sídlo českých panovníků a prezidentů.'
+    }
+
+  ],
+
+
+  'sparta-mistr-ligy': [
+    {
+      image: 'sparta mistr ligy/hasek-cechmanek.jpg',
+      title: 'Mistrovství v hokeji r. 1998',
+      text: 'Česká hokejová reprezentace získala na olympijském turnaji v Naganu zlaté medaile.'
+    },
+    {
+      image: 'sparta mistr ligy/jan-zizka.jpg',
+      title: 'Jan Žižka',
+      text: 'Husitský vojevůdce a jedna z nejvýznamnějších postav českých vojenských dějin.'
+    },
+    {
+      image: 'sparta mistr ligy/kafka1906.jpg',
+      title: 'Franz Kafka',
+      text: 'Pražský německy píšící spisovatel známý například romány Proces a Zámek.'
+    },
+    {
+      image: 'sparta mistr ligy/karel-iv.jpg',
+      title: 'Karel IV.',
+      text: 'Český král a římský císař, zakladatel Karlovy univerzity a významná osobnost českých dějin.'
+    },
+    {
+      image: 'sparta mistr ligy/kubismus-v-praze-praha.jpg',
+      title: 'Kubismus v Praze',
+      text: 'Architektonický směr zastoupený v Praze například Domem U Černé Matky Boží.'
+    },
+    {
+      image: 'sparta mistr ligy/listopad-1989.jpg',
+      title: 'Listopad 1989',
+      text: 'Sametová revoluce v roce 1989 vedla k pádu komunistického režimu v Československu.'
+    },
+    {
+      image: 'sparta mistr ligy/mucha.jpg',
+      title: 'Alfons Mucha',
+      text: 'Český malíř a grafik, jedna z nejvýraznějších osobností secese.'
+    },
+    {
+      image: 'sparta mistr ligy/narodni-divadlo.jpg',
+      title: 'Národní divadlo',
+      text: 'Významná pražská divadelní budova spojená s českým národním obrozením.'
+    },
+    {
+      image: 'sparta mistr ligy/praha-prazsky-hrad.jpg',
+      title: 'Pražský hrad',
+      text: 'Významná historická památka Prahy a tradiční sídlo českých panovníků a prezidentů.'
+    }
+  ]
+
+};
+
+
+  /* =========================================================
+     VYHLEDÁVAČ – VYKRESLENÍ, FILTROVÁNÍ, PŘEPÍNÁNÍ DATASETŮ
+     ========================================================= */
+
+  const searchForm =
+    document.getElementById(
+      'search-form'
+    );
+
+  const searchInput =
+    document.getElementById(
+      'search-input'
+    );
+
+  const searchResults =
+    document.getElementById(
+      'search-results'
+    );
+
+  const searchEmpty =
+    document.getElementById(
+      'search-empty'
+    );
+
+  // Klíč aktuálně zobrazené datové sady (výchozí = 'default')
+  let currentDatasetKey = 'default';
+
+  function getCurrentDataset() {
+    return searchDatasets[currentDatasetKey] || [];
+  }
+
+  function normalizeText(str) {
+    return str
+      .toLocaleLowerCase('cs-CZ')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  }
+
+  function filterDataset(items, query) {
+    const q = normalizeText(query.trim());
+    if (!q) return items;
+    return items.filter(item =>
+      normalizeText(item.title + ' ' + item.text).includes(q)
+    );
+  }
+
+  function createResultCard(item) {
+    const card = document.createElement('article');
+    card.className = 'sc-result-card';
+    card.setAttribute('aria-label', item.title);
+
+    const imageBox = document.createElement('div');
+    imageBox.className = 'sc-result-image';
+
+    const img = document.createElement('img');
+    img.src = item.image;
+    img.alt = item.title;
+    img.loading = 'lazy';
+    imageBox.appendChild(img);
+
+    const body = document.createElement('div');
+    body.className = 'sc-result-body';
+
+    const title = document.createElement('h3');
+    title.className = 'sc-result-title';
+    title.textContent = item.title;
+
+    const text = document.createElement('p');
+    text.className = 'sc-result-context';
+    text.textContent = item.text;
+
+    body.appendChild(title);
+    body.appendChild(text);
+    card.appendChild(imageBox);
+    card.appendChild(body);
+
+    return card;
+  }
+
+  function renderResults() {
+    const items = filterDataset(
+      getCurrentDataset(),
+      searchInput.value
+    );
+
+    searchResults.textContent = '';
+    items.forEach(item => {
+      searchResults.appendChild(createResultCard(item));
+    });
+
+    searchEmpty.hidden = items.length !== 0;
+  }
+
+  // Přepínání datové sady podle tlačítek v pravém dashboardu
+  const datasetButtonMap = {
+    'search-icon-orloj': 'orloj',
+    'search-icon-escort': 'eskorta',
+    'search-icon-sparta': 'sparta-mistr-ligy'
+  };
+
+  function updateActiveDatasetButton() {
+    Object.keys(datasetButtonMap).forEach(id => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.classList.toggle(
+        'is-active',
+        datasetButtonMap[id] === currentDatasetKey
+      );
+    });
+  }
+
+  function switchDataset(key) {
+    currentDatasetKey = key;
+    searchInput.value = '';
+    updateActiveDatasetButton();
+    renderResults();
+  }
+
+  Object.keys(datasetButtonMap).forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      switchDataset(datasetButtonMap[id]);
+    });
+  });
+
+  const searchResetBtn =
+    document.getElementById('search-icon-reset');
+  if (searchResetBtn) {
+    searchResetBtn.addEventListener('click', () => {
+      switchDataset('default');
+    });
+  }
+
+  // Vyhledávání filtruje aktuálně zvolenou datovou sadu za psaní i odesláním
+  searchInput.addEventListener('input', renderResults);
+
+  searchForm.addEventListener(
+    'submit',
+    event => {
+      event.preventDefault();
+      renderResults();
+    }
+  );
+
+  // Počáteční vykreslení – výchozí sada, žádný filtr
+  renderResults();
+
+
+  /* =========================================================
+     DATABÁZE 64 FOTOGRAFIÍ
+     ========================================================= */
+
+  const PHOTO_DATABASE = [
+
+    { id: 64, category: 'person', alt: 'Osoba' },
+    { id: 91, category: 'person', alt: 'Osoba' },
+    { id: 1005, category: 'person', alt: 'Osoba' },
+    { id: 1011, category: 'location', alt: 'Lokalita' },
+    { id: 1027, category: 'person', alt: 'Osoba' },
+    { id: 177, category: 'location', alt: 'Lokalita' },
+    { id: 338, category: 'object', alt: 'Předmět' },
+    { id: 447, category: 'location', alt: 'Lokalita' },
+    { id: 237, category: 'person', alt: 'Osoba' },
+    { id: 1025, category: 'animal', alt: 'Zvíře' },
+    { id: 1062, category: 'location', alt: 'Lokalita' },
+    { id: 40, category: 'object', alt: 'Předmět' },
+    { id: 169, category: 'person', alt: 'Osoba' },
+    { id: 219, category: 'animal', alt: 'Zvíře' },
+    { id: 1074, category: 'location', alt: 'Lokalita' },
+    { id: 659, category: 'object', alt: 'Předmět' },
+    { id: 10, category: 'animal', alt: 'Zvíře' },
+    { id: 20, category: 'location', alt: 'Lokalita' },
+    { id: 26, category: 'object', alt: 'Předmět' },
+    { id: 29, category: 'person', alt: 'Osoba' },
+    { id: 36, category: 'location', alt: 'Lokalita' },
+    { id: 42, category: 'object', alt: 'Předmět' },
+    { id: 48, category: 'animal', alt: 'Zvíře' },
+    { id: 54, category: 'location', alt: 'Lokalita' },
+    { id: 60, category: 'person', alt: 'Osoba' },
+    { id: 65, category: 'object', alt: 'Předmět' },
+    { id: 103, category: 'animal', alt: 'Zvíře' },
+    { id: 110, category: 'location', alt: 'Lokalita' },
+    { id: 119, category: 'person', alt: 'Osoba' },
+    { id: 129, category: 'object', alt: 'Předmět' },
+    { id: 133, category: 'animal', alt: 'Zvíře' },
+    { id: 152, category: 'location', alt: 'Lokalita' },
+    { id: 160, category: 'person', alt: 'Osoba' },
+    { id: 164, category: 'object', alt: 'Předmět' },
+    { id: 180, category: 'animal', alt: 'Zvíře' },
+    { id: 188, category: 'location', alt: 'Lokalita' },
+    { id: 191, category: 'person', alt: 'Osoba' },
+    { id: 200, category: 'object', alt: 'Předmět' },
+    { id: 201, category: 'animal', alt: 'Zvíře' },
+    { id: 216, category: 'location', alt: 'Lokalita' },
+    { id: 227, category: 'person', alt: 'Osoba' },
+    { id: 239, category: 'object', alt: 'Předmět' },
+    { id: 250, category: 'animal', alt: 'Zvíře' },
+    { id: 256, category: 'location', alt: 'Lokalita' },
+    { id: 274, category: 'person', alt: 'Osoba' },
+    { id: 292, category: 'object', alt: 'Předmět' },
+    { id: 306, category: 'animal', alt: 'Zvíře' },
+    { id: 311, category: 'location', alt: 'Lokalita' },
+    { id: 325, category: 'person', alt: 'Osoba' },
+    { id: 342, category: 'object', alt: 'Předmět' },
+    { id: 360, category: 'animal', alt: 'Zvíře' },
+    { id: 367, category: 'location', alt: 'Lokalita' },
+    { id: 375, category: 'person', alt: 'Osoba' },
+    { id: 380, category: 'object', alt: 'Předmět' },
+    { id: 399, category: 'animal', alt: 'Zvíře' },
+    { id: 404, category: 'location', alt: 'Lokalita' },
+    { id: 416, category: 'person', alt: 'Osoba' },
+    { id: 433, category: 'object', alt: 'Předmět' },
+    { id: 452, category: 'animal', alt: 'Zvíře' },
+    { id: 453, category: 'location', alt: 'Lokalita' },
+    { id: 480, category: 'person', alt: 'Osoba' },
+    { id: 493, category: 'object', alt: 'Předmět' },
+    { id: 501, category: 'animal', alt: 'Zvíře' },
+    { id: 514, category: 'location', alt: 'Lokalita' }
+
+  ];
+
+
+  const PHOTOS =
+    PHOTO_DATABASE;
+
+
+  console.log(
+    'POČET FOTOGRAFIÍ V DATABÁZI:',
+    PHOTOS.length
+  );
+
+
+  /* =========================================================
+     NOVÉ: 3 VÝCHOZÍ OBRÁZKY
+     ========================================================= */
+
+  const DEFAULT_IMAGES = [
+
+    {
+      id: 'wheelchair',
+      type: 'default',
+      alt: 'Invalidní vozík',
+      label: 'ZDRAVOTNICKÁ POMŮCKA',
+      src:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Wheelchair.jpg?width=500'
+    },
+
+    {
+      id: 'police-arrest',
+      type: 'default',
+      alt: 'Policista zatýká podezřelého',
+      label: 'PROFESE / POLICISTA',
+      src:
+        'https://commons.wikimedia.org/wiki/Special:FilePath/Arrest_by_the_police_(6847860562).jpg?width=500'
+    },
+
+    {
+      id: 'skull-xray',
+      type: 'default',
+      alt: 'RTG snímek lebky',
+      label: 'RTG / LEBKA',
+      src:
+        'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/NNH_im_Roentgen_frontal.png/500px-NNH_im_Roentgen_frontal.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail'
+    }
+
+  ];
+
+
+  /* =========================================================
+     VYTVOŘENÍ OBRÁZKU Z DATABÁZE
+     ========================================================= */
+
+  function setPhoto(
+    imgElement,
+    photo,
+    size
+  ) {
+
+    imgElement.alt =
+      photo.alt;
+
+
+    imgElement.onerror = () => {
+
+      imgElement.onerror = null;
+
+      imgElement.src =
+        'https://picsum.photos/seed/'
+        + photo.id
+        + '/'
+        + size
+        + '/'
+        + size;
+
+    };
+
+
+    imgElement.src =
+      'https://picsum.photos/id/'
+      + photo.id
+      + '/'
+      + size
+      + '/'
+      + size;
+
+  }
+
+
+  function makeImg(
+    photo,
+    size
+  ) {
+
+    const img =
+      document.createElement('img');
+
+
+    img.loading =
+      'lazy';
+
+
+    setPhoto(
+      img,
+      photo,
+      size
+    );
+
+
+    return img;
+
+  }
+
+
+  /* =========================================================
+     NOVÉ: VYTVOŘENÍ OBRÁZKU VÝCHOZÍ POLOŽKY
+     ========================================================= */
+
+  function makeDefaultImg(
+    defaultImage
+  ) {
+
+    const img =
+      document.createElement('img');
+
+
+    img.loading =
+      'lazy';
+
+
+    img.alt =
+      defaultImage.alt;
+
+
+    img.src =
+      defaultImage.src;
+
+
+    return img;
+
+  }
+
+
+  /* =========================================================
+     LEVÁ GALERIE
+     ========================================================= */
+
+  const grid =
+    document.getElementById(
+      'gallery-grid'
+    );
+
+
+  const INITIAL =
+    16;
+
+
+  const BATCH =
+    16;
+
+
+  let loaded =
+    0;
+
+
+  const sentinel =
+    document.createElement(
+      'div'
+    );
+
+
+  sentinel.className =
+    'sc-sentinel';
+
+
+  function appendBatch(count) {
+
+    const remaining =
+      PHOTOS.length - loaded;
+
+
+    const amount =
+      Math.min(
+        count,
+        remaining
+      );
+
+
+    for (
+      let i = 0;
+      i < amount;
+      i++
+    ) {
+
+      const photoIndex =
+        loaded;
+
+
+      loaded++;
+
+
+      const photo =
+        PHOTOS[photoIndex];
+
+
+      const button =
+        document.createElement(
+          'button'
+        );
+
+
+      button.className =
+        'sc-gallery-item';
+
+
+      button.type =
+        'button';
+
+
+      button.setAttribute(
+        'aria-label',
+        'Otevřít ' + photo.alt
+      );
+
+
+      button.appendChild(
+        makeImg(
+          photo,
+          300
+        )
+      );
+
+
+      button.addEventListener(
+        'click',
+        () =>
+          openLightbox(
+            photoIndex
+          )
+      );
+
+
+      grid.appendChild(
+        button
+      );
+
+    }
+
+
+    if (
+      loaded <
+      PHOTOS.length
+    ) {
+
+      grid.appendChild(
+        sentinel
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     INFINITY SCROLL
+     ========================================================= */
+
+  const observer =
+    new IntersectionObserver(
+
+      entries => {
+
+        const entry =
+          entries[0];
+
+
+        if (
+          !entry.isIntersecting
+        ) {
+          return;
+        }
+
+
+        if (
+          loaded >=
+          PHOTOS.length
+        ) {
+
+          observer.disconnect();
+
+          return;
+
+        }
+
+
+        appendBatch(
+          BATCH
+        );
+
+      },
+
+      {
+        root: grid,
+
+        rootMargin:
+          '0px 0px 300px 0px'
+      }
+
+    );
+
+
+  appendBatch(
+    INITIAL
+  );
+
+
+  if (
+    loaded <
+    PHOTOS.length
+  ) {
+
+    observer.observe(
+      sentinel
+    );
+
+  }
+
+
+  /* =========================================================
+     LIGHTBOX
+     ========================================================= */
+
+  const lightbox =
+    document.getElementById(
+      'lightbox'
+    );
+
+
+  const lbImg =
+    document.getElementById(
+      'lb-img'
+    );
+
+
+  const lbCounter =
+    document.getElementById(
+      'lb-counter'
+    );
+
+
+  let current =
+    0;
+
+
+  let lastFocused =
+    null;
+
+
+  function showImage(index) {
+
+    current =
+      (
+        index +
+        PHOTOS.length
+      ) %
+      PHOTOS.length;
+
+
+    setPhoto(
+      lbImg,
+      PHOTOS[current],
+      900
+    );
+
+
+    lbCounter.textContent =
+      (current + 1)
+      + ' / '
+      + PHOTOS.length;
+
+  }
+
+
+  function openLightbox(index) {
+
+    lastFocused =
+      document.activeElement;
+
+
+    showImage(
+      index
+    );
+
+
+    lightbox.hidden =
+      false;
+
+
+    document
+      .getElementById(
+        'lb-close'
+      )
+      .focus();
+
+  }
+
+
+  function closeLightbox() {
+
+    if (
+      lightbox.hidden
+    ) {
+      return;
+    }
+
+
+    lightbox.hidden =
+      true;
+
+
+    if (
+      lastFocused
+    ) {
+
+      lastFocused.focus();
+
+    }
+
+  }
+
+
+  document
+    .getElementById(
+      'lb-close'
+    )
+    .addEventListener(
+      'click',
+      closeLightbox
+    );
+
+
+  document
+    .getElementById(
+      'lb-prev'
+    )
+    .addEventListener(
+      'click',
+      () =>
+        showImage(
+          current - 1
+        )
+    );
+
+
+  document
+    .getElementById(
+      'lb-next'
+    )
+    .addEventListener(
+      'click',
+      () =>
+        showImage(
+          current + 1
+        )
+    );
+
+
+  lightbox.addEventListener(
+    'click',
+    event => {
+
+      if (
+        event.target ===
+        lightbox
+      ) {
+
+        closeLightbox();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    'keydown',
+    event => {
+
+      if (
+        lightbox.hidden
+      ) {
+        return;
+      }
+
+
+      if (
+        event.key ===
+        'Escape'
+      ) {
+
+        closeLightbox();
+
+      }
+
+
+      if (
+        event.key ===
+        'ArrowLeft'
+      ) {
+
+        showImage(
+          current - 1
+        );
+
+      }
+
+
+      if (
+        event.key ===
+        'ArrowRight'
+      ) {
+
+        showImage(
+          current + 1
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     DASHBOARD – VÝBĚR POSLOUPNOSTI
+     ========================================================= */
+
+  const SEQ_LENGTH =
+    4;
+
+
+  const preview =
+    document.getElementById(
+      'picker-preview'
+    );
+
+
+  const slotsBox =
+    document.getElementById(
+      'picker-slots'
+    );
+
+
+  const countEl =
+    document.getElementById(
+      'picker-count'
+    );
+
+
+  const sendBtn =
+    document.getElementById(
+      'picker-send'
+    );
+
+
+  const resetBtn =
+    document.getElementById(
+      'picker-reset'
+    );
+
+
+  const defaultImagesBox =
+    document.getElementById(
+      'default-images'
+    );
+
+
+  /*
+    NOVÉ:
+
+    sequence už neobsahuje pouze indexy z PHOTOS.
+
+    Může obsahovat:
+
+    {
+      type: 'photo',
+      index: 5
+    }
+
+    nebo:
+
+    {
+      type: 'default',
+      index: 0
+    }
+
+    Díky tomu mohou databázové fotografie
+    a tři pevné fotografie žít
+    ve stejné posloupnosti.
+  */
+
+  let sequence =
+    [];
+
+
+  /* =========================================================
+     NOVÉ: VYKRESLENÍ 3 VÝCHOZÍCH OBRÁZKŮ
+     ========================================================= */
+
+  DEFAULT_IMAGES.forEach(
+    (defaultImage, index) => {
+
+      const button =
+        document.createElement(
+          'button'
+        );
+
+
+      button.type =
+        'button';
+
+
+      button.className =
+        'sc-default-image';
+
+
+      button.setAttribute(
+        'aria-label',
+        'Přidat do posloupnosti: '
+        + defaultImage.alt
+      );
+
+
+      button.appendChild(
+        makeDefaultImg(
+          defaultImage
+        )
+      );
+
+
+      const label =
+        document.createElement(
+          'span'
+        );
+
+
+      label.className =
+        'sc-default-image-label';
+
+
+      label.textContent =
+        defaultImage.label;
+
+
+      button.appendChild(
+        label
+      );
+
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          if (
+            sequence.length >=
+            SEQ_LENGTH
+          ) {
+            return;
+          }
+
+
+          sequence.push({
+
+            type: 'default',
+
+            index: index
+
+          });
+
+
+          renderSlots();
+
+        }
+      );
+
+
+      defaultImagesBox.appendChild(
+        button
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     PRAVÝ NÁHLED 64 FOTOGRAFIÍ
+     ========================================================= */
+
+  PHOTOS.forEach(
+    (photo, index) => {
+
+      const button =
+        document.createElement(
+          'button'
+        );
+
+
+      button.className =
+        'sc-thumb';
+
+
+      button.type =
+        'button';
+
+
+      button.setAttribute(
+        'aria-label',
+        'Přidat do posloupnosti: '
+        + photo.alt
+      );
+
+
+      button.appendChild(
+        makeImg(
+          photo,
+          300
+        )
+      );
+
+
+      button.addEventListener(
+        'click',
+        () => {
+
+          if (
+            sequence.length >=
+            SEQ_LENGTH
+          ) {
+            return;
+          }
+
+
+          sequence.push({
+
+            type: 'photo',
+
+            index: index
+
+          });
+
+
+          renderSlots();
+
+        }
+      );
+
+
+      preview.appendChild(
+        button
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     VYTVOŘENÍ 4 SLOTŮ
+     ========================================================= */
+
+  const slotEls =
+    [];
+
+
+  for (
+    let i = 0;
+    i < SEQ_LENGTH;
+    i++
+  ) {
+
+    const slot =
+      document.createElement(
+        'div'
+      );
+
+
+    slot.className =
+      'sc-slot';
+
+
+    slotsBox.appendChild(
+      slot
+    );
+
+
+    slotEls.push(
+      slot
+    );
+
+  }
+
+
+  /* =========================================================
+     VYKRESLENÍ SLOTŮ
+     ========================================================= */
+
+  function renderSlots() {
+
+    slotEls.forEach(
+      (slot, index) => {
+
+        slot.textContent =
+          '';
+
+
+        const item =
+          sequence[index];
+
+
+        const filled =
+          item !== undefined;
+
+
+        slot.classList.toggle(
+          'is-filled',
+          filled
+        );
+
+
+        if (filled) {
+
+
+          /*
+            Databázová fotografie
+          */
+
+          if (
+            item.type ===
+            'photo'
+          ) {
+
+            const photo =
+              PHOTOS[
+                item.index
+              ];
+
+
+            slot.appendChild(
+              makeImg(
+                photo,
+                300
+              )
+            );
+
+          }
+
+
+          /*
+            Výchozí fotografie
+          */
+
+          if (
+            item.type ===
+            'default'
+          ) {
+
+            const defaultImage =
+              DEFAULT_IMAGES[
+                item.index
+              ];
+
+
+            slot.appendChild(
+              makeDefaultImg(
+                defaultImage
+              )
+            );
+
+          }
+
+        } else {
+
+          slot.textContent =
+            index + 1;
+
+        }
+
+      }
+    );
+
+
+    countEl.textContent =
+      sequence.length
+      + ' / '
+      + SEQ_LENGTH;
+
+
+    sendBtn.disabled =
+      sequence.length !==
+      SEQ_LENGTH;
+
+  }
+
+
+  /* =========================================================
+     RESET
+     ========================================================= */
+
+  resetBtn.addEventListener(
+    'click',
+    () => {
+
+      sequence = [];
+
+
+      renderSlots();
+
+
+      console.log(
+        'SEQUENCE RESET'
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     PŘIJATÁ POSLOUPNOST V LEVÉ GALERII
+     ========================================================= */
+
+  const receivedSlots =
+    document.querySelectorAll(
+      '.sc-received-slot'
+    );
+
+
+  function renderReceived(
+    sequenceItems
+  ) {
+
+    receivedSlots.forEach(
+      (slot, index) => {
+
+        slot.textContent =
+          '';
+
+
+        const item =
+          sequenceItems[index];
+
+
+        const filled =
+          item !== undefined;
+
+
+        slot.classList.toggle(
+          'is-filled',
+          filled
+        );
+
+
+        slot.disabled =
+          !filled;
+
+
+        if (!filled) {
+
+          slot.onclick =
+            null;
+
+
+          slot.setAttribute(
+            'aria-label',
+            'Prázdný slot '
+            + (index + 1)
+          );
+
+
+          return;
+
+        }
+
+
+        /*
+          Databázová fotografie
+        */
+
+        if (
+          item.type ===
+          'photo'
+        ) {
+
+          const photo =
+            PHOTOS[
+              item.index
+            ];
+
+
+          slot.setAttribute(
+            'aria-label',
+            'Otevřít '
+            + photo.alt
+          );
+
+
+          slot.appendChild(
+            makeImg(
+              photo,
+              300
+            )
+          );
+
+
+          slot.onclick =
+            () =>
+              openLightbox(
+                item.index
+              );
+
+        }
+
+
+        /*
+          Výchozí fotografie
+        */
+
+        if (
+          item.type ===
+          'default'
+        ) {
+
+          const defaultImage =
+            DEFAULT_IMAGES[
+              item.index
+            ];
+
+
+          slot.setAttribute(
+            'aria-label',
+            'Výchozí obrázek: '
+            + defaultImage.alt
+          );
+
+
+          slot.appendChild(
+            makeDefaultImg(
+              defaultImage
+            )
+          );
+
+
+          /*
+            U výchozích obrázků pouze zobrazíme
+            obrázek. Nepouštíme je do navigace
+            databázového lightboxu, protože nejsou
+            součástí PHOTOS.
+          */
+
+          slot.onclick =
+            null;
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     ODESLÁNÍ POSLOUPNOSTI
+     ========================================================= */
+
+  sendBtn.addEventListener(
+    'click',
+    () => {
+
+      if (
+        sequence.length !==
+        SEQ_LENGTH
+      ) {
+        return;
+      }
+
+
+      const sent =
+        sequence.slice();
+
+
+      console.log(
+        'ODESÍLÁM POSLOUPNOST:',
+        sent
+      );
+
+
+      renderReceived(
+        sent
+      );
+
+
+      /*
+        Připravíme data pro další části aplikace.
+
+        photoIds obsahuje pouze ID fotografií
+        z hlavní databáze.
+
+        defaultIds obsahuje identifikátory
+        tří speciálních obrázků.
+      */
+
+      const photoIds =
+        sent
+          .filter(
+            item =>
+              item.type ===
+              'photo'
+          )
+          .map(
+            item =>
+              PHOTOS[
+                item.index
+              ].id
+          );
+
+
+      const defaultIds =
+        sent
+          .filter(
+            item =>
+              item.type ===
+              'default'
+          )
+          .map(
+            item =>
+              DEFAULT_IMAGES[
+                item.index
+              ].id
+          );
+
+
+      app.dispatchEvent(
+
+        new CustomEvent(
+          'sc:sequence',
+          {
+
+            detail: {
+
+              items:
+                sent,
+
+              photoIds:
+                photoIds,
+
+              defaultIds:
+                defaultIds
+
+            }
+
+          }
+        )
+
+      );
+
+
+      sequence = [];
+
+
+      renderSlots();
+
+    }
+  );
+
+
+  /* =========================================================
+     REKLAMNÍ PŘEKRYV – OBSAH PODLE TYPU REAKCE
+     ========================================================= */
+
+  const AD_CONTENT = {
+
+    heart: {
+      cardClass: 'sc-ad-heart',
+      title: 'Květiny, které řeknou víc než slova',
+      body: 'Pošlete kytici plnou lásky – rychlé doručení po celé republice, klidně i na poslední chvíli.',
+      icon:
+        '<svg viewBox="0 0 120 90" aria-hidden="true">' +
+          '<g fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M60 78S30 58 22 42c-5-10 2-22 14-22 8 0 14 5 17 10 3-5 9-10 17-10 12 0 19 12 14 22-8 16-24 28-24 28z"/>' +
+            '<g transform="translate(18,16)">' +
+              '<circle cx="0" cy="-6" r="4"/><circle cx="6" cy="0" r="4"/>' +
+              '<circle cx="0" cy="6" r="4"/><circle cx="-6" cy="0" r="4"/>' +
+              '<circle cx="0" cy="0" r="3"/>' +
+            '</g>' +
+            '<g transform="translate(98,20)">' +
+              '<circle cx="0" cy="-6" r="4"/><circle cx="6" cy="0" r="4"/>' +
+              '<circle cx="0" cy="6" r="4"/><circle cx="-6" cy="0" r="4"/>' +
+              '<circle cx="0" cy="0" r="3"/>' +
+            '</g>' +
+          '</g>' +
+        '</svg>'
+    },
+
+    happy: {
+      cardClass: 'sc-ad-happy',
+      title: 'Umíte si dělat legraci i sami ze sebe?',
+      body: 'Sdílejte vtipy, memy a uštěpačné hlášky s přáteli — aplikace pro ty, co se rádi smějí, i trochu jízlivě.',
+      icon:
+        '<svg viewBox="0 0 100 100" aria-hidden="true">' +
+          '<g fill="none" stroke="#2a2100" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="50" cy="50" r="38"/>' +
+            '<path d="M32 40c4-3 10-3 13 0"/>' +
+            '<circle cx="63" cy="38" r="3.2" fill="#2a2100" stroke="none"/>' +
+            '<path d="M30 62q14 12 34-2"/>' +
+          '</g>' +
+        '</svg>'
+    },
+
+    angry: {
+      cardClass: 'sc-ad-angry',
+      title: 'Pojištění pro případ pracovního úrazu',
+      body: 'Zlomenina, ortéza, berle… pracovní úraz může potkat kohokoliv. Sjednejte si pojištění, které pokryje výpadek příjmu i rehabilitaci.',
+      icon:
+        '<svg viewBox="0 0 140 90" aria-hidden="true">' +
+          '<g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="70" cy="45" r="26"/>' +
+            '<path d="M70 33v24M58 45h24"/>' +
+            '<g transform="translate(10,24)">' +
+              '<circle cx="8" cy="4" r="4.2"/>' +
+              '<path d="M8 8v13"/>' +
+              '<path d="M2 32l4-15M14 32l-4-15"/>' +
+              '<path d="M0 36V12M16 36V12"/>' +
+            '</g>' +
+            '<g transform="translate(108,24)">' +
+              '<circle cx="8" cy="4" r="4.2"/>' +
+              '<path d="M8 8v11"/>' +
+              '<path d="M8 19l-5 15M8 19l5 15"/>' +
+              '<rect x="1" y="26" width="14" height="7" rx="1.4"/>' +
+            '</g>' +
+          '</g>' +
+        '</svg>'
+    }
+
+  };
+
+
+  /* =========================================================
+     REKLAMNÍ PŘEKRYV – ZOBRAZENÍ, ODPOČET 10 S, ZAVŘENÍ
+     ========================================================= */
+
+  const adOverlay =
+    document.getElementById('ad-overlay');
+
+  const adCard =
+    document.getElementById('ad-card');
+
+  const adIcon =
+    document.getElementById('ad-icon');
+
+  const adTitle =
+    document.getElementById('ad-title');
+
+  const adBody =
+    document.getElementById('ad-body');
+
+  const adClose =
+    document.getElementById('ad-close');
+
+  const AD_SECONDS = 10;
+
+  let adTimerId = null;
+  let adLastTrigger = null;
+
+  function openAd(type, triggerEl) {
+
+    const data = AD_CONTENT[type];
+    if (!data) return;
+
+    closeLightbox();
+
+    clearInterval(adTimerId);
+
+    adLastTrigger =
+      triggerEl || document.activeElement;
+
+    adCard.className =
+      'sc-ad-card ' + data.cardClass;
+
+    adIcon.innerHTML = data.icon;
+    adTitle.textContent = data.title;
+    adBody.textContent = data.body;
+
+    adOverlay.hidden = false;
+
+    adCard.focus();
+
+    let remaining = AD_SECONDS;
+
+    adClose.disabled = true;
+    adClose.textContent = remaining;
+    adClose.setAttribute(
+      'aria-label',
+      'Reklamu bude možné zavřít za ' + remaining + ' s'
+    );
+
+    adTimerId = setInterval(() => {
+
+      remaining--;
+
+      if (remaining <= 0) {
+
+        clearInterval(adTimerId);
+        adTimerId = null;
+
+        adClose.disabled = false;
+        adClose.textContent = '\u2715';
+        adClose.setAttribute(
+          'aria-label',
+          'Zavřít reklamu'
+        );
+
+      } else {
+
+        adClose.textContent = remaining;
+        adClose.setAttribute(
+          'aria-label',
+          'Reklamu bude možné zavřít za ' + remaining + ' s'
+        );
+
+      }
+
+    }, 1000);
+
+  }
+
+  function closeAd() {
+
+    if (adClose.disabled) return;
+
+    clearInterval(adTimerId);
+    adTimerId = null;
+
+    adOverlay.hidden = true;
+
+    if (adLastTrigger) {
+      adLastTrigger.focus();
+    }
+
+  }
+
+  adClose.addEventListener('click', closeAd);
+
+  document
+    .getElementById('reaction-heart')
+    .addEventListener('click', event => {
+      openAd('heart', event.currentTarget);
+    });
+
+  document
+    .getElementById('reaction-happy')
+    .addEventListener('click', event => {
+      openAd('happy', event.currentTarget);
+    });
+
+  document
+    .getElementById('reaction-angry')
+    .addEventListener('click', event => {
+      openAd('angry', event.currentTarget);
+    });
+
+
+  /* =========================================================
+     START APLIKACE
+     ========================================================= */
+
+  renderSlots();
+
+
+  setActive(
+    'search'
+  );
+
+
+  console.log(
+    'SUPERKOMPONENTA SPUŠTĚNA'
+  );
+
+
+  console.log(
+    'DATABÁZE:',
+    PHOTOS.length,
+    'fotografií'
+  );
+
+
+  console.log(
+    'VÝCHOZÍ OBRÁZKY:',
+    DEFAULT_IMAGES.length
+  );
+
+})();
+
+</script>
+
+</body>
+</html>
