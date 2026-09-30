@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+
+<title>Úvodní prohlášení</title>
+
+<style>
+
+:root {
+  --bg: #000000;
+  --fg: #ffffff;
+  --fg-dim: #b7b9bc;
+  --line: #2c2d2f;
+  --accent: #c9a227;
+  --accent-fg: #1a1a1a;
+
+  --font-ui: "Google Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+html,
+body {
+  height: 100%;
+  background: #101214;
+  font-family: var(--font-ui);
+}
+
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   STRÁNKA 16:9
+   ========================================================= */
+
+.sc-intro {
+
+  aspect-ratio: 16 / 9;
+
+  width: min(100vw, calc(100vh * 16 / 9));
+
+  background: var(--bg);
+  color: var(--fg);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: clamp(24px, 3.4vw, 56px) clamp(32px, 4.6vw, 76px);
+
+  overflow: hidden;
+}
+
+
+/* ---------- Nadpis ---------- */
+
+.sc-intro-title {
+
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 700;
+
+  letter-spacing: .01em;
+
+  margin-bottom: clamp(10px, 1.2vw, 16px);
+}
+
+
+/* ---------- Úvodní odstavec ---------- */
+
+.sc-intro-lead {
+
+  max-width: 92ch;
+
+  font-size: clamp(14px, 1.05vw, 16px);
+  line-height: 1.6;
+
+  color: var(--fg-dim);
+
+  margin-bottom: clamp(18px, 2.2vw, 32px);
+}
+
+
+/* ---------- Tři sloupce ---------- */
+
+.sc-intro-columns {
+
+  flex: 1;
+  min-height: 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 40px);
+
+  padding-top: clamp(16px, 2vw, 26px);
+  padding-right: 4px;
+  border-top: 1px solid var(--line);
+
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+
+.sc-intro-column {
+
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.sc-intro-column h2 {
+
+  font-size: clamp(14px, 1.15vw, 18px);
+  font-weight: 700;
+  line-height: 1.35;
+
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+
+
+.sc-intro-column p {
+
+  font-size: clamp(13.5px, .95vw, 15px);
+  line-height: 1.6;
+
+  color: var(--fg-dim);
+
+  margin-bottom: clamp(8px, 1vw, 12px);
+}
+
+
+/* ---------- Odrážkový seznam uvnitř sloupce ---------- */
+
+.sc-intro-column ul {
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.1vw, 16px);
+}
+
+
+.sc-intro-column li {
+
+  position: relative;
+
+  padding-left: 1.15em;
+
+  font-size: clamp(13px, .92vw, 14.5px);
+  line-height: 1.55;
+
+  color: var(--fg-dim);
+}
+
+
+.sc-intro-column li::before {
+
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: .6em;
+
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  background: var(--accent);
+}
+
+
+.sc-intro-column li strong {
+
+  color: var(--fg);
+  font-weight: 700;
+}
+
+
+/* ---------- Patička: souhlas a vstup ---------- */
+
+.sc-intro-footer {
+
+  margin-top: clamp(18px, 2.2vw, 32px);
+  padding-top: clamp(14px, 1.8vw, 24px);
+
+  border-top: 1px solid var(--line);
+
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 24px);
+}
+
+
+.sc-intro-consent {
+
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  cursor: pointer;
+}
+
+
+.sc-intro-consent input[type="checkbox"] {
+
+  flex: 0 0 auto;
+
+  width: clamp(18px, 1.4vw, 22px);
+  height: clamp(18px, 1.4vw, 22px);
+
+  margin-top: 2px;
+
+  accent-color: var(--accent);
+
+  cursor: pointer;
+}
+
+
+.sc-intro-consent span {
+
+  font-size: clamp(11.5px, .95vw, 14px);
+  line-height: 1.5;
+
+  color: var(--fg-dim);
+}
+
+
+.sc-intro-enter {
+
+  flex: 0 0 auto;
+
+  padding: clamp(10px, 1.1vw, 15px) clamp(24px, 2.6vw, 40px);
+
+  font: inherit;
+  font-size: clamp(13px, 1.05vw, 16px);
+  font-weight: 700;
+
+  letter-spacing: .04em;
+
+  color: var(--accent-fg);
+  background: var(--accent);
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  transition: filter .15s, opacity .15s;
+}
+
+
+.sc-intro-enter:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+
+.sc-intro-enter:focus-visible {
+  outline: 3px solid var(--fg);
+  outline-offset: 2px;
+}
+
+
+.sc-intro-enter:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBIL
+   ========================================================= */
+
+.sc-mobile-warning {
+  display: none;
+}
+
+
+@media (max-width: 767px) {
+
+  .sc-intro {
+    display: none;
+  }
+
+  .sc-mobile-warning {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    min-height: 100%;
+
+    padding: 32px 24px;
+
+    text-align: center;
+
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .sc-mobile-warning h1 {
+    font-size: 1.4rem;
+    letter-spacing: .02em;
+  }
+
+  .sc-mobile-warning p {
+    color: var(--fg-dim);
+    line-height: 1.5;
+    max-width: 28ch;
+  }
+
+  body {
+    overflow: auto;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ---------- Mobilní upozornění ---------- -->
+<div class="sc-mobile-warning" role="alert">
+  <h1>Nepodporované zobrazení</h1>
+  <p>Prosím přepněte do desktopové verze.</p>
+</div>
+
+
+<!-- ---------- Úvodní prohlášení (16:9) ---------- -->
+<main class="sc-intro">
+
+  <h1 class="sc-intro-title">Prohlášení k mému profesnímu zaměření a aktuálnímu kontextu mé práce</h1>
+
+  <p class="sc-intro-lead">
+    Jako Frontend Developer na volné noze, který aktuálně nepracuje na komerčních zakázkách, využívám tento čas k intenzivnímu odbornému růstu a přechodu na úroveň Medior developer. V rámci tohoto rozvoje se hloubkově věnuji architektuře webových aplikací, bezpečnosti frontendového rozhraní a integraci moderních AI nástrojů.
+Vzhledem k neobvyklým okolnostem mého aktuálního pracovního prostředí považuji za nutné veřejně deklarovat následující fakta:
+  </p>
+
+  <div class="sc-intro-columns">
+
+    <div class="sc-intro-column">
+      <h2>1. Práce v kompromitovaném prostředí a reakce na útoky</h2>
+      <p>
+        Dlouhodobě pracuji v podmínkách a na zařízení, které vykazují známky kompromitace a podléhají neoprávněným zásahům třetí strany (včetně manipulací s vyhledáváním, injektování kódu do rozhraní či zneužívání reklamních ploch).
+Z tohoto důvodu mohou některé moje veřejné příspěvky, kódy nebo komentáře působit jako přímá odpověď či reakce vůči tomuto útočníkovi. Jedná se o můj způsob vymezování hranic a pasivní reakce na cílenou manipulaci mého pracovního prostoru.
+      </p>
+    </div>
+
+    <div class="sc-intro-column">
+      <h2>2. Pochopení mechaniky útoků (analýza hrozeb)</h2>
+      <p>
+        Během analýzy těchto zásahů jsem do hloubky pochopil mentální model a technické postupy útočníka — například:
+      </p>
+      <ul>
+        <li><strong>Prompt / Data Injection:</strong> injektování řetězců do AI rozhraní za účelem vyvolání chyb či selhání logiky</li>
+        <li><strong>Manipulace vyhledávání a databází:</strong> dávkové zkreslování výsledků a manipulace s vizuálními daty (adversarial manipulation)</li>
+        <li><strong>Zneužití reklamních ploch (Malvertising/XSS):</strong> propojování škodlivého kódu s reklamními elementy k narušení integrity aplikace</li>
+      </ul>
+    </div>
+
+    <div class="sc-intro-column">
+      <h2>3. Etický rámec a profesní cíl</h2>
+      <p>
+        Chci zdůraznit, že pochopení těchto útočných vzorců je z mé strany čistě defenzivní povahy.
+Nemám a nikdy jsem neměl v úmyslu vytvářet škodlivý kód nebo navrhovat útočné vektory pro reálné zneužití. Mým cílem je stavět robustní, bezpečné frontendové aplikace (s důrazem na striktní CSP, izolaci třetích stran a validaci vstupů), které jsou vůči těmto moderním hrozbám odolné.
+Své know-how rozvíjím výhradně s cílem chránit aplikace a jejich uživatele.s
+      </p>
+    </div>
+
+  </div>
+
+  <div class="sc-intro-footer">
+
+    <label class="sc-intro-consent">
+      <input type="checkbox" id="consent-checkbox">
+      <span>
+        Rozuměl jsem výše uvedeným informacím a beru je na vědomí. Souhlasím s podmínkami
+        uvedenými v tomto prohlášení a potvrzuji, že jsem si je přečetl(a) v plném rozsahu.
+      </span>
+    </label>
+
+    <button type="button" class="sc-intro-enter" id="enter-btn" disabled>
+      Vstup
+    </button>
+
+  </div>
+
+</main>
+
+<script>
+  (function () {
+    const checkbox = document.getElementById('consent-checkbox');
+    const enterBtn = document.getElementById('enter-btn');
+
+    checkbox.addEventListener('change', () => {
+      enterBtn.disabled = !checkbox.checked;
+    });
+
+    // Vstup do aplikace: tlačítko je aktivní až po zaškrtnutí pole výše.
+    // Cílovou stránku uprav podle skutečné adresy hlavní aplikace.
+    enterBtn.addEventListener('click', () => {
+      if (enterBtn.disabled) return;
+      window.location.href = 'superkomponenta(11).html';
+    });
+  })();
+</script>
+
+</body>
+</html>
