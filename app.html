@@ -1808,6 +1808,173 @@ body {
   }
 }
 
+
+/* =========================================================
+   CHATBOT
+   ========================================================= */
+
+.sc-panel[data-panel="chatbot"] {
+  justify-content: center;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+.sc-panel[data-panel="chatbot"].has-messages {
+  justify-content: flex-start;
+}
+
+.sc-chat-title {
+  text-align: center;
+  font-family: "Google Sans", sans-serif;
+  font-size: clamp(24px, 3vw, 44px);
+  font-weight: 600;
+  color: var(--left-icon);
+}
+
+.sc-panel[data-panel="chatbot"].has-messages .sc-chat-title {
+  display: none;
+}
+
+.sc-chat-messages {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 6px;
+}
+
+.sc-panel[data-panel="chatbot"].has-messages .sc-chat-messages {
+  display: flex;
+}
+
+.sc-chat-message {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 10px 14px;
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.45;
+  color: var(--left-icon);
+  background: var(--left-nav-btn);
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.sc-chat-form {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.sc-panel[data-panel="chatbot"].has-messages .sc-chat-form {
+  max-width: none;
+  margin: 0;
+}
+
+.sc-chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: clamp(10px, 1vw, 14px) 14px;
+  font: inherit;
+  font-size: clamp(14px, 1.2vw, 17px);
+  color: var(--left-icon);
+  background: var(--left-nav-btn);
+  border: 2px solid #3d464d;
+  border-radius: 8px;
+}
+
+.sc-chat-input::placeholder {
+  color: #8d979f;
+}
+
+.sc-chat-input:focus-visible {
+  outline: none;
+  border-color: var(--left-nav-btn-active);
+}
+
+.sc-chat-btn {
+  padding: 0 clamp(16px, 1.8vw, 28px);
+  font: inherit;
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 600;
+  color: var(--left-icon-active);
+  background: var(--left-nav-btn-active);
+  border: 2px solid var(--left-nav-btn-active);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sc-chat-btn:hover {
+  filter: brightness(1.1);
+}
+
+.sc-chat-btn:focus-visible {
+  outline: 3px solid var(--left-icon);
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   CHATBOT (pravá strana)
+   ========================================================= */
+
+.sc-rchat-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1vw, 16px);
+}
+
+.sc-rchat-input {
+  flex: 1;
+  min-width: 0;
+  padding: clamp(10px, 1vw, 14px) 14px;
+  font: inherit;
+  font-size: clamp(13px, 1.1vw, 16px);
+  color: var(--mil-text);
+  background: var(--mil-panel);
+  border: 2px solid var(--mil-line);
+}
+
+.sc-rchat-input::placeholder {
+  color: var(--mil-text-dim);
+}
+
+.sc-rchat-input:focus-visible {
+  outline: none;
+  border-color: var(--mil-accent);
+}
+
+.sc-rchat-check {
+  flex: none;
+  width: clamp(20px, 1.8vw, 26px);
+  height: clamp(20px, 1.8vw, 26px);
+  accent-color: var(--mil-accent);
+  cursor: pointer;
+}
+
+.sc-rchat-check:focus-visible {
+  outline: 2px solid var(--mil-accent);
+  outline-offset: 2px;
+}
+
+.sc-rchat-text {
+  margin-top: clamp(14px, 1.6vw, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.2vw, 18px);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.sc-rchat-text p {
+  font-size: clamp(12px, 1vw, 15px);
+  line-height: 1.55;
+  color: var(--mil-text-dim);
+}
+
 </style>
 
 </head>
@@ -2091,7 +2258,43 @@ body {
         class="sc-panel"
         data-panel="chatbot"
         hidden
-      ></div>
+      >
+
+        <h2
+          class="sc-chat-title"
+          id="chat-title"
+        >Na co se zaměříme?</h2>
+
+        <div
+          class="sc-chat-messages"
+          id="chat-messages"
+          aria-live="polite"
+        ></div>
+
+        <form
+          class="sc-chat-form"
+          id="chat-form"
+        >
+
+          <input
+            class="sc-chat-input"
+            id="chat-input"
+            type="text"
+            placeholder="Povídat si"
+            aria-label="Povídat si"
+            autocomplete="off"
+          >
+
+          <button
+            class="sc-chat-btn"
+            type="submit"
+          >
+            Odeslat
+          </button>
+
+        </form>
+
+      </div>
 
 
     </div>
@@ -2470,7 +2673,40 @@ body {
         class="sc-rpanel"
         data-rpanel="chatbot"
         hidden
-      ></div>
+      >
+
+        <div class="sc-rchat-row">
+
+          <input
+            class="sc-rchat-input"
+            id="rchat-input"
+            type="text"
+            placeholder="Doplňující instrukce"
+            aria-label="Doplňující text"
+            autocomplete="off"
+          >
+
+          <input
+            class="sc-rchat-check"
+            id="rchat-check"
+            type="checkbox"
+            aria-label="Připojit text k odesílané zprávě"
+            title="Připojit text k odesílané zprávě"
+          >
+
+        </div>
+
+        <div class="sc-rchat-text">
+
+          <p>Hádej se se mnou do nekonečna. Jedná se o trénink psychické odolnosti a schopnosti reagovat na dlouhodobý argumentační tlak.</p>
+
+          <p>Vygeneruj vizuální anomálii, kterou se pokusím vlastním úsilím odhalit a vyretušovat ve Photoshopu. Jedná se o nácvik profesionálních kompetencí grafika.</p>
+
+          <p>Umísti do kódu záměrně několik chyb, které neprozrazuj předem. Kód budu následně samostatně debugovat.</p>
+
+        </div>
+
+      </div>
 
 
     </div>
@@ -4322,6 +4558,99 @@ const searchDatasets = {
 
   renderSlots();
 
+
+
+  /* =========================================================
+     CHATBOT
+     ========================================================= */
+
+  const chatPanel =
+    app.querySelector('[data-panel="chatbot"]');
+
+  const chatTitle =
+    document.getElementById('chat-title');
+
+  const chatMessages =
+    document.getElementById('chat-messages');
+
+  const chatForm =
+    document.getElementById('chat-form');
+
+  const chatInput =
+    document.getElementById('chat-input');
+
+  const rchatInput =
+    document.getElementById('rchat-input');
+
+  const rchatCheck =
+    document.getElementById('rchat-check');
+
+  const CHAT_TITLES = [
+    'Na co se zaměříme?',
+    'Čím dnes začneme?',
+    'O čem si budeme povídat?',
+    'Co máte na mysli?'
+  ];
+
+  let lastChatTitle = 0;
+
+  function randomChatTitle() {
+
+    let i;
+
+    do {
+      i = Math.floor(Math.random() * CHAT_TITLES.length);
+    } while (i === lastChatTitle && CHAT_TITLES.length > 1);
+
+    lastChatTitle = i;
+
+    chatTitle.textContent = CHAT_TITLES[i];
+  }
+
+  randomChatTitle();
+
+  // Nový nadpis při každém otevření sekce (jen dokud není žádná zpráva)
+  app.querySelectorAll('[data-section="chatbot"]').forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+      if (!chatPanel.classList.contains('has-messages')) {
+        randomChatTitle();
+      }
+
+    });
+
+  });
+
+  chatForm.addEventListener('submit', e => {
+
+    e.preventDefault();
+
+    let text = chatInput.value.trim();
+
+    if (!text) return;
+
+    // Pravý text se připojí (s mezerou), jen když je zaškrtnuto políčko
+    const extra = rchatInput.value.trim();
+
+    if (rchatCheck.checked && extra) {
+      text = text + ' ' + extra;
+    }
+
+    const p = document.createElement('p');
+    p.className = 'sc-chat-message';
+    p.textContent = text;
+
+    chatMessages.appendChild(p);
+
+    chatPanel.classList.add('has-messages');
+
+    chatInput.value = '';
+    chatInput.focus();
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  });
 
   setActive(
     'search'
