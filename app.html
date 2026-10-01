@@ -899,10 +899,8 @@ body {
 
 
 .sc-ad-icon {
-
-  width: clamp(120px, 14vw, 200px);
-
-  aspect-ratio: 9 / 10;
+  width: 341px;
+  height: 393px;
 
   padding: clamp(6px, .7vw, 10px);
 
@@ -911,6 +909,7 @@ body {
   border-radius: 8px;
 
   box-shadow: 0 8px 22px rgba(0, 0, 0, .28);
+
 }
 
 
@@ -2172,9 +2171,9 @@ body {
 
         <div class="sc-ad-icon" id="ad-icon"></div>
 
-        <h3 class="sc-ad-title" id="ad-title"></h3>
+        <!-- <h3 class="sc-ad-title" id="ad-title"></h3>
 
-        <p class="sc-ad-body" id="ad-body"></p>
+        <p class="sc-ad-body" id="ad-body"></p> -->
 
         <button
           type="button"
@@ -4176,7 +4175,7 @@ const searchDatasets = {
       cardClass: 'sc-ad-happy',
       title: 'Umíte si dělat legraci i sami ze sebe?',
       body: 'Sdílejte vtipy, memy a uštěpačné hlášky s přáteli — aplikace pro ty, co se rádi smějí, i trochu jízlivě.',
-      image: 'img/reaction-happy.jpg',
+      image: 'img/reaction-happy.png',
       alt: 'Reklama – smějící se smajlík'
     },
 
@@ -4204,11 +4203,11 @@ const searchDatasets = {
   const adIcon =
     document.getElementById('ad-icon');
 
-  const adTitle =
-    document.getElementById('ad-title');
+  // const adTitle =
+  //   document.getElementById('ad-title');
 
-  const adBody =
-    document.getElementById('ad-body');
+  // const adBody =
+  //   document.getElementById('ad-body');
 
   const adClose =
     document.getElementById('ad-close');
@@ -4235,8 +4234,8 @@ const searchDatasets = {
 
     adIcon.innerHTML =
       '<img src="' + data.image + '" alt="' + data.alt + '" loading="lazy">';
-    adTitle.textContent = data.title;
-    adBody.textContent = data.body;
+    // adTitle.textContent = data.title;
+    // adBody.textContent = data.body;
 
     adOverlay.hidden = false;
 
