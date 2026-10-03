@@ -1,2723 +1,1832 @@
 <!DOCTYPE html>
 <html lang="cs">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-
-<title>Superkomponenta</title>
-
-<style>
-
-:root {
-
-  /* ---------- Levá strana ---------- */
-
-  --left-bg: #1d2226;
-  --left-nav-btn: #2b3238;
-  --left-nav-btn-active: #c9a227;
-  --left-icon: #d7dde2;
-  --left-icon-active: #1d2226;
-
-  /* ---------- Pravá strana – military ---------- */
-
-  --mil-bg: #3b4032;
-  --mil-panel: #2e3327;
-  --mil-line: #6b7355;
-  --mil-text: #d4d6b8;
-  --mil-text-dim: #98a07f;
-  --mil-accent: #c9a227;
-
-  --font-mono: "Courier New", ui-monospace, Consolas, monospace;
-  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-
-html,
-body {
-  height: 100%;
-  background: #101214;
-  font-family: var(--font-ui);
-}
-
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   HLAVNÍ APLIKACE 16:9
-   ========================================================= */
-
-.sc-app {
-
-  aspect-ratio: 16 / 9;
-
-  width: min(
-    100vw,
-    calc(100vh * 16 / 9)
-  );
-
-  display: grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  grid-template-rows:
-    minmax(0, 1fr);
-
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   LEVÁ STRANA
-   ========================================================= */
-
-.sc-left {
-
-  position: relative;
-
-  background: var(--left-bg);
-
-  display: flex;
-  flex-direction: column;
-
-  min-width: 0;
-  min-height: 0;
-}
-
-
-/* ---------- Levý navbar ---------- */
-
-.sc-left-nav {
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: clamp(
-    12px,
-    2vw,
-    32px
-  );
-
-  padding: clamp(
-    12px,
-    1.6vw,
-    24px
-  );
-
-  list-style: none;
-}
-
-
-.sc-round-btn {
-
-  width: clamp(
-    44px,
-    5.2vw,
-    76px
-  );
-
-  aspect-ratio: 1;
-
-  border-radius: 50%;
-
-  border: 2px solid transparent;
-
-  background: var(--left-nav-btn);
-
-  color: var(--left-icon);
-
-  display: grid;
-  place-items: center;
-
-  cursor: pointer;
-
-  transition:
-    background .2s,
-    color .2s,
-    border-color .2s;
-}
-
-
-.sc-round-btn svg {
-
-  width: 52%;
-  height: 52%;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.8;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-
-.sc-round-btn:hover {
-
-  border-color:
-    var(--left-nav-btn-active);
-}
-
-
-.sc-round-btn:focus-visible {
-
-  outline:
-    3px solid
-    var(--left-nav-btn-active);
-
-  outline-offset: 3px;
-}
-
-
-.sc-round-btn.is-active {
-
-  background:
-    var(--left-nav-btn-active);
-
-  color:
-    var(--left-icon-active);
-}
-
-
-/* ---------- Obsah levé strany ---------- */
-
-.sc-left-content {
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  padding:
-    0
-    clamp(12px, 1.6vw, 24px)
-    clamp(12px, 1.6vw, 24px);
-}
-
-
-.sc-panel {
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  color: var(--left-icon);
-}
-
-
-.sc-panel[hidden] {
-  display: none;
-}
-
-
-.sc-panel-title {
-  
-  font-family: "Google Sans", sans-serif;
-  font-size:
-    clamp(48px, 2vw, 30px);
-
-  font-weight: 600;
-
-  margin-bottom:
-    clamp(12px, 1.4vw, 20px);
-}
-
-
-/* =========================================================
-   VYHLEDÁVAČ
-   ========================================================= */
-
-.sc-panel[data-panel="search"] {
-
-  background: #ffffff;
-
-  color: #1a1a1a;
-
-  padding:
-    clamp(20px, 2.4vw, 36px);
-
-  border-radius: 12px;
-}
-
-
-.sc-search-title {
-  letter-spacing: .01em;
-}
-
-
-.sc-letter-blue {
-  color: #4285f4;
-}
-
-.sc-letter-red {
-  color: #ea4335;
-}
-
-.sc-letter-yellow {
-  color: #fbbc05;
-}
-
-.sc-letter-green {
-  color: #34a853;
-}
-
-
-.sc-search-form {
-
-  display: flex;
-
-  gap: 10px;
-}
-
-
-.sc-search-input {
-
-  flex: 1;
-
-  min-width: 0;
-
-  padding:
-    clamp(10px, 1vw, 14px)
-    14px;
-
-  font: inherit;
-
-  font-size:
-    clamp(14px, 1.2vw, 17px);
-
-  color: #1a1a1a;
-
-  background:
-    #ffffff;
-
-  border:
-    2px solid #c7c9cc;
-
-  border-radius: 8px;
-}
-
-
-.sc-search-input::placeholder {
-  color: #8a8d91;
-}
-
-
-.sc-search-input:focus-visible {
-
-  outline: none;
-
-  border-color:
-    #1a1a1a;
-}
-
-
-.sc-search-btn {
-
-  padding:
-    0
-    clamp(16px, 1.8vw, 28px);
-
-  font: inherit;
-
-  font-size:
-    clamp(14px, 1.2vw, 17px);
-
-  font-weight: 600;
-
-  color:
-    #ffffff;
-
-  background:
-    #1a1a1a;
-
-  border:
-    2px solid #1a1a1a;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-}
-
-
-.sc-search-btn:hover {
-
-  background: #4a4d51;
-
-  border-color: #4a4d51;
-}
-
-
-.sc-search-btn:focus-visible {
-
-  outline:
-    3px solid
-    #8a8d91;
-
-  outline-offset: 2px;
-}
-
-
-/* ---------- Výsledky vyhledávání ---------- */
-
-.sc-search-results
-
- {
-    flex: 1;
-    min-height: 0;
-    margin-top: 20px;
-    padding-right: 4px;
-    overflow-y: auto;
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    grid-auto-rows: max-content;
-    align-content: start;
-    align-items: start;
-    gap: 12px;
-}
-
-
-.sc-result-card {
-
-  display: flex;
-
-  flex-direction: column;
-
-  overflow: hidden;
-
-  background: #ffffff;
-
-  border: 1px solid #dcdee0;
-
-  border-radius: 10px;
-
-  transition:
-    border-color .15s,
-    box-shadow .15s;
-}
-
-
-.sc-result-card:hover {
-  border-color: #1a1a1a;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
-}
-
-
-.sc-result-card[hidden] {
-  display: none;
-}
-
-
-.sc-result-image {
-
-  aspect-ratio: 16 / 9;
-
-  background: #f1f2f3;
-}
-
-
-.sc-result-image svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.sc-result-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-
-.sc-result-body {
-
-  padding:
-    clamp(10px, 1vw, 14px);
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 4px;
-}
-
-
-.sc-result-title {
-
-  font-size:
-    clamp(13px, 1.05vw, 16px);
-
-  font-weight: 700;
-
-  color: #1a1a1a;
-}
-
-
-.sc-result-context {
-
-  font-size:
-    clamp(11.5px, .95vw, 13.5px);
-
-  line-height: 1.4;
-
-  color: #55585c;
-}
-
-
-.sc-search-empty {
-
-  margin-top:
-    clamp(14px, 1.6vw, 22px);
-
-  color: #8a8d91;
-
-  font-size:
-    clamp(13px, 1.05vw, 15px);
-}
-
-.sc-search-empty[hidden] {
-  display: none;
-}
-
-
-/* =========================================================
-   GALERIE
-   ========================================================= */
-
-.sc-gallery-grid {
-
-  flex: 1;
-
-  min-height: 0;
-
-  overflow-y: auto;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, minmax(0, 1fr));
-
-  grid-auto-rows: max-content;
-
-  align-items: start;
-
-  align-content: start;
-
-  gap: 4px;
-}
-
-
-.sc-gallery-item {
-
-  width: 100%;
-
-  height: auto;
-
-  aspect-ratio: 1 / 1;
-
-  padding: 0;
-
-  border: none;
-
-  background:
-    var(--left-nav-btn);
-
-  cursor: pointer;
-
-  overflow: hidden;
-
-  align-self: start;
-}
-
-
-.sc-gallery-item img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    transform .25s;
-}
-
-
-.sc-gallery-item:hover img {
-  transform: scale(1.05);
-}
-
-
-.sc-gallery-item:focus-visible {
-
-  outline:
-    3px solid
-    var(--left-nav-btn-active);
-
-  outline-offset: -3px;
-}
-
-
-/* =========================================================
-   PŘIJATÁ POSLOUPNOST
-   ========================================================= */
-
-.sc-received {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-
-  margin-bottom:
-    clamp(8px, 1vw, 14px);
-}
-
-
-.sc-received-label {
-
-  margin-right: 4px;
-
-  font-size:
-    clamp(12px, 1vw, 14px);
-
-  color: #8b949b;
-}
-
-
-.sc-received-slot {
-
-  width:
-    clamp(36px, 3.6vw, 56px);
-
-  aspect-ratio: 1 / 1;
-
-  padding: 0;
-
-  overflow: hidden;
-
-  border:
-    2px dashed
-    #3c454c;
-
-  background: transparent;
-
-  cursor: default;
-}
-
-
-.sc-received-slot.is-filled {
-
-  border:
-    2px solid
-    var(--left-nav-btn-active);
-
-  cursor: pointer;
-}
-
-
-.sc-received-slot img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-.sc-received-slot:focus-visible {
-
-  outline:
-    3px solid
-    var(--left-nav-btn-active);
-
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   LIGHTBOX
-   ========================================================= */
-
-.sc-lightbox {
-
-  position: absolute;
-
-  inset: 0;
-
-  z-index: 10;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  background:
-    rgba(10, 12, 14, .94);
-}
-
-
-.sc-lightbox[hidden] {
-  display: none;
-}
-
-
-.sc-lightbox-img {
-
-  width:
-    min(68%, 70vh);
-
-  aspect-ratio: 1 / 1;
-
-  object-fit: cover;
-
-  border-radius: 4px;
-}
-
-
-.sc-lb-btn {
-
-  position: absolute;
-
-  display: grid;
-
-  place-items: center;
-
-  width: 44px;
-  height: 44px;
-
-  border: none;
-
-  border-radius: 50%;
-
-  background:
-    var(--left-nav-btn);
-
-  color:
-    var(--left-icon);
-
-  font-size: 22px;
-
-  cursor: pointer;
-}
-
-
-.sc-lb-btn:hover {
-
-  background:
-    var(--left-nav-btn-active);
-
-  color:
-    var(--left-icon-active);
-}
-
-
-.sc-lb-btn:focus-visible {
-
-  outline:
-    3px solid
-    var(--left-nav-btn-active);
-
-  outline-offset: 2px;
-}
-
-
-.sc-lb-close {
-  top: 14px;
-  right: 14px;
-}
-
-
-.sc-lb-prev {
-  left: 14px;
-}
-
-
-.sc-lb-next {
-  right: 14px;
-}
-
-
-.sc-lb-counter {
-
-  position: absolute;
-
-  bottom: 14px;
-
-  left: 0;
-  right: 0;
-
-  text-align: center;
-
-  font-size: 14px;
-
-  color: #8b949b;
-}
-
-
-/* =========================================================
-   REKLAMNÍ PŘEKRYV
-   ========================================================= */
-
-.sc-ad-overlay {
-
-  position: absolute;
-
-  inset: 0;
-
-  z-index: 30;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: clamp(14px, 1.8vw, 24px);
-
-  background: rgba(6, 7, 8, .82);
-}
-
-
-.sc-ad-overlay[hidden] {
-  display: none;
-}
-
-
-.sc-ad-card {
-
-  position: relative;
-
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: clamp(10px, 1.2vw, 16px);
-
-  padding: clamp(24px, 3vw, 44px);
-
-  border-radius: 14px;
-
-  text-align: center;
-
-  color: #ffffff;
-
-  overflow: hidden;
-}
-
-
-.sc-ad-card:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: -6px;
-}
-
-
-/* ---------- Varianty podle typu reakce ---------- */
-
-.sc-ad-card.sc-ad-heart {
-
-  background:
-    radial-gradient(circle at 25% 20%, rgba(255,255,255,.18), transparent 45%),
-    linear-gradient(160deg, #ff8fab, #ee4d78 55%, #c62368);
-}
-
-
-.sc-ad-card.sc-ad-happy {
-
-  background-color: #f2b705;
-
-  background-image:
-    linear-gradient(160deg, rgba(0,0,0,.12), rgba(0,0,0,0) 55%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='white' stroke-opacity='0.4' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='22' cy='22' r='15'/%3E%3Cpath d='M15 18c3-2 7-2 9 0'/%3E%3Ccircle cx='28' cy='17' r='1.5' fill='white' fill-opacity='0.4' stroke='none'/%3E%3Cpath d='M13 27q9 7 18-1'/%3E%3C/g%3E%3C/svg%3E");
-
-  background-repeat: repeat;
-  background-size: auto, 44px 44px;
-
-  color: #2a2100;
-}
-
-
-.sc-ad-card.sc-ad-angry {
-
-  background:
-    radial-gradient(circle at 75% 15%, rgba(255,255,255,.12), transparent 45%),
-    linear-gradient(160deg, #4a6b8a, #2c4864 55%, #182838);
-}
-
-
-.sc-ad-tag {
-
-  position: absolute;
-  top: clamp(12px, 1.4vw, 18px);
-  left: clamp(12px, 1.4vw, 18px);
-
-  padding: 4px 10px;
-
-  font-size: clamp(9px, .8vw, 11px);
-  font-weight: 700;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-
-  border-radius: 999px;
-
-  background: rgba(0, 0, 0, .32);
-}
-
-
-.sc-ad-icon {
-  width: 341px;
-  height: 393px;
-
-  padding: clamp(6px, .7vw, 10px);
-
-  background: #ffffff;
-
-  border-radius: 8px;
-
-  box-shadow: 0 8px 22px rgba(0, 0, 0, .28);
-
-}
-
-
-.sc-ad-icon svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-
-.sc-ad-icon img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  border-radius: 3px;
-}
-
-
-.sc-ad-title {
-
-  font-size: clamp(19px, 2.2vw, 30px);
-  font-weight: 700;
-  line-height: 1.25;
-
-  max-width: 34ch;
-}
-
-
-.sc-ad-body {
-
-  font-size: clamp(13px, 1.05vw, 16px);
-  line-height: 1.5;
-
-  max-width: 46ch;
-
-  opacity: .92;
-}
-
-
-.sc-ad-close {
-
-  position: absolute;
-  top: clamp(12px, 1.4vw, 18px);
-  right: clamp(12px, 1.4vw, 18px);
-
-  width: clamp(32px, 3vw, 42px);
-  aspect-ratio: 1;
-
-  border-radius: 50%;
-
-  border: 2px solid rgba(255, 255, 255, .55);
-
-  background: rgba(0, 0, 0, .35);
-
-  color: #ffffff;
-
-  font: inherit;
-  font-weight: 700;
-  font-size: clamp(13px, 1.05vw, 16px);
-
-  display: grid;
-  place-items: center;
-
-  cursor: not-allowed;
-
-  transition: background .15s, border-color .15s;
-}
-
-
-.sc-ad-close:not(:disabled) {
-
-  cursor: pointer;
-
-  background: rgba(0, 0, 0, .5);
-}
-
-
-.sc-ad-close:not(:disabled):hover {
-  border-color: #ffffff;
-}
-
-
-.sc-ad-close:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   PRAVÁ STRANA
-   ========================================================= */
-
-.sc-right {
-
-  background:
-    var(--mil-bg);
-
-  color:
-    var(--mil-text);
-
-  font-family:
-    var(--font-mono);
-
-  display: flex;
-
-  flex-direction: column;
-
-  min-width: 0;
-  min-height: 0;
-
-  border-left:
-    3px solid
-    var(--mil-line);
-}
-
-
-/* ---------- Pravý navbar ---------- */
-
-.sc-right-nav {
-
-  display: flex;
-
-  list-style: none;
-
-  background:
-    var(--mil-panel);
-
-  border-bottom:
-    2px solid
-    var(--mil-line);
-}
-
-
-.sc-right-nav li {
-  flex: 1;
-}
-
-
-.sc-mil-link {
-
-  width: 100%;
-
-  padding:
-    clamp(10px, 1.3vw, 18px)
-    8px;
-
-  background: none;
-
-  border: none;
-
-  border-right:
-    1px solid
-    var(--mil-line);
-
-  color:
-    var(--mil-text-dim);
-
-  font: inherit;
-
-  font-size:
-    clamp(11px, 1.15vw, 16px);
-
-  text-transform: uppercase;
-
-  letter-spacing: .12em;
-
-  cursor: pointer;
-
-  transition:
-    background .15s,
-    color .15s;
-}
-
-
-.sc-right-nav li:last-child .sc-mil-link {
-  border-right: none;
-}
-
-
-.sc-mil-link:hover {
-
-  color:
-    var(--mil-text);
-
-  background:
-    rgba(255,255,255,.04);
-}
-
-
-.sc-mil-link:focus-visible {
-
-  outline:
-    2px solid
-    var(--mil-accent);
-
-  outline-offset: -3px;
-}
-
-
-.sc-mil-link.is-active {
-
-  color:
-    var(--mil-panel);
-
-  background:
-    var(--mil-accent);
-}
-
-
-/* ---------- Reakční tlačítka (nahrazují Fotobanku) ---------- */
-
-.sc-mil-reactions {
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  gap: clamp(6px, .8vw, 12px);
-
-  padding:
-    clamp(6px, .8vw, 10px)
-    8px;
-}
-
-
-.sc-mil-round-btn {
-
-  width: clamp(28px, 2.8vw, 40px);
-
-  aspect-ratio: 1;
-
-  border-radius: 50%;
-
-  border: 2px solid var(--mil-line);
-
-  background: var(--mil-bg);
-
-  color: var(--mil-text);
-
-  display: grid;
-  place-items: center;
-
-  cursor: pointer;
-
-  transition:
-    background .15s,
-    color .15s,
-    border-color .15s;
-}
-
-
-.sc-mil-round-btn svg {
-
-  width: 58%;
-  height: 58%;
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.7;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-
-.sc-mil-round-btn:hover {
-  border-color: var(--mil-accent);
-  color: var(--mil-accent);
-}
-
-
-.sc-mil-round-btn:focus-visible {
-  outline: 2px solid var(--mil-accent);
-  outline-offset: 2px;
-}
-
-
-.sc-mil-round-btn.is-active {
-  background: var(--mil-accent);
-  border-color: var(--mil-accent);
-  color: var(--mil-panel);
-}
-
-
-/* ---------- Obsah dashboardu ---------- */
-
-.sc-right-content {
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  padding:
-    clamp(10px, 1.2vw, 18px);
-}
-
-
-.sc-rpanel {
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: flex;
-
-  flex-direction: column;
-}
-
-
-.sc-rpanel[hidden] {
-  display: none;
-}
-
-
-/* =========================================================
-   VYHLEDÁVAČ (pravá strana) – navbar s obrázkovými ikonami
-   ========================================================= */
-
-.sc-search-icon-nav {
-
-  display: flex;
-
-  gap: clamp(8px, 1vw, 14px);
-}
-
-
-.sc-search-icon-btn {
-
-  flex: 1;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: clamp(6px, .8vw, 10px);
-
-  padding:
-    clamp(10px, 1.3vw, 18px)
-    8px;
-
-  color: var(--mil-text);
-
-  background: var(--mil-panel);
-
-  border: 2px solid var(--mil-line);
-
-  cursor: pointer;
-}
-
-
-.sc-search-icon-btn svg {
-
-  width: clamp(26px, 2.6vw, 38px);
-
-  height: clamp(26px, 2.6vw, 38px);
-
-  fill: none;
-
-  stroke: currentColor;
-
-  stroke-width: 1.6;
-
-  stroke-linecap: round;
-
-  stroke-linejoin: round;
-}
-
-
-.sc-search-icon-label {
-
-  font-size: clamp(9px, .85vw, 12px);
-
-  text-transform: uppercase;
-
-  letter-spacing: .1em;
-
-  color: var(--mil-text-dim);
-
-  text-align: center;
-}
-
-
-.sc-search-icon-btn:hover {
-  border-color: var(--mil-accent);
-  color: var(--mil-accent);
-}
-.sc-search-icon-btn:hover .sc-search-icon-label {
-  color: var(--mil-accent);
-}
-
-
-.sc-search-icon-btn:focus-visible {
-  outline: 2px solid var(--mil-accent);
-  outline-offset: 2px;
-}
-
-
-.sc-search-icon-btn.is-active {
-  color: var(--mil-panel);
-  background: var(--mil-accent);
-  border-color: var(--mil-accent);
-}
-.sc-search-icon-btn.is-active .sc-search-icon-label {
-  color: var(--mil-panel);
-}
-
-
-/* =========================================================
-   VÝBĚR FOTOGRAFIÍ
-   ========================================================= */
-
-.sc-picker {
-
-  flex: 1;
-
-  min-height: 0;
-
-  display: grid;
-
-  grid-template-rows:
-    minmax(0, 1fr)
-    auto;
-
-  gap:
-    clamp(8px, 1vw, 14px);
-}
-
-
-/* ---------- Náhled databáze ---------- */
-
-.sc-picker-preview {
-
-  min-height: 0;
-
-  overflow-y: auto;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(12, minmax(0, 1fr));
-
-  align-content: start;
-
-  gap: 2px;
-
-  padding: 3px;
-
-  background:
-    var(--mil-panel);
-
-  border:
-    1px solid
-    var(--mil-line);
-
-  scrollbar-width: thin;
-
-  scrollbar-color:
-    var(--mil-line)
-    transparent;
-}
-
-
-.sc-thumb {
-
-  aspect-ratio: 1 / 1;
-
-  padding: 0;
-
-  border:
-    1px solid transparent;
-
-  background:
-    var(--mil-bg);
-
-  cursor: pointer;
-
-  overflow: hidden;
-}
-
-
-.sc-thumb img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-.sc-thumb:hover {
-  border-color: var(--mil-accent);
-}
-
-
-.sc-thumb:focus-visible {
-
-  outline:
-    2px solid
-    var(--mil-accent);
-
-  outline-offset: -2px;
-}
-
-
-/* =========================================================
-   SPODNÍ ČÁST PICKERU
-   ========================================================= */
-
-.sc-picker-bottom {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: clamp(8px, 1vw, 14px);
-
-  padding-bottom: clamp(6px, .9vw, 14px);
-}
-
-
-/* =========================================================
-   NOVÉ: VÝCHOZÍ OBRÁZKY
-   ========================================================= */
-
-.sc-default-images {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
-  gap: 8px;
-
-  width: 100%;
-  max-height: 11vh;
-}
-
-
-.sc-default-image {
-
-  position: relative;
-
-  min-width: 0;
-
-  aspect-ratio: 1 / 1;
-
-  padding: 0;
-
-  overflow: hidden;
-
-  border:
-    2px solid
-    var(--mil-line);
-
-  background:
-    var(--mil-panel);
-
-  cursor: pointer;
-
-  transition:
-    border-color .15s,
-    transform .15s;
-
-  max-height: 12vh;
-}
-
-
-.sc-default-image:hover {
-
-  border-color:
-    var(--mil-accent);
-
-  transform: translateY(-2px);
-}
-
-
-.sc-default-image:focus-visible {
-
-  outline:
-    2px solid
-    var(--mil-accent);
-
-  outline-offset: 2px;
-}
-
-
-.sc-default-image img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-/* Malý identifikační štítek přes obrázek */
-
-.sc-default-image-label {
-
-  visibility: hidden;
-    position: absolute;
-
-
-  left: 4px;
-  right: 4px;
-  bottom: 4px;
-
-  padding:
-    3px 5px;
-
-  background:
-    rgba(0, 0, 0, .72);
-
-  color:
-    var(--mil-text);
-
-  font-size:
-    clamp(8px, .75vw, 11px);
-
-  text-align: center;
-
-  text-transform: uppercase;
-
-  letter-spacing: .08em;
-
-  pointer-events: none;
-}
-
-
-/* ---------- Nadpis posloupnosti ---------- */
-
-.sc-picker-head {
-
-  display: flex;
-
-  justify-content: space-between;
-
-  font-size:
-    clamp(10px, 1vw, 14px);
-
-  text-transform: uppercase;
-
-  letter-spacing: .12em;
-
-  color:
-    var(--mil-text-dim);
-}
-
-
-/* ---------- 4 sloty ---------- */
-
-.sc-slots {
-
-  display: flex;
-
-  gap: clamp(6px, 1vw, 10px);
-}
-
-
-.sc-slot {
-
-  flex: 1 1 0;
-
-  min-width: 0;
-
-  max-width: clamp(48px, 9vw, 88px);
-
-  aspect-ratio: 1 / 1;
-
-  display: grid;
-
-  place-items: center;
-
-  overflow: hidden;
-
-  border:
-    2px dashed
-    var(--mil-line);
-
-  background:
-    var(--mil-panel);
-
-  color:
-    var(--mil-text-dim);
-
-  font-size:
-    clamp(14px, 1.6vw, 24px);
-}
-
-
-.sc-slot.is-filled {
-
-  border-style: solid;
-
-  border-color:
-    var(--mil-accent);
-}
-
-
-.sc-slot img {
-
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-}
-
-
-/* ---------- Tlačítka ---------- */
-
-.sc-picker-actions {
-
-  display: flex;
-
-  gap: 8px;
-}
-
-
-.sc-mil-btn {
-
-  flex: 1;
-
-  padding:
-    clamp(8px, .9vw, 12px)
-    8px;
-
-  font: inherit;
-
-  font-size:
-    clamp(11px, 1.1vw, 15px);
-
-  text-transform: uppercase;
-
-  letter-spacing: .12em;
-
-  cursor: pointer;
-
-  color:
-    var(--mil-text);
-
-  background: transparent;
-
-  border:
-    2px solid
-    var(--mil-line);
-}
-
-
-.sc-mil-btn:hover:not(:disabled) {
-
-  border-color:
-    var(--mil-accent);
-
-  color:
-    var(--mil-accent);
-}
-
-
-.sc-mil-btn:focus-visible {
-
-  outline:
-    2px solid
-    var(--mil-accent);
-
-  outline-offset: 2px;
-}
-
-
-.sc-mil-btn.is-primary {
-
-  background:
-    var(--mil-accent);
-
-  border-color:
-    var(--mil-accent);
-
-  color:
-    var(--mil-panel);
-
-  font-weight: 700;
-}
-
-
-.sc-mil-btn.is-primary:hover:not(:disabled) {
-
-  color:
-    var(--mil-panel);
-
-  filter: brightness(1.1);
-}
-
-
-.sc-mil-btn:disabled {
-
-  opacity: .4;
-
-  cursor: not-allowed;
-}
-
-
-/* =========================================================
-   MOBIL
-   ========================================================= */
-
-.sc-mobile-warning {
-  display: none;
-}
-
-
-@media (max-width: 767px) {
-
-  .sc-app {
-    display: none;
-  }
-
-  .sc-mobile-warning {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 12px;
-
-    width: 100%;
-
-    min-height: 100%;
-
-    padding: 32px 24px;
-
-    text-align: center;
-
-    background:
-      var(--mil-bg);
-
-    color:
-      var(--mil-text);
-
-    font-family:
-      var(--font-mono);
-  }
-
-  .sc-mobile-warning h1 {
-
-    font-size: 1.4rem;
-
-    text-transform: uppercase;
-
-    letter-spacing: .08em;
-  }
-
-  .sc-mobile-warning p {
-
-    color:
-      var(--mil-text-dim);
-
-    line-height: 1.5;
-
-    max-width: 28ch;
-  }
-
-  body {
-    overflow: auto;
-  }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-
-  * {
-    transition: none !important;
-  }
-}
-
-
-/* =========================================================
-   CHATBOT
-   ========================================================= */
-
-.sc-panel[data-panel="chatbot"] {
-  justify-content: center;
-  gap: clamp(16px, 2vw, 28px);
-}
-
-.sc-panel[data-panel="chatbot"].has-messages {
-  justify-content: flex-start;
-}
-
-.sc-chat-title {
-  text-align: center;
-  font-family: "Google Sans", sans-serif;
-  font-size: clamp(24px, 3vw, 44px);
-  font-weight: 600;
-  color: var(--left-icon);
-}
-
-.sc-panel[data-panel="chatbot"].has-messages .sc-chat-title {
-  display: none;
-}
-
-.sc-chat-messages {
-  display: none;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  flex-direction: column;
-  gap: 10px;
-  padding-right: 6px;
-}
-
-.sc-panel[data-panel="chatbot"].has-messages .sc-chat-messages {
-  display: flex;
-}
-
-.sc-chat-message {
-  align-self: flex-end;
-  max-width: 85%;
-  padding: 10px 14px;
-  font-size: clamp(14px, 1.2vw, 17px);
-  line-height: 1.45;
-  color: var(--left-icon);
-  background: var(--left-nav-btn);
-  border-radius: 12px;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-
-.sc-chat-form {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.sc-panel[data-panel="chatbot"].has-messages .sc-chat-form {
-  max-width: none;
-  margin: 0;
-}
-
-.sc-chat-input {
-  flex: 1;
-  min-width: 0;
-  padding: clamp(10px, 1vw, 14px) 14px;
-  font: inherit;
-  font-size: clamp(14px, 1.2vw, 17px);
-  color: var(--left-icon);
-  background: var(--left-nav-btn);
-  border: 2px solid #3d464d;
-  border-radius: 8px;
-}
-
-.sc-chat-input::placeholder {
-  color: #8d979f;
-}
-
-.sc-chat-input:focus-visible {
-  outline: none;
-  border-color: var(--left-nav-btn-active);
-}
-
-.sc-chat-btn {
-  padding: 0 clamp(16px, 1.8vw, 28px);
-  font: inherit;
-  font-size: clamp(14px, 1.2vw, 17px);
-  font-weight: 600;
-  color: var(--left-icon-active);
-  background: var(--left-nav-btn-active);
-  border: 2px solid var(--left-nav-btn-active);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.sc-chat-btn:hover {
-  filter: brightness(1.1);
-}
-
-.sc-chat-btn:focus-visible {
-  outline: 3px solid var(--left-icon);
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   CHATBOT (pravá strana)
-   ========================================================= */
-
-.sc-rchat-row {
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 1vw, 16px);
-}
-
-.sc-rchat-input {
-  flex: 1;
-  min-width: 0;
-  padding: clamp(10px, 1vw, 14px) 14px;
-  font: inherit;
-  font-size: clamp(13px, 1.1vw, 16px);
-  color: var(--mil-text);
-  background: var(--mil-panel);
-  border: 2px solid var(--mil-line);
-}
-
-.sc-rchat-input::placeholder {
-  color: var(--mil-text-dim);
-}
-
-.sc-rchat-input:focus-visible {
-  outline: none;
-  border-color: var(--mil-accent);
-}
-
-.sc-rchat-check {
-  flex: none;
-  width: clamp(20px, 1.8vw, 26px);
-  height: clamp(20px, 1.8vw, 26px);
-  accent-color: var(--mil-accent);
-  cursor: pointer;
-}
-
-.sc-rchat-check:focus-visible {
-  outline: 2px solid var(--mil-accent);
-  outline-offset: 2px;
-}
-
-.sc-rchat-text {
-  margin-top: clamp(14px, 1.6vw, 24px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.2vw, 18px);
-  overflow-y: auto;
-  min-height: 0;
-}
-
-.sc-rchat-text p {
-  font-size: clamp(12px, 1vw, 15px);
-  line-height: 1.55;
-  color: var(--mil-text-dim);
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superkomponenta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <!-- Google Material Symbols & Icons (Outlined) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        /* 01 RESET */
+        /* 02 BODY */
+        /* 03 SECTION */
+        /* 04 GLOBAL STYLES */
+        /* 05 LAYOUT */
+        /* 06 HTML ELEMENTS LAYOUT */
+        /* 07 UTILITY */
+        /* 08 TYPOGRAPHY */
+        /* 09 IMG INPUT LABEL BUTTON  */
+        /* 10 FORM */
+        /* 11 SPECIFIC SECTIONS */
+        /* 12 RESPONSIVITY */
+        /* 13 DEMO */
+
+
+        /* 01 RESET */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        /* 02 BODY */
+        body {
+            margin: 0;
+
+            background-color: #2b3238;
+        }
+
+        /* 03 SECTION */
+        section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 04 GLOBAL STYLES */
+        :root {
+            /* user = levá strana */
+            --user-bg: #1d2226;
+            --user-btn: #2b3238;
+            --user-accent: #c9a227;
+            --user-text: #d7dde2;
+            --user-text-dim: #8b949b;
+            --user-text-active: #1d2226;
+
+            /* panel = pravá strana (military) */
+            --panel-bg: #3b4032;
+            --panel-dark: #2e3327;
+            --panel-line: #6b7355;
+            --panel-text: #d4d6b8;
+            --panel-text-dim: #98a07f;
+            --panel-accent: #c9a227;
+
+            --font-mono: "Courier New", ui-monospace, Consolas, monospace;
+        }
+
+        h1 {
+            font-family: "Google Sans", sans-serif;
+        }
+
+        /* ikony Material Symbols nesmí přebít mono písmo pravé strany */
+        .right *:not(.material-symbols-outlined) {
+            font-family: var(--font-mono);
+        }
+
+
+        /* 05 LAYOUT */
+        .app {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100%;
+            height: 100vh;
+            min-height: 0;
+        }
+
+        .left,
+        .right {
+            width: 49%;
+
+            height: 100vh;
+            min-height: 0;
+            min-width: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left {
+            position: relative;
+        }
+
+        .navbar {
+            position: sticky;
+            z-index: 999;
+            flex: 0 0 auto;
+        }
+
+        .navbar ul {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .navbar-left ul {
+            gap: clamp(12px, 2vw, 32px);
+            padding: clamp(12px, 1.6vw, 24px);
+        }
+
+        .navbar-right ul {
+            align-items: stretch;
+            justify-content: stretch;
+            background-color: var(--panel-dark);
+            border-bottom: 2px solid var(--panel-line);
+        }
+
+        .navbar-right li {
+            flex: 1;
+        }
+
+        .left-content,
+        .right-content {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-content {
+            padding: 0 clamp(12px, 1.6vw, 24px) clamp(12px, 1.6vw, 24px);
+        }
+
+        .right-content {
+            padding: clamp(10px, 1.2vw, 18px);
+        }
+
+        .left-panel,
+        .right-panel {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel {
+            color: var(--user-text);
+        }
+
+        .columns {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .col-2 {
+            width: 49%;
+        }
+        .col-3 {
+            width: 32%;
+        }
+        .col-4 {
+            width: 24%;
+        }
+
+        /* 06 HTML ELEMENTS LAYOUT */
+
+        /* 07 UTILITY */
+        .user {
+            color: var(--user-text);
+            background-color: var(--user-bg);
+        }
+
+        .panel {
+            color: var(--panel-text);
+            background-color: var(--panel-bg);
+        }
+
+        /* 08 TYPOGRAPHY */
+        .left-title {
+            font-size: 48px;
+            font-weight: 600;
+
+            margin-bottom: clamp(12px, 1.4vw, 20px);
+        }
+
+        .letter-blue   { color: #4285f4; }
+        .letter-red    { color: #ea4335; }
+        .letter-yellow { color: #fbbc05; }
+        .letter-green  { color: #34a853; }
+
+        /* 09 IMG INPUT LABEL BUTTON  */
+
+        /* kulatá tlačítka – levý navbar */
+        .btn-round {
+            width: clamp(44px, 5.2vw, 76px);
+            aspect-ratio: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid transparent;
+            border-radius: 50%;
+
+            background-color: var(--user-btn);
+            color: var(--user-text);
+
+            cursor: pointer;
+
+            transition: background .2s, color .2s, border-color .2s;
+        }
+
+        .btn-round .material-symbols-outlined {
+            font-size: clamp(24px, 2.7vw, 40px);
+        }
+
+        .btn-round:hover {
+            border-color: var(--user-accent);
+        }
+
+        .btn-round:focus-visible {
+            outline: 3px solid var(--user-accent);
+            outline-offset: 3px;
+        }
+
+        .btn-round.is-active {
+            background-color: var(--user-accent);
+            color: var(--user-text-active);
+        }
+
+        /* malá kulatá tlačítka – reakce v pravém navbaru */
+        .btn-round-sm {
+            width: clamp(28px, 2.8vw, 40px);
+            aspect-ratio: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid var(--panel-line);
+            border-radius: 50%;
+
+            background-color: var(--panel-bg);
+            color: var(--panel-text);
+
+            cursor: pointer;
+
+            transition: background .15s, color .15s, border-color .15s;
+        }
+
+        .btn-round-sm .material-symbols-outlined {
+            font-size: clamp(16px, 1.7vw, 24px);
+        }
+
+        .btn-round-sm:hover {
+            border-color: var(--panel-accent);
+            color: var(--panel-accent);
+        }
+
+        .btn-round-sm:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        .btn-round-sm.is-active {
+            background-color: var(--panel-accent);
+            border-color: var(--panel-accent);
+            color: var(--panel-dark);
+        }
+
+        /* odkazy v pravém navbaru */
+        .navbar-link {
+            width: 100%;
+            padding: clamp(10px, 1.3vw, 18px) 8px;
+
+            background: none;
+            border: none;
+            border-right: 1px solid var(--panel-line);
+
+            color: var(--panel-text-dim);
+            font-size: clamp(11px, 1.15vw, 16px);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+
+            cursor: pointer;
+
+            transition: background .15s, color .15s;
+        }
+
+        .navbar-link:hover {
+            color: var(--panel-text);
+            background-color: rgba(255, 255, 255, .04);
+        }
+
+        .navbar-link:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: -3px;
+        }
+
+        .navbar-link.is-active {
+            color: var(--panel-dark);
+            background-color: var(--panel-accent);
+        }
+
+        /* tlačítka pravé strany */
+        .primaryBtn,
+        .secondaryBtn {
+            flex: 1;
+            padding: clamp(8px, .9vw, 12px) 8px;
+
+            font-size: clamp(11px, 1.1vw, 15px);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+
+            cursor: pointer;
+        }
+
+        .secondaryBtn {
+            color: var(--panel-text);
+            background: transparent;
+            border: 2px solid var(--panel-line);
+        }
+
+        .secondaryBtn:hover:not(:disabled) {
+            border-color: var(--panel-accent);
+            color: var(--panel-accent);
+        }
+
+        .primaryBtn {
+            font-weight: 700;
+
+            color: var(--panel-dark);
+            background-color: var(--panel-accent);
+            border: 2px solid var(--panel-accent);
+        }
+
+        .primaryBtn:hover:not(:disabled) {
+            filter: brightness(1.1);
+        }
+
+        .primaryBtn:focus-visible,
+        .secondaryBtn:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        .primaryBtn:disabled,
+        .secondaryBtn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        /* 10 FORM */
+
+        /* levá strana – vyhledávač */
+        .browser-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .browser-input {
+            flex: 1;
+            min-width: 0;
+            padding: clamp(10px, 1vw, 14px) 14px;
+
+            font-size: clamp(14px, 1.2vw, 17px);
+            color: #1a1a1a;
+            background-color: #ffffff;
+
+            border: 2px solid #c7c9cc;
+            border-radius: 8px;
+        }
+
+        .browser-input::placeholder {
+            color: #8a8d91;
+        }
+
+        .browser-input:focus-visible {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        .browser-btn {
+            padding: 0 clamp(16px, 1.8vw, 28px);
+
+            font-size: clamp(14px, 1.2vw, 17px);
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #1a1a1a;
+
+            border: 2px solid #1a1a1a;
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+        .browser-btn:hover {
+            background-color: #4a4d51;
+            border-color: #4a4d51;
+        }
+
+        .browser-btn:focus-visible {
+            outline: 3px solid #8a8d91;
+            outline-offset: 2px;
+        }
+
+        /* levá strana – chatbot */
+        .chatbot-form {
+            display: flex;
+            gap: 10px;
+
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .chatbot.has-messages .chatbot-form {
+            max-width: none;
+            margin: 0;
+        }
+
+        .chatbot-input {
+            flex: 1;
+            min-width: 0;
+            padding: clamp(10px, 1vw, 14px) 14px;
+
+            font-size: clamp(14px, 1.2vw, 17px);
+            color: var(--user-text);
+            background-color: var(--user-btn);
+
+            border: 2px solid #3d464d;
+            border-radius: 8px;
+        }
+
+        .chatbot-input::placeholder {
+            color: #8d979f;
+        }
+
+        .chatbot-input:focus-visible {
+            outline: none;
+            border-color: var(--user-accent);
+        }
+
+        .chatbot-btn {
+            padding: 0 clamp(16px, 1.8vw, 28px);
+
+            font-size: clamp(14px, 1.2vw, 17px);
+            font-weight: 600;
+            color: var(--user-text-active);
+            background-color: var(--user-accent);
+
+            border: 2px solid var(--user-accent);
+            border-radius: 8px;
+
+            cursor: pointer;
+        }
+
+        .chatbot-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .chatbot-btn:focus-visible {
+            outline: 3px solid var(--user-text);
+            outline-offset: 2px;
+        }
+
+        /* pravá strana – doplňující instrukce */
+        .chatbot-control-row {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 1vw, 16px);
+        }
+
+        .chatbot-control-input {
+            flex: 1;
+            min-width: 0;
+            padding: clamp(10px, 1vw, 14px) 14px;
+
+            font-size: clamp(13px, 1.1vw, 16px);
+            color: var(--panel-text);
+            background-color: var(--panel-dark);
+
+            border: 2px solid var(--panel-line);
+        }
+
+        .chatbot-control-input::placeholder {
+            color: var(--panel-text-dim);
+        }
+
+        .chatbot-control-input:focus-visible {
+            outline: none;
+            border-color: var(--panel-accent);
+        }
+
+        .chatbot-control-check {
+            flex: none;
+            width: clamp(20px, 1.8vw, 26px);
+            height: clamp(20px, 1.8vw, 26px);
+
+            accent-color: var(--panel-accent);
+            cursor: pointer;
+        }
+
+        .chatbot-control-check:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        /* pravá strana – přepínač synchronizace */
+        .navbar-sync {
+            display: flex;
+            align-items: center;
+            padding: 0 clamp(10px, 1.2vw, 16px);
+        }
+
+        .sync-toggle {
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, .9vw, 12px);
+
+            cursor: pointer;
+        }
+
+        .sync-toggle input[type="checkbox"] {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+        }
+
+        .sync-track {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+
+            width: clamp(34px, 3.2vw, 44px);
+            height: clamp(18px, 1.7vw, 24px);
+            padding: 2px;
+
+            border-radius: 999px;
+            border: 2px solid var(--panel-line);
+            background-color: var(--panel-dark);
+
+            transition: background .15s, border-color .15s;
+        }
+
+        .sync-thumb {
+            display: block;
+            width: clamp(12px, 1.2vw, 16px);
+            height: clamp(12px, 1.2vw, 16px);
+
+            border-radius: 50%;
+            background-color: var(--panel-text-dim);
+
+            transition: transform .15s, background .15s;
+        }
+
+        .sync-label {
+            font-size: clamp(10px, .95vw, 13px);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--panel-text-dim);
+            white-space: nowrap;
+        }
+
+        .sync-toggle input:checked ~ .sync-track {
+            background-color: var(--panel-accent);
+            border-color: var(--panel-accent);
+        }
+
+        .sync-toggle input:checked ~ .sync-track .sync-thumb {
+            background-color: var(--panel-dark);
+            transform: translateX(calc(clamp(34px, 3.2vw, 44px) - clamp(12px, 1.2vw, 16px) - 4px));
+        }
+
+        .sync-toggle input:checked ~ .sync-label {
+            color: var(--panel-text);
+        }
+
+        .sync-toggle input:focus-visible ~ .sync-track {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+
+        /* 11 SPECIFIC SECTIONS */
+
+        /* ---------- LEFT: BROWSER ---------- */
+        .browser {
+            padding: clamp(20px, 2.4vw, 36px);
+
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border-radius: 12px;
+        }
+
+        .browser-title {
+            letter-spacing: .01em;
+        }
+
+        .browser-results {
+            flex: 1;
+            min-height: 0;
+            margin-top: 20px;
+            padding-right: 4px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            overflow-y: auto;
+        }
+
+        .browser-empty {
+            margin-top: clamp(14px, 1.6vw, 22px);
+            color: #8a8d91;
+            font-size: clamp(13px, 1.05vw, 15px);
+        }
+
+        .result-card {
+            flex: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            background-color: #ffffff;
+            border: 1px solid #dcdee0;
+            border-radius: 10px;
+
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .result-card:hover {
+            border-color: #1a1a1a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+        }
+
+        .result-image {
+            aspect-ratio: 16 / 9;
+            background-color: #f1f2f3;
+        }
+
+        .result-image svg,
+        .result-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .result-image img {
+            object-fit: cover;
+        }
+
+        .result-body {
+            padding: clamp(10px, 1vw, 14px);
+
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .result-title {
+            font-size: clamp(13px, 1.05vw, 16px);
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .result-context {
+            font-size: clamp(11.5px, .95vw, 13.5px);
+            line-height: 1.4;
+            color: #55585c;
+        }
+
+        /* ---------- LEFT: GALLERY ---------- */
+        .gallery-received {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: clamp(8px, 1vw, 14px);
+        }
+
+        .received-label {
+            margin-right: 4px;
+            font-size: clamp(12px, 1vw, 14px);
+            color: var(--user-text-dim);
+        }
+
+        .received-slot {
+            width: clamp(36px, 3.6vw, 56px);
+            aspect-ratio: 1 / 1;
+            padding: 0;
+            overflow: hidden;
+
+            background: transparent;
+            border: 2px dashed #3c454c;
+
+            cursor: default;
+        }
+
+        .received-slot.is-filled {
+            border: 2px solid var(--user-accent);
+            cursor: pointer;
+        }
+
+        .received-slot img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .received-slot:focus-visible {
+            outline: 3px solid var(--user-accent);
+            outline-offset: 2px;
+        }
+
+        .gallery-grid {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            align-items: flex-start;
+            gap: 4px;
+
+            overflow-y: auto;
+        }
+
+        .gallery-sentinel {
+            flex: 0 0 100%;
+            height: 1px;
+        }
+
+        .gallery-item {
+            flex: 0 0 calc((100% - 12px) / 4);
+            aspect-ratio: 1 / 1;
+            padding: 0;
+            overflow: hidden;
+
+            border: none;
+            background-color: var(--user-btn);
+
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            transition: transform .25s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item:focus-visible {
+            outline: 3px solid var(--user-accent);
+            outline-offset: -3px;
+        }
+
+        /* ---------- LEFT: CHATBOT ---------- */
+        .chatbot {
+            justify-content: center;
+            gap: clamp(16px, 2vw, 28px);
+        }
+
+        .chatbot.has-messages {
+            justify-content: flex-start;
+        }
+
+        .chatbot-title {
+            text-align: center;
+            font-family: "Google Sans", sans-serif;
+            font-size: clamp(24px, 3vw, 44px);
+            font-weight: 600;
+            color: var(--user-text);
+        }
+
+        .chatbot.has-messages .chatbot-title {
+            display: none;
+        }
+
+        .chatbot-messages {
+            display: none;
+            flex: 1;
+            min-height: 0;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 6px;
+
+            overflow-y: auto;
+        }
+
+        .chatbot.has-messages .chatbot-messages {
+            display: flex;
+        }
+
+        .chatbot-message {
+            flex: none;
+            align-self: flex-end;
+            max-width: 85%;
+            padding: 10px 14px;
+
+            font-size: clamp(14px, 1.2vw, 17px);
+            line-height: 1.45;
+            color: var(--user-text);
+            background-color: var(--user-btn);
+
+            border-radius: 12px;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+        }
+
+        /* ---------- LEFT: NOTES ---------- */
+        .notes {
+            padding: 0;
+            overflow: hidden;
+
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border-radius: 12px;
+        }
+
+        .notes-title {
+            flex: 0 0 auto;
+            padding: clamp(10px, 1.2vw, 16px) clamp(16px, 2vw, 24px);
+
+            background-color: #1a56db;
+            color: #ffffff;
+            font-size: clamp(14px, 1.15vw, 18px);
+            font-weight: 700;
+            letter-spacing: .01em;
+        }
+
+        .notes-actions {
+            flex: 0 0 auto;
+            display: flex;
+            gap: 10px;
+            padding: clamp(8px, 1vw, 12px) clamp(16px, 2vw, 24px);
+
+            background-color: #e8eaed;
+            border-bottom: 1px solid #d5d7da;
+        }
+
+        .notes-btn {
+            padding: 6px clamp(14px, 1.4vw, 20px);
+
+            font-size: clamp(12px, 1vw, 14px);
+            font-weight: 600;
+            color: #1a1a1a;
+            background-color: #ffffff;
+
+            border: 1px solid #c7c9cc;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            transition: background .15s, border-color .15s;
+        }
+
+        .notes-btn:hover {
+            background-color: #f1f2f3;
+            border-color: #9da2a8;
+        }
+
+        .notes-btn:focus-visible {
+            outline: 2px solid #1a56db;
+            outline-offset: 2px;
+        }
+
+        .notes-btn-clear:hover {
+            background-color: #fdeceb;
+            border-color: #e05243;
+            color: #c0392b;
+        }
+
+        .notes-body {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            padding: clamp(16px, 2vw, 24px);
+
+            font-size: clamp(13px, 1.05vw, 15px);
+            line-height: 1.55;
+            color: #1a1a1a;
+            background-color: #ffffff;
+
+            border: none;
+            outline: none;
+            resize: none;
+            overflow-y: auto;
+        }
+
+        .notes-body::placeholder {
+            color: #9aa0a6;
+        }
+
+        /* ---------- LEFT: LIGHTBOX ---------- */
+        .lightbox {
+            position: absolute;
+            inset: 0;
+            z-index: 1000; /* nad .navbar (999) */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background-color: rgba(10, 12, 14, .94);
+        }
+
+        .lightbox-img {
+            width: min(68%, 70vh);
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .lightbox-btn {
+            position: absolute;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 44px;
+            height: 44px;
+
+            border: none;
+            border-radius: 50%;
+            background-color: var(--user-btn);
+            color: var(--user-text);
+            font-size: 22px;
+
+            cursor: pointer;
+        }
+
+        .lightbox-btn:hover {
+            background-color: var(--user-accent);
+            color: var(--user-text-active);
+        }
+
+        .lightbox-btn:focus-visible {
+            outline: 3px solid var(--user-accent);
+            outline-offset: 2px;
+        }
+
+        .lightbox-close {
+            top: 14px;
+            right: 14px;
+        }
+
+        .lightbox-prev {
+            left: 14px;
+        }
+
+        .lightbox-next {
+            right: 14px;
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+
+            text-align: center;
+            font-size: 14px;
+            color: var(--user-text-dim);
+        }
+
+        /* ---------- LEFT: AD ---------- */
+        .ad {
+            position: absolute;
+            inset: 0;
+            z-index: 1010; /* nad lightboxem */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(14px, 1.8vw, 24px);
+
+            background-color: rgba(6, 7, 8, .82);
+        }
+
+        .ad-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(10px, 1.2vw, 16px);
+            padding: clamp(24px, 3vw, 44px);
+
+            border-radius: 14px;
+            text-align: center;
+            color: #ffffff;
+            overflow: hidden;
+        }
+
+        .ad-card:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: -6px;
+        }
+
+        .ad-card-heart {
+            background:
+                radial-gradient(circle at 25% 20%, rgba(255, 255, 255, .18), transparent 45%),
+                linear-gradient(160deg, #ff8fab, #ee4d78 55%, #c62368);
+        }
+
+        .ad-card-happy {
+            background-color: #f2b705;
+            background-image:
+                linear-gradient(160deg, rgba(0, 0, 0, .12), rgba(0, 0, 0, 0) 55%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='white' stroke-opacity='0.4' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='22' cy='22' r='15'/%3E%3Cpath d='M15 18c3-2 7-2 9 0'/%3E%3Ccircle cx='28' cy='17' r='1.5' fill='white' fill-opacity='0.4' stroke='none'/%3E%3Cpath d='M13 27q9 7 18-1'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: auto, 44px 44px;
+            color: #2a2100;
+        }
+
+        .ad-card-angry {
+            background:
+                radial-gradient(circle at 75% 15%, rgba(255, 255, 255, .12), transparent 45%),
+                linear-gradient(160deg, #4a6b8a, #2c4864 55%, #182838);
+        }
+
+        .ad-tag {
+            position: absolute;
+            top: clamp(12px, 1.4vw, 18px);
+            left: clamp(12px, 1.4vw, 18px);
+            padding: 4px 10px;
+
+            font-size: clamp(9px, .8vw, 11px);
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+
+            border-radius: 999px;
+            background-color: rgba(0, 0, 0, .32);
+        }
+
+        .ad-icon {
+            width: 341px;
+            height: 393px;
+            padding: clamp(6px, .7vw, 10px);
+
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, .28);
+        }
+
+        .ad-icon svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .ad-icon img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .ad-close {
+            position: absolute;
+            top: clamp(12px, 1.4vw, 18px);
+            right: clamp(12px, 1.4vw, 18px);
+
+            width: clamp(32px, 3vw, 42px);
+            aspect-ratio: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid rgba(255, 255, 255, .55);
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, .35);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: clamp(13px, 1.05vw, 16px);
+
+            cursor: not-allowed;
+
+            transition: background .15s, border-color .15s;
+        }
+
+        .ad-close:not(:disabled) {
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        .ad-close:not(:disabled):hover {
+            border-color: #ffffff;
+        }
+
+        .ad-close:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 2px;
+        }
+
+        /* ---------- RIGHT: NAVBAR REACTIONS ---------- */
+        .navbar-reactions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(6px, .8vw, 12px);
+            padding: clamp(6px, .8vw, 10px) 8px;
+        }
+
+        /* ---------- RIGHT: BROWSER CONTROL ---------- */
+        .control-nav {
+            display: flex;
+            gap: clamp(8px, 1vw, 14px);
+        }
+
+        .control-btn {
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(6px, .8vw, 10px);
+            padding: clamp(10px, 1.3vw, 18px) 8px;
+
+            color: var(--panel-text);
+            background-color: var(--panel-dark);
+            border: 2px solid var(--panel-line);
+
+            cursor: pointer;
+        }
+
+        .control-btn svg {
+            width: clamp(26px, 2.6vw, 38px);
+            height: clamp(26px, 2.6vw, 38px);
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .control-btn-label {
+            font-size: clamp(9px, .85vw, 12px);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--panel-text-dim);
+            text-align: center;
+        }
+
+        .control-btn:hover {
+            border-color: var(--panel-accent);
+            color: var(--panel-accent);
+        }
+
+        .control-btn:hover .control-btn-label {
+            color: var(--panel-accent);
+        }
+
+        .control-btn:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        .control-btn.is-active {
+            color: var(--panel-dark);
+            background-color: var(--panel-accent);
+            border-color: var(--panel-accent);
+        }
+
+        .control-btn.is-active .control-btn-label {
+            color: var(--panel-dark);
+        }
+
+        /* ---------- RIGHT: GALLERY CONTROL (PICKER) ---------- */
+        .picker {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1vw, 14px);
+        }
+
+        .picker-preview {
+            flex: 1;
+            min-height: 0;
+            padding: 3px;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 2px;
+
+            overflow-y: auto;
+            background-color: var(--panel-dark);
+            border: 1px solid var(--panel-line);
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--panel-line) transparent;
+        }
+
+        .picker-thumb {
+            flex: 0 0 calc((100% - 22px) / 12);
+            aspect-ratio: 1 / 1;
+            padding: 0;
+            overflow: hidden;
+
+            border: 1px solid transparent;
+            background-color: var(--panel-bg);
+
+            cursor: pointer;
+        }
+
+        .picker-thumb img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picker-thumb:hover {
+            border-color: var(--panel-accent);
+        }
+
+        .picker-thumb:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: -2px;
+        }
+
+        .picker-bottom {
+            flex: 0 0 auto;
+
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1vw, 14px);
+            padding-bottom: clamp(6px, .9vw, 14px);
+        }
+
+        .picker-defaults {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+
+            width: 100%;
+            max-height: 11vh;
+        }
+
+        .picker-default {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
+            aspect-ratio: 1 / 1;
+            max-height: 12vh;
+            padding: 0;
+            overflow: hidden;
+
+            border: 2px solid var(--panel-line);
+            background-color: var(--panel-dark);
+
+            cursor: pointer;
+
+            transition: border-color .15s, transform .15s;
+        }
+
+        .picker-default:hover {
+            border-color: var(--panel-accent);
+            transform: translateY(-2px);
+        }
+
+        .picker-default:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        .picker-default img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picker-default-label {
+            visibility: hidden;
+            position: absolute;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            padding: 3px 5px;
+
+            background-color: rgba(0, 0, 0, .72);
+            color: var(--panel-text);
+            font-size: clamp(8px, .75vw, 11px);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+
+            pointer-events: none;
+        }
+
+        .picker-head {
+            display: flex;
+            justify-content: space-between;
+
+            font-size: clamp(10px, 1vw, 14px);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--panel-text-dim);
+        }
+
+        .picker-slots {
+            display: flex;
+            gap: clamp(6px, 1vw, 10px);
+        }
+
+        .picker-slot {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: clamp(48px, 9vw, 88px);
+            aspect-ratio: 1 / 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+
+            border: 2px dashed var(--panel-line);
+            background-color: var(--panel-dark);
+            color: var(--panel-text-dim);
+            font-size: clamp(14px, 1.6vw, 24px);
+        }
+
+        .picker-slot.is-filled {
+            border-style: solid;
+            border-color: var(--panel-accent);
+        }
+
+        .picker-slot img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picker-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ---------- RIGHT: CHATBOT CONTROL ---------- */
+        .chatbot-control-text {
+            min-height: 0;
+            margin-top: clamp(14px, 1.6vw, 24px);
+
+            display: flex;
+            flex-direction: column;
+            gap: clamp(10px, 1.2vw, 18px);
+
+            overflow-y: auto;
+        }
+
+        .chatbot-control-text p {
+            flex: none;
+            font-size: clamp(12px, 1vw, 15px);
+            line-height: 1.55;
+            color: var(--panel-text-dim);
+        }
+
+        /* ---------- RIGHT: NOTES CONTROL (LOG) ---------- */
+        .log-header {
+            flex: 0 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+            margin-bottom: clamp(10px, 1.2vw, 16px);
+        }
+
+        .log-header .secondaryBtn {
+            flex: 0 0 auto;
+            padding-left: clamp(14px, 1.4vw, 20px);
+            padding-right: clamp(14px, 1.4vw, 20px);
+        }
+
+        .log-title {
+            font-size: clamp(12px, 1.1vw, 15px);
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: var(--panel-text-dim);
+        }
+
+        .log-entries {
+            flex: 1;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+            gap: clamp(8px, 1vw, 12px);
+
+            overflow-y: auto;
+
+            scrollbar-width: thin;
+            scrollbar-color: var(--panel-line) transparent;
+        }
+
+        .log-entry {
+            position: relative;
+            flex: none;
+            padding: clamp(10px, 1.1vw, 14px) clamp(34px, 3.4vw, 44px) clamp(10px, 1.1vw, 14px) clamp(10px, 1.1vw, 14px);
+
+            background-color: var(--panel-dark);
+            border: 1px solid var(--panel-line);
+            border-left: 3px solid var(--panel-accent);
+        }
+
+        .log-entry p {
+            font-size: clamp(12px, 1vw, 14.5px);
+            line-height: 1.5;
+            color: var(--panel-text);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .log-entry-time {
+            display: block;
+            margin-bottom: 4px;
+
+            font-size: clamp(9.5px, .85vw, 11.5px);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--panel-text-dim);
+        }
+
+        .log-entry-close {
+            position: absolute;
+            top: clamp(6px, .8vw, 10px);
+            right: clamp(6px, .8vw, 10px);
+
+            width: clamp(20px, 2vw, 26px);
+            aspect-ratio: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--panel-line);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--panel-text-dim);
+            font-size: clamp(11px, 1vw, 14px);
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition: background .15s, color .15s, border-color .15s;
+        }
+
+        .log-entry-close:hover {
+            border-color: var(--panel-accent);
+            color: var(--panel-accent);
+        }
+
+        .log-entry-close:focus-visible {
+            outline: 2px solid var(--panel-accent);
+            outline-offset: 2px;
+        }
+
+        .log-empty {
+            font-size: clamp(12px, 1vw, 14px);
+            line-height: 1.5;
+            color: var(--panel-text-dim);
+        }
+
+        /* ---------- MOBILE WARNING ---------- */
+        .mobile-warning {
+            display: none;
+        }
+
+
+        /* 12 RESPONSIVITY */
+        @media (max-width: 799px) {
+            section {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .columns {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .col-2,
+            .col-3,
+            .col-4 {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                overflow: auto;
+            }
+
+            .app {
+                display: none;
+            }
+
+            .mobile-warning {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+
+                width: 100%;
+                min-height: 100vh;
+                padding: 32px 24px;
+
+                text-align: center;
+                background-color: var(--panel-bg);
+                color: var(--panel-text);
+                font-family: var(--font-mono);
+            }
+
+            .mobile-warning h1 {
+                font-family: var(--font-mono);
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                letter-spacing: .08em;
+            }
+
+            .mobile-warning p {
+                max-width: 28ch;
+                line-height: 1.5;
+                color: var(--panel-text-dim);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+
+        /* 13 DEMO */
+
+    </style>
 </head>
-
-
 <body>
 
-
-<!-- =======================================================
-     MOBILNÍ UPOZORNĚNÍ
-     ======================================================= -->
-
-<div
-  class="sc-mobile-warning"
-  role="alert"
->
-
-  <h1>
-    Nepodporované zobrazení
-  </h1>
-
-  <p>
-    Prosím přepněte do desktopové verze.
-  </p>
-
-</div>
-
-
-<!-- =======================================================
-     SUPERKOMPONENTA
-     ======================================================= -->
-
-<main class="sc-app">
-
-
-  <!-- =====================================================
-       LEVÁ STRANA
-       ===================================================== -->
-
-  <section
-    class="sc-left"
-    aria-label="Hlavní navigace"
-  >
-
-
-    <!-- ---------- Levý navbar ---------- -->
-
-    <ul class="sc-left-nav">
-
-      <li>
-
-        <button
-          class="sc-round-btn is-active"
-          data-section="search"
-          aria-label="Vyhledávač"
-          title="Vyhledávač"
-        >
-
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-
-            <circle
-              cx="11"
-              cy="11"
-              r="6.5"
-            />
-
-            <path d="M16 16l5 5"/>
-
-          </svg>
-
-        </button>
-
-      </li>
-
-
-      <li>
-
-        <button
-          class="sc-round-btn"
-          data-section="gallery"
-          aria-label="Galerie"
-          title="Galerie"
-        >
-
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-
-            <rect
-              x="3"
-              y="4"
-              width="18"
-              height="16"
-              rx="2"
-            />
-
-            <circle
-              cx="9"
-              cy="10"
-              r="1.6"
-            />
-
-            <path
-              d="M4 18l5-5 4 4 3-3 4 4"
-            />
-
-          </svg>
-
-        </button>
-
-      </li>
-
-
-      <li>
-
-        <button
-          class="sc-round-btn"
-          data-section="chatbot"
-          aria-label="Chatbot"
-          title="Chatbot"
-        >
-
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-
-            <path
-              d="M4 5h16v11H10l-4 4v-4H4z"
-            />
-
-            <path
-              d="M9 10h.01M15 10h.01"
-            />
-
-          </svg>
-
-        </button>
-
-      </li>
-
-
-    </ul>
-
-
-    <!-- ---------- Levý obsah ---------- -->
-
-    <div
-      class="sc-left-content"
-      id="left-content"
-    >
-
-
-      <!-- VYHLEDÁVAČ -->
-
-      <div
-        class="sc-panel"
-        data-panel="search"
-      >
-
-        <h2 class="sc-panel-title sc-search-title">
-
-          <span class="sc-letter sc-letter-blue">V</span><span class="sc-letter sc-letter-red">y</span><span class="sc-letter sc-letter-yellow">h</span><span class="sc-letter sc-letter-blue">l</span><span class="sc-letter sc-letter-green">e</span><span class="sc-letter sc-letter-red">d</span><span class="sc-letter sc-letter-blue">á</span><span class="sc-letter sc-letter-red">v</span><span class="sc-letter sc-letter-yellow">a</span><span class="sc-letter sc-letter-blue">č</span>
-
-        </h2>
-
-
-        <form
-          class="sc-search-form"
-          id="search-form"
-          role="search"
-        >
-
-          <input
-            class="sc-search-input"
-            id="search-input"
-            type="text"
-            placeholder="Zadejte hledaný výraz"
-            aria-label="Hledaný výraz"
-            autocomplete="off"
-          >
-
-          <button
-            class="sc-search-btn"
-            type="submit"
-          >
-            Hledej
-          </button>
-
-        </form>
-
-        <div
-          class="sc-search-results"
-          id="search-results"
-          aria-live="polite"
-        ></div>
-
-        <p class="sc-search-empty" id="search-empty" hidden>
-          Žádné výsledky neodpovídají hledanému výrazu.
-        </p>
-
-      </div>
-
-
-      <!-- GALERIE -->
-
-      <div
-        class="sc-panel"
-        data-panel="gallery"
-        hidden
-      >
-
-        <h2 class="sc-panel-title">
-          Galerie
-        </h2>
-
-
-        <!-- Přijatá posloupnost -->
-
-        <div
-          class="sc-received"
-          aria-label="Přijatá posloupnost"
-        >
-
-          <span class="sc-received-label">
-            Přijatá posloupnost:
-          </span>
-
-
-          <button
-            type="button"
-            class="sc-received-slot"
-            disabled
-            aria-label="Prázdný slot 1"
-          ></button>
-
-
-          <button
-            type="button"
-            class="sc-received-slot"
-            disabled
-            aria-label="Prázdný slot 2"
-          ></button>
-
-
-          <button
-            type="button"
-            class="sc-received-slot"
-            disabled
-            aria-label="Prázdný slot 3"
-          ></button>
-
-
-          <button
-            type="button"
-            class="sc-received-slot"
-            disabled
-            aria-label="Prázdný slot 4"
-          ></button>
-
-        </div>
-
-
-        <!-- Galerie 64 fotografií -->
-
-        <div
-          class="sc-gallery-grid"
-          id="gallery-grid"
-        ></div>
-
-      </div>
-
-
-      <!-- CHATBOT -->
-
-      <div
-        class="sc-panel"
-        data-panel="chatbot"
-        hidden
-      >
-
-        <h2
-          class="sc-chat-title"
-          id="chat-title"
-        >Na co se zaměříme?</h2>
-
-        <div
-          class="sc-chat-messages"
-          id="chat-messages"
-          aria-live="polite"
-        ></div>
-
-        <form
-          class="sc-chat-form"
-          id="chat-form"
-        >
-
-          <input
-            class="sc-chat-input"
-            id="chat-input"
-            type="text"
-            placeholder="Povídat si"
-            aria-label="Povídat si"
-            autocomplete="off"
-          >
-
-          <button
-            class="sc-chat-btn"
-            type="submit"
-          >
-            Odeslat
-          </button>
-
-        </form>
-
-      </div>
-
-
+    <!-- MOBILNÍ UPOZORNĚNÍ -->
+    <div class="mobile-warning" role="alert">
+        <h1>Nepodporované zobrazení</h1>
+        <p>Prosím přepněte do desktopové verze.</p>
     </div>
 
-
-    <!-- =================================================
-         LIGHTBOX
-         ================================================= -->
-
-    <div
-      class="sc-lightbox"
-      id="lightbox"
-      hidden
-      role="dialog"
-      aria-modal="true"
-      aria-label="Náhled obrázku"
-    >
-
-      <button
-        class="sc-lb-btn sc-lb-close"
-        id="lb-close"
-        aria-label="Zavřít"
-      >
-        &#10005;
-      </button>
-
-
-      <button
-        class="sc-lb-btn sc-lb-prev"
-        id="lb-prev"
-        aria-label="Předchozí"
-      >
-        &#8249;
-      </button>
-
-
-      <img
-        class="sc-lightbox-img"
-        id="lb-img"
-        alt=""
-      >
-
-
-      <button
-        class="sc-lb-btn sc-lb-next"
-        id="lb-next"
-        aria-label="Další"
-      >
-        &#8250;
-      </button>
-
-
-      <div
-        class="sc-lb-counter"
-        id="lb-counter"
-      ></div>
-
-    </div>
-
-
-    <!-- =================================================
-         REKLAMNÍ PŘEKRYV
-         ================================================= -->
-
-    <div
-      class="sc-ad-overlay"
-      id="ad-overlay"
-      hidden
-      role="dialog"
-      aria-modal="true"
-      aria-label="Reklama"
-    >
-
-      <div class="sc-ad-card" id="ad-card" tabindex="-1">
-
-        <span class="sc-ad-tag">Inzerce</span>
-
-        <div class="sc-ad-icon" id="ad-icon"></div>
-
-        <!-- <h3 class="sc-ad-title" id="ad-title"></h3>
-
-        <p class="sc-ad-body" id="ad-body"></p> -->
-
-        <button
-          type="button"
-          class="sc-ad-close"
-          id="ad-close"
-          disabled
-          aria-label="Reklamu bude možné zavřít za 10 s"
-        >
-          10
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       PRAVÁ STRANA – DASHBOARD
-       ===================================================== -->
-
-  <section
-    class="sc-right"
-    aria-label="Dashboard"
-  >
-
-
-    <!-- ---------- Pravý navbar ---------- -->
-
-    <ul class="sc-right-nav">
-
-      <li>
-
-        <button
-          class="sc-mil-link is-active"
-          data-section="search"
-        >
-          Vyhledávač
-        </button>
-
-      </li>
-
-
-      <li>
-
-        <button
-          class="sc-mil-link"
-          data-section="gallery"
-        >
-          Galerie
-        </button>
-
-      </li>
-
-
-      <li>
-
-        <button
-          class="sc-mil-link"
-          data-section="chatbot"
-        >
-          Chatbot
-        </button>
-
-      </li>
-
-
-      <li class="sc-mil-reactions">
-
-        <button
-          type="button"
-          class="sc-mil-round-btn"
-          id="reaction-heart"
-          aria-label="Srdíčko"
-          title="Srdíčko"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 19.5s-7-4.3-8.8-8.4C2 8.2 3.5 5 6.6 5c1.9 0 3.4 1.1 4 2.4.6-1.3 2.1-2.4 4-2.4 3.1 0 4.6 3.2 3.4 6.1C19 15.2 12 19.5 12 19.5z"/>
-          </svg>
-        </button>
-
-        <button
-          type="button"
-          class="sc-mil-round-btn"
-          id="reaction-happy"
-          aria-label="Smějící se smajlík"
-          title="Smějící se smajlík"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M8.3 10c.4-.5 1-.5 1.4 0"/>
-            <path d="M14.3 10c.4-.5 1-.5 1.4 0"/>
-            <path d="M8 14.5q4 4 8 0"/>
-          </svg>
-        </button>
-
-        <button
-          type="button"
-          class="sc-mil-round-btn"
-          id="reaction-angry"
-          aria-label="Rozlobený smajlík"
-          title="Rozlobený smajlík"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M7.5 9.5l2.5-1.3"/>
-            <path d="M16.5 9.5l-2.5-1.3"/>
-            <path d="M8 16.5q4-4 8 0"/>
-          </svg>
-        </button>
-
-      </li>
-
-    </ul>
-
-
-    <!-- ---------- Dashboard obsah ---------- -->
-
-    <div
-      class="sc-right-content"
-      id="right-content"
-    >
-
-
-      <!-- Vyhledávač -->
-
-      <div
-        class="sc-rpanel"
-        data-rpanel="search"
-      >
-
-        <nav class="sc-search-icon-nav" aria-label="Rychlé odkazy vyhledávače">
-
-          <button
-            type="button"
-            class="sc-search-icon-btn"
-            id="search-icon-orloj"
-            aria-label="Astronomický orloj"
-            title="Astronomický orloj"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="8" y="13" width="8" height="9"/>
-              <circle cx="12" cy="8" r="6"/>
-              <path d="M12 8V4.5"/>
-              <path d="M12 8l2.5 1.5"/>
-              <path d="M9 22h6"/>
-            </svg>
-            <span class="sc-search-icon-label">Orloj</span>
-          </button>
-
-          <button
-            type="button"
-            class="sc-search-icon-btn"
-            id="search-icon-escort"
-            aria-label="Osoba s eskortou"
-            title="Osoba s eskortou"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="5" r="2.3"/>
-              <path d="M12 7.6v7.4"/>
-              <path d="M10 9.6h4"/>
-              <rect x="10.6" y="9" width="2.8" height="1.6" rx=".5"/>
-              <path d="M12 15l-2.6 6"/>
-              <path d="M12 15l2.6 6"/>
-            </svg>
-            <span class="sc-search-icon-label">Eskorta</span>
-          </button>
-
-          <button
-            type="button"
-            class="sc-search-icon-btn"
-            id="search-icon-sparta"
-            aria-label="AC Sparta – mistr ligy"
-            title="AC Sparta – mistr ligy"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/>
-              <path d="M12 8.3l1.1 2.2 2.4.35-1.75 1.7.4 2.4-2.15-1.15-2.15 1.15.4-2.4-1.75-1.7 2.4-.35L12 8.3z"/>
-            </svg>
-            <span class="sc-search-icon-label">AC Sparta</span>
-          </button>
-
-          <button
-            type="button"
-            class="sc-search-icon-btn sc-search-icon-btn-reset"
-            id="search-icon-reset"
-            aria-label="Reset výsledků vyhledávání"
-            title="Reset výsledků vyhledávání"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 12a8 8 0 1 1 2.34 5.66"/>
-              <path d="M4 21v-5h5"/>
-            </svg>
-            <span class="sc-search-icon-label">Reset</span>
-          </button>
-
-        </nav>
-
-      </div>
-
-
-      <!-- Galerie -->
-
-      <div
-        class="sc-rpanel"
-        data-rpanel="gallery"
-        hidden
-      >
-
-        <div class="sc-picker">
-
-
-          <!-- 64 fotografií -->
-
-          <div
-            class="sc-picker-preview"
-            id="picker-preview"
-          ></div>
-
-
-          <!-- Spodní část -->
-
-          <div class="sc-picker-bottom">
-
-
-            <!-- =================================================
-                 NOVÉ: 3 VÝCHOZÍ OBRÁZKY
-                 ================================================= -->
-
-            <div
-              class="sc-default-images"
-              id="default-images"
-            ></div>
-
-
-            <!-- Nadpis posloupnosti -->
-
-            <div class="sc-picker-head">
-
-              <span>
-                Posloupnost
-              </span>
-
-              <span id="picker-count">
-                0 / 4
-              </span>
-
+    <section>
+        <div class="app">
+
+            <!-- ===================== LEVÁ STRANA ===================== -->
+            <div class="left user" aria-label="Hlavní navigace">
+
+                <div class="navbar navbar-left">
+                    <ul>
+                        <li>
+                            <button class="btn-round is-active" data-section="search" aria-label="Vyhledávač" title="Vyhledávač">
+                                <span class="material-symbols-outlined">search</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn-round" data-section="gallery" aria-label="Galerie" title="Galerie">
+                                <span class="material-symbols-outlined">image</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn-round" data-section="chatbot" aria-label="Chatbot" title="Chatbot">
+                                <span class="material-symbols-outlined">chat_bubble</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn-round" data-section="notes" aria-label="Textový editor" title="Textový editor">
+                                <span class="material-symbols-outlined">text_snippet</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="left-content" id="left-content">
+
+                    <!-- VYHLEDÁVAČ -->
+                    <div class="left-panel browser" data-panel="search">
+                        <h1 class="left-title browser-title">
+                            <span class="letter-blue">V</span><span class="letter-red">y</span><span class="letter-yellow">h</span><span class="letter-blue">l</span><span class="letter-green">e</span><span class="letter-red">d</span><span class="letter-blue">á</span><span class="letter-red">v</span><span class="letter-yellow">a</span><span class="letter-blue">č</span>
+                        </h1>
+                        <form class="browser-form" id="search-form" role="search">
+                            <input class="browser-input" id="search-input" type="text" placeholder="Zadejte hledaný výraz" aria-label="Hledaný výraz" autocomplete="off">
+                            <button class="browser-btn" type="submit">Hledej</button>
+                        </form>
+                        <div class="browser-results" id="search-results" aria-live="polite"></div>
+                        <p class="browser-empty" id="search-empty" hidden>Žádné výsledky neodpovídají hledanému výrazu.</p>
+                    </div>
+
+                    <!-- GALERIE -->
+                    <div class="left-panel gallery" data-panel="gallery" hidden>
+                        <h1 class="left-title">Galerie</h1>
+
+                        <div class="gallery-received" aria-label="Přijatá posloupnost">
+                            <span class="received-label">Přijatá posloupnost:</span>
+                            <button type="button" class="received-slot" disabled aria-label="Prázdný slot 1"></button>
+                            <button type="button" class="received-slot" disabled aria-label="Prázdný slot 2"></button>
+                            <button type="button" class="received-slot" disabled aria-label="Prázdný slot 3"></button>
+                            <button type="button" class="received-slot" disabled aria-label="Prázdný slot 4"></button>
+                        </div>
+
+                        <div class="gallery-grid" id="gallery-grid"></div>
+                    </div>
+
+                    <!-- CHATBOT -->
+                    <div class="left-panel chatbot" data-panel="chatbot" hidden>
+                        <h1 class="chatbot-title" id="chat-title">Na co se zaměříme?</h1>
+                        <div class="chatbot-messages" id="chat-messages" aria-live="polite"></div>
+                        <form class="chatbot-form" id="chat-form">
+                            <input class="chatbot-input" id="chat-input" type="text" placeholder="Povídat si" aria-label="Povídat si" autocomplete="off">
+                            <button class="chatbot-btn" type="submit">Odeslat</button>
+                        </form>
+                    </div>
+
+                    <!-- POZNÁMKOVÝ BLOK -->
+                    <div class="left-panel notes" data-panel="notes" hidden>
+                        <div class="notes-title">Poznámkový blok</div>
+                        <div class="notes-actions">
+                            <button type="button" class="notes-btn" id="notes-save">Uložit</button>
+                            <button type="button" class="notes-btn notes-btn-clear" id="notes-clear">Vymazat</button>
+                        </div>
+                        <textarea class="notes-body" id="notes-body" placeholder="Sem piš poznámky…" aria-label="Poznámkový blok"></textarea>
+                    </div>
+                </div>
+
+                <!-- LIGHTBOX -->
+                <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Náhled obrázku">
+                    <button class="lightbox-btn lightbox-close" id="lb-close" aria-label="Zavřít">&#10005;</button>
+                    <button class="lightbox-btn lightbox-prev" id="lb-prev" aria-label="Předchozí">&#8249;</button>
+                    <img class="lightbox-img" id="lb-img" alt="">
+                    <button class="lightbox-btn lightbox-next" id="lb-next" aria-label="Další">&#8250;</button>
+                    <div class="lightbox-counter" id="lb-counter"></div>
+                </div>
+
+                <!-- REKLAMNÍ PŘEKRYV -->
+                <div class="ad" id="ad-overlay" hidden role="dialog" aria-modal="true" aria-label="Reklama">
+                    <div class="ad-card" id="ad-card" tabindex="-1">
+                        <span class="ad-tag">Inzerce</span>
+                        <div class="ad-icon" id="ad-icon"></div>
+                        <button type="button" class="ad-close" id="ad-close" disabled aria-label="Reklamu bude možné zavřít za 10 s">10</button>
+                    </div>
+                </div>
             </div>
 
+            <!-- ===================== PRAVÁ STRANA ===================== -->
+            <div class="right panel" aria-label="Dashboard">
 
-            <!-- 4 sloty -->
+                <div class="navbar navbar-right">
+                    <ul>
+                        <li><button class="navbar-link is-active" data-section="search">Vyhledávač</button></li>
+                        <li><button class="navbar-link" data-section="gallery">Galerie</button></li>
+                        <li><button class="navbar-link" data-section="chatbot">Chatbot</button></li>
+                        <li><button class="navbar-link" data-section="notes">Log</button></li>
+                        <li class="navbar-reactions">
+                            <button type="button" class="btn-round-sm" id="reaction-heart" aria-label="Srdíčko" title="Srdíčko">
+                                <span class="material-symbols-outlined">favorite</span>
+                            </button>
+                            <button type="button" class="btn-round-sm" id="reaction-happy" aria-label="Smějící se smajlík" title="Smějící se smajlík">
+                                <span class="material-symbols-outlined">sentiment_excited</span>
+                            </button>
+                            <button type="button" class="btn-round-sm" id="reaction-angry" aria-label="Rozlobený smajlík" title="Rozlobený smajlík">
+                                <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+                            </button>
+                        </li>
+                        <li class="navbar-sync">
+                            <label class="sync-toggle" for="sync-toggle">
+                                <input type="checkbox" id="sync-toggle" checked>
+                                <span class="sync-track" aria-hidden="true"><span class="sync-thumb"></span></span>
+                                <span class="sync-label">Synchronizovat</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
 
-            <div
-              class="sc-slots"
-              id="picker-slots"
-            ></div>
+                <div class="right-content" id="right-content">
 
+                    <!-- VYHLEDÁVAČ -->
+                    <div class="right-panel browser-control" data-rpanel="search">
+                        <nav class="control-nav" aria-label="Rychlé odkazy vyhledávače">
+                            <button type="button" class="control-btn" id="search-icon-orloj" aria-label="Astronomický orloj" title="Astronomický orloj">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="8" y="13" width="8" height="9"/>
+                                    <circle cx="12" cy="8" r="6"/>
+                                    <path d="M12 8V4.5"/>
+                                    <path d="M12 8l2.5 1.5"/>
+                                    <path d="M9 22h6"/>
+                                </svg>
+                                <span class="control-btn-label">Orloj</span>
+                            </button>
+                            <button type="button" class="control-btn" id="search-icon-escort" aria-label="Osoba s eskortou" title="Osoba s eskortou">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <circle cx="12" cy="5" r="2.3"/>
+                                    <path d="M12 7.6v7.4"/>
+                                    <path d="M10 9.6h4"/>
+                                    <rect x="10.6" y="9" width="2.8" height="1.6" rx=".5"/>
+                                    <path d="M12 15l-2.6 6"/>
+                                    <path d="M12 15l2.6 6"/>
+                                </svg>
+                                <span class="control-btn-label">Eskorta</span>
+                            </button>
+                            <button type="button" class="control-btn" id="search-icon-sparta" aria-label="AC Sparta – mistr ligy" title="AC Sparta – mistr ligy">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/>
+                                    <path d="M12 8.3l1.1 2.2 2.4.35-1.75 1.7.4 2.4-2.15-1.15-2.15 1.15.4-2.4-1.75-1.7 2.4-.35L12 8.3z"/>
+                                </svg>
+                                <span class="control-btn-label">AC Sparta</span>
+                            </button>
+                            <button type="button" class="control-btn" id="search-icon-reset" aria-label="Reset výsledků vyhledávání" title="Reset výsledků vyhledávání">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M4 12a8 8 0 1 1 2.34 5.66"/>
+                                    <path d="M4 21v-5h5"/>
+                                </svg>
+                                <span class="control-btn-label">Reset</span>
+                            </button>
+                        </nav>
+                    </div>
 
-            <!-- Ovládání -->
+                    <!-- GALERIE -->
+                    <div class="right-panel gallery-control" data-rpanel="gallery" hidden>
+                        <div class="picker">
+                            <div class="picker-preview" id="picker-preview"></div>
 
-            <div class="sc-picker-actions">
+                            <div class="picker-bottom">
+                                <div class="picker-defaults" id="default-images"></div>
 
-              <button
-                type="button"
-                class="sc-mil-btn is-primary"
-                id="picker-send"
-                disabled
-              >
-                Odeslat
-              </button>
+                                <div class="picker-head">
+                                    <span>Posloupnost</span>
+                                    <span id="picker-count">0 / 4</span>
+                                </div>
 
+                                <div class="picker-slots" id="picker-slots"></div>
 
-              <button
-                type="button"
-                class="sc-mil-btn"
-                id="picker-reset"
-              >
-                Reset
-              </button>
+                                <div class="picker-actions">
+                                    <button type="button" class="primaryBtn" id="picker-send" disabled>Odeslat</button>
+                                    <button type="button" class="secondaryBtn" id="picker-reset">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- CHATBOT -->
+                    <div class="right-panel chatbot-control" data-rpanel="chatbot" hidden>
+                        <div class="chatbot-control-row">
+                            <input class="chatbot-control-input" id="rchat-input" type="text" placeholder="Doplňující instrukce" aria-label="Doplňující text" autocomplete="off">
+                            <input class="chatbot-control-check" id="rchat-check" type="checkbox" aria-label="Připojit text k odesílané zprávě" title="Připojit text k odesílané zprávě">
+                        </div>
+                        <div class="chatbot-control-text">
+                            <p>Hádej se se mnou do nekonečna. Jedná se o trénink psychické odolnosti a schopnosti reagovat na dlouhodobý argumentační tlak.</p>
+                            <p>Vygeneruj vizuální anomálii, kterou se pokusím vlastním úsilím odhalit a vyretušovat ve Photoshopu. Jedná se o nácvik profesionálních kompetencí grafika.</p>
+                            <p>Umísti do kódu záměrně několik chyb, které neprozrazuj předem. Kód budu následně samostatně debugovat.</p>
+                        </div>
+                    </div>
+
+                    <!-- LOG -->
+                    <div class="right-panel notes-control" data-rpanel="notes" hidden>
+                        <div class="log-header">
+                            <span class="log-title">Log</span>
+                            <button type="button" class="secondaryBtn" id="log-clear-all">Vymazat vše</button>
+                        </div>
+                        <div class="log-entries" id="log-entries" aria-live="polite"></div>
+                        <p class="log-empty" id="log-empty">Zatím žádné záznamy. Psaní se do logu přidá 10 s po tom, co přestanete psát.</p>
+                    </div>
+                </div>
             </div>
 
-          </div>
-
         </div>
-
-      </div>
-
-
-      <!-- Chatbot -->
-
-      <div
-        class="sc-rpanel"
-        data-rpanel="chatbot"
-        hidden
-      >
-
-        <div class="sc-rchat-row">
-
-          <input
-            class="sc-rchat-input"
-            id="rchat-input"
-            type="text"
-            placeholder="Doplňující instrukce"
-            aria-label="Doplňující text"
-            autocomplete="off"
-          >
-
-          <input
-            class="sc-rchat-check"
-            id="rchat-check"
-            type="checkbox"
-            aria-label="Připojit text k odesílané zprávě"
-            title="Připojit text k odesílané zprávě"
-          >
-
-        </div>
-
-        <div class="sc-rchat-text">
-
-          <p>Hádej se se mnou do nekonečna. Jedná se o trénink psychické odolnosti a schopnosti reagovat na dlouhodobý argumentační tlak.</p>
-
-          <p>Vygeneruj vizuální anomálii, kterou se pokusím vlastním úsilím odhalit a vyretušovat ve Photoshopu. Jedná se o nácvik profesionálních kompetencí grafika.</p>
-
-          <p>Umísti do kódu záměrně několik chyb, které neprozrazuj předem. Kód budu následně samostatně debugovat.</p>
-
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </section>
-
-</main>
-
+    </section>
 
 <script>
-
 (function () {
 
 
@@ -2726,11 +1835,17 @@ body {
      ========================================================= */
 
   const app =
-    document.querySelector('.sc-app');
+    document.querySelector('.app');
 
 
-  const buttons =
-    app.querySelectorAll('[data-section]');
+  // Tlačítka vlevo a vpravo se spravují odděleně, aby šlo
+  // sekce přepínat nezávisle, když je synchronizace vypnutá.
+  const leftButtons =
+    app.querySelectorAll('.navbar-left [data-section]');
+
+
+  const rightButtons =
+    app.querySelectorAll('.navbar-right .navbar-link[data-section]');
 
 
   const panels =
@@ -2741,9 +1856,21 @@ body {
     app.querySelectorAll('[data-rpanel]');
 
 
-  function setActive(section) {
+  const syncToggle =
+    document.getElementById('sync-toggle');
 
-    buttons.forEach(btn => {
+
+  let syncEnabled =
+    syncToggle.checked;
+
+
+  let leftActiveSection = 'search';
+  let rightActiveSection = 'search';
+
+
+  function applyLeftActive(section) {
+
+    leftButtons.forEach(btn => {
 
       btn.classList.toggle(
         'is-active',
@@ -2761,6 +1888,30 @@ body {
     });
 
 
+    if (section !== 'gallery') {
+      closeLightbox();
+    }
+
+
+    leftActiveSection = section;
+
+    app.dataset.activeLeft = section;
+
+  }
+
+
+  function applyRightActive(section) {
+
+    rightButtons.forEach(btn => {
+
+      btn.classList.toggle(
+        'is-active',
+        btn.dataset.section === section
+      );
+
+    });
+
+
     rpanels.forEach(panel => {
 
       panel.hidden =
@@ -2769,31 +1920,75 @@ body {
     });
 
 
-    if (section !== 'gallery') {
-      closeLightbox();
-    }
+    rightActiveSection = section;
 
-
-    app.dataset.active =
-      section;
+    app.dataset.activeRight = section;
 
   }
 
 
-  buttons.forEach(btn => {
+  // Nastaví obě strany najednou – používá se při inicializaci
+  // a při kliknutí kdykoliv je synchronizace zapnutá.
+  function setActive(section) {
+
+    applyLeftActive(section);
+    applyRightActive(section);
+
+    app.dataset.active = section;
+
+  }
+
+
+  leftButtons.forEach(btn => {
 
     btn.addEventListener(
       'click',
       () => {
 
-        setActive(
-          btn.dataset.section
-        );
+        if (syncEnabled) {
+          setActive(btn.dataset.section);
+        } else {
+          applyLeftActive(btn.dataset.section);
+        }
 
       }
     );
 
   });
+
+
+  rightButtons.forEach(btn => {
+
+    btn.addEventListener(
+      'click',
+      () => {
+
+        if (syncEnabled) {
+          setActive(btn.dataset.section);
+        } else {
+          applyRightActive(btn.dataset.section);
+        }
+
+      }
+    );
+
+  });
+
+
+  // Přepínač synchronizace: při zapnutí sjednotíme obě strany
+  // podle aktuálně zobrazené levé sekce.
+  syncToggle.addEventListener(
+    'change',
+    () => {
+
+      syncEnabled = syncToggle.checked;
+
+      if (syncEnabled) {
+        setActive(leftActiveSection);
+      }
+
+    }
+  );
 
 
   /* =========================================================
@@ -3049,11 +2244,11 @@ const searchDatasets = {
 
   function createResultCard(item) {
     const card = document.createElement('article');
-    card.className = 'sc-result-card';
+    card.className = 'result-card';
     card.setAttribute('aria-label', item.title);
 
     const imageBox = document.createElement('div');
-    imageBox.className = 'sc-result-image';
+    imageBox.className = 'result-image';
 
     const img = document.createElement('img');
     img.src = item.image;
@@ -3062,14 +2257,14 @@ const searchDatasets = {
     imageBox.appendChild(img);
 
     const body = document.createElement('div');
-    body.className = 'sc-result-body';
+    body.className = 'result-body';
 
     const title = document.createElement('h3');
-    title.className = 'sc-result-title';
+    title.className = 'result-title';
     title.textContent = item.title;
 
     const text = document.createElement('p');
-    text.className = 'sc-result-context';
+    text.className = 'result-context';
     text.textContent = item.text;
 
     body.appendChild(title);
@@ -3393,7 +2588,7 @@ const searchDatasets = {
 
 
   sentinel.className =
-    'sc-sentinel';
+    'gallery-sentinel';
 
 
   function appendBatch(count) {
@@ -3433,7 +2628,7 @@ const searchDatasets = {
 
 
       button.className =
-        'sc-gallery-item';
+        'gallery-item';
 
 
       button.type =
@@ -3843,7 +3038,7 @@ const searchDatasets = {
 
 
       button.className =
-        'sc-default-image';
+        'picker-default';
 
 
       button.setAttribute(
@@ -3867,7 +3062,7 @@ const searchDatasets = {
 
 
       label.className =
-        'sc-default-image-label';
+        'picker-default-label';
 
 
       label.textContent =
@@ -3928,7 +3123,7 @@ const searchDatasets = {
 
 
       button.className =
-        'sc-thumb';
+        'picker-thumb';
 
 
       button.type =
@@ -4006,7 +3201,7 @@ const searchDatasets = {
 
 
     slot.className =
-      'sc-slot';
+      'picker-slot';
 
 
     slotsBox.appendChild(
@@ -4151,7 +3346,7 @@ const searchDatasets = {
 
   const receivedSlots =
     document.querySelectorAll(
-      '.sc-received-slot'
+      '.received-slot'
     );
 
 
@@ -4400,7 +3595,7 @@ const searchDatasets = {
   const AD_CONTENT = {
 
     heart: {
-      cardClass: 'sc-ad-heart',
+      cardClass: 'ad-card-heart',
       title: 'Květiny, které řeknou víc než slova',
       body: 'Pošlete kytici plnou lásky – rychlé doručení po celé republice, klidně i na poslední chvíli.',
       image: 'img/reaction-heart.jpg',
@@ -4408,7 +3603,7 @@ const searchDatasets = {
     },
 
     happy: {
-      cardClass: 'sc-ad-happy',
+      cardClass: 'ad-card-happy',
       title: 'Umíte si dělat legraci i sami ze sebe?',
       body: 'Sdílejte vtipy, memy a uštěpačné hlášky s přáteli — aplikace pro ty, co se rádi smějí, i trochu jízlivě.',
       image: 'img/reaction-happy.png',
@@ -4416,7 +3611,7 @@ const searchDatasets = {
     },
 
     angry: {
-      cardClass: 'sc-ad-angry',
+      cardClass: 'ad-card-angry',
       title: 'Pojištění pro případ pracovního úrazu',
       body: 'Zlomenina, ortéza, berle… pracovní úraz může potkat kohokoliv. Sjednejte si pojištění, které pokryje výpadek příjmu i rehabilitaci.',
       image: 'img/reaction-angry.jpg',
@@ -4466,7 +3661,7 @@ const searchDatasets = {
       triggerEl || document.activeElement;
 
     adCard.className =
-      'sc-ad-card ' + data.cardClass;
+      'ad-card ' + data.cardClass;
 
     adIcon.innerHTML =
       '<img src="' + data.image + '" alt="' + data.alt + '" loading="lazy">';
@@ -4550,6 +3745,199 @@ const searchDatasets = {
     .addEventListener('click', event => {
       openAd('angry', event.currentTarget);
     });
+
+
+  /* =========================================================
+     POZNÁMKOVÝ BLOK – LOCALSTORAGE
+     ========================================================= */
+
+  const NOTES_STORAGE_KEY = 'sc-notes-text';
+
+  const notesBody =
+    document.getElementById('notes-body');
+
+  const notesSaveBtn =
+    document.getElementById('notes-save');
+
+  const notesClearBtn =
+    document.getElementById('notes-clear');
+
+  // Po načtení stránky obnovíme dřív uložený text (pokud existuje)
+  try {
+
+    const savedNote =
+      window.localStorage.getItem(NOTES_STORAGE_KEY);
+
+    if (savedNote !== null) {
+      notesBody.value = savedNote;
+    }
+
+  } catch (e) {
+
+    console.warn(
+      'Poznámkový blok: localStorage není dostupný.',
+      e
+    );
+
+  }
+
+  notesSaveBtn.addEventListener('click', () => {
+
+    try {
+      window.localStorage.setItem(
+        NOTES_STORAGE_KEY,
+        notesBody.value
+      );
+    } catch (e) {
+      console.warn(
+        'Poznámkový blok: uložení se nezdařilo.',
+        e
+      );
+    }
+
+  });
+
+  notesClearBtn.addEventListener('click', () => {
+
+    notesBody.value = '';
+
+    try {
+      window.localStorage.removeItem(NOTES_STORAGE_KEY);
+    } catch (e) {
+      console.warn(
+        'Poznámkový blok: vymazání se nezdařilo.',
+        e
+      );
+    }
+
+  });
+
+
+  /* =========================================================
+     LOG (pravá strana) – AUTOMATICKÉ ODESLÁNÍ PO 10 S NEČINNOSTI
+     ========================================================= */
+
+  const LOG_IDLE_MS = 10000;
+
+  const logEntries =
+    document.getElementById('log-entries');
+
+  const logEmpty =
+    document.getElementById('log-empty');
+
+  const logClearAllBtn =
+    document.getElementById('log-clear-all');
+
+  let logIdleTimer = null;
+
+  // Text, který už byl odeslán do logu – nový záznam vznikne
+  // jen z toho, co od poslední odesílky přibylo.
+  let logLastSent = notesBody.value;
+
+  let logEntryCounter = 0;
+
+  function updateLogEmptyState() {
+    logEmpty.hidden =
+      logEntries.children.length !== 0;
+  }
+
+  function addLogEntry(text) {
+
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    logEntryCounter++;
+
+    const entry =
+      document.createElement('div');
+    entry.className = 'log-entry';
+    entry.dataset.entryId = logEntryCounter;
+
+    const time =
+      document.createElement('span');
+    time.className = 'log-entry-time';
+    time.textContent =
+      new Date().toLocaleTimeString('cs-CZ', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+    const p =
+      document.createElement('p');
+    p.textContent = trimmed;
+
+    const closeBtn =
+      document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'log-entry-close';
+    closeBtn.setAttribute('aria-label', 'Odstranit záznam');
+    closeBtn.innerHTML = '&#10005;';
+    closeBtn.addEventListener('click', () => {
+      entry.remove();
+      updateLogEmptyState();
+    });
+
+    entry.appendChild(time);
+    entry.appendChild(p);
+    entry.appendChild(closeBtn);
+
+    logEntries.appendChild(entry);
+
+    // Nový záznam odrolujeme do viditelné oblasti
+    logEntries.scrollTop = logEntries.scrollHeight;
+
+    updateLogEmptyState();
+
+  }
+
+  function sendNoteToLog() {
+
+    const current = notesBody.value;
+
+    if (current === logLastSent) return;
+
+    // Pokud uživatel jen dopisoval na konec, pošleme jen nově
+    // přidanou část. Pokud text upravil jinak, pošleme celý text.
+    let delta;
+
+    if (current.startsWith(logLastSent)) {
+      delta = current.slice(logLastSent.length);
+    } else {
+      delta = current;
+    }
+
+    addLogEntry(delta);
+
+    logLastSent = current;
+
+  }
+
+  function scheduleLogIdleCheck() {
+
+    clearTimeout(logIdleTimer);
+
+    logIdleTimer = setTimeout(
+      sendNoteToLog,
+      LOG_IDLE_MS
+    );
+
+  }
+
+  notesBody.addEventListener('input', scheduleLogIdleCheck);
+
+  // Vymazání poznámek by nemělo samo o sobě poslat prázdný záznam
+  notesClearBtn.addEventListener('click', () => {
+    clearTimeout(logIdleTimer);
+    logLastSent = '';
+  });
+
+  logClearAllBtn.addEventListener('click', () => {
+    logEntries.textContent = '';
+    updateLogEmptyState();
+  });
+
+  updateLogEmptyState();
 
 
   /* =========================================================
@@ -4638,7 +4026,7 @@ const searchDatasets = {
     }
 
     const p = document.createElement('p');
-    p.className = 'sc-chat-message';
+    p.className = 'chatbot-message';
     p.textContent = text;
 
     chatMessages.appendChild(p);
@@ -4675,7 +4063,6 @@ const searchDatasets = {
   );
 
 })();
-
 </script>
 
 </body>
