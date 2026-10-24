@@ -1,441 +1,424 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-
-<title>Úvodní prohlášení</title>
-
-<style>
-
-:root {
-  --bg: #000000;
-  --fg: #ffffff;
-  --fg-dim: #b7b9bc;
-  --line: #2c2d2f;
-  --accent: #c9a227;
-  --accent-fg: #1a1a1a;
-
-  --font-ui: "Google Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-
-html,
-body {
-  height: 100%;
-  background: #101214;
-  font-family: var(--font-ui);
-}
-
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-
-/* =========================================================
-   STRÁNKA 16:9
-   ========================================================= */
-
-.sc-intro {
-
-  aspect-ratio: 16 / 9;
-
-  width: min(100vw, calc(100vh * 16 / 9));
-
-  background: var(--bg);
-  color: var(--fg);
-
-  display: flex;
-  flex-direction: column;
-
-  padding: clamp(24px, 3.4vw, 56px) clamp(32px, 4.6vw, 76px);
-
-  overflow: hidden;
-}
-
-
-/* ---------- Nadpis ---------- */
-
-.sc-intro-title {
-
-  font-size: clamp(24px, 2.6vw, 38px);
-  font-weight: 700;
-
-  letter-spacing: .01em;
-
-  margin-bottom: clamp(10px, 1.2vw, 16px);
-}
-
-
-/* ---------- Úvodní odstavec ---------- */
-
-.sc-intro-lead {
-
-  max-width: 92ch;
-
-  font-size: clamp(14px, 1.05vw, 16px);
-  line-height: 1.6;
-
-  color: var(--fg-dim);
-
-  margin-bottom: clamp(18px, 2.2vw, 32px);
-}
-
-
-/* ---------- Tři sloupce ---------- */
-
-.sc-intro-columns {
-
-  flex: 1;
-  min-height: 0;
-
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(20px, 2.6vw, 40px);
-
-  padding-top: clamp(16px, 2vw, 26px);
-  padding-right: 4px;
-  border-top: 1px solid var(--line);
-
-  overflow-y: auto;
-
-  scrollbar-width: thin;
-  scrollbar-color: var(--line) transparent;
-}
-
-
-.sc-intro-column {
-
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.sc-intro-column h2 {
-
-  font-size: clamp(14px, 1.15vw, 18px);
-  font-weight: 700;
-  line-height: 1.35;
-
-  margin-bottom: clamp(8px, 1vw, 12px);
-}
-
-
-.sc-intro-column p {
-
-  font-size: clamp(13.5px, .95vw, 15px);
-  line-height: 1.6;
-
-  color: var(--fg-dim);
-
-  margin-bottom: clamp(8px, 1vw, 12px);
-}
-
-
-/* ---------- Odrážkový seznam uvnitř sloupce ---------- */
-
-.sc-intro-column ul {
-
-  list-style: none;
-
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.1vw, 16px);
-}
-
-
-.sc-intro-column li {
-
-  position: relative;
-
-  padding-left: 1.15em;
-
-  font-size: clamp(13px, .92vw, 14.5px);
-  line-height: 1.55;
-
-  color: var(--fg-dim);
-}
-
-
-.sc-intro-column li::before {
-
-  content: "";
-
-  position: absolute;
-  left: 0;
-  top: .6em;
-
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-
-  background: var(--accent);
-}
-
-
-.sc-intro-column li strong {
-
-  color: var(--fg);
-  font-weight: 700;
-}
-
-
-/* ---------- Patička: souhlas a vstup ---------- */
-
-.sc-intro-footer {
-
-  margin-top: clamp(18px, 2.2vw, 32px);
-  padding-top: clamp(14px, 1.8vw, 24px);
-
-  border-top: 1px solid var(--line);
-
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 1.8vw, 24px);
-}
-
-
-.sc-intro-consent {
-
-  flex: 1;
-  min-width: 0;
-
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-
-  cursor: pointer;
-}
-
-
-.sc-intro-consent input[type="checkbox"] {
-
-  flex: 0 0 auto;
-
-  width: clamp(18px, 1.4vw, 22px);
-  height: clamp(18px, 1.4vw, 22px);
-
-  margin-top: 2px;
-
-  accent-color: var(--accent);
-
-  cursor: pointer;
-}
-
-
-.sc-intro-consent span {
-
-  font-size: clamp(11.5px, .95vw, 14px);
-  line-height: 1.5;
-
-  color: var(--fg-dim);
-}
-
-
-.sc-intro-enter {
-
-  flex: 0 0 auto;
-
-  padding: clamp(10px, 1.1vw, 15px) clamp(24px, 2.6vw, 40px);
-
-  font: inherit;
-  font-size: clamp(13px, 1.05vw, 16px);
-  font-weight: 700;
-
-  letter-spacing: .04em;
-
-  color: var(--accent-fg);
-  background: var(--accent);
-
-  border: none;
-  border-radius: 6px;
-
-  cursor: pointer;
-
-  transition: filter .15s, opacity .15s;
-}
-
-
-.sc-intro-enter:hover:not(:disabled) {
-  filter: brightness(1.1);
-}
-
-
-.sc-intro-enter:focus-visible {
-  outline: 3px solid var(--fg);
-  outline-offset: 2px;
-}
-
-
-.sc-intro-enter:disabled {
-  opacity: .35;
-  cursor: not-allowed;
-}
-
-
-/* =========================================================
-   MOBIL
-   ========================================================= */
-
-.sc-mobile-warning {
-  display: none;
-}
-
-
-@media (max-width: 767px) {
-
-  .sc-intro {
-    display: none;
-  }
-
-  .sc-mobile-warning {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-
-    width: 100%;
-    min-height: 100%;
-
-    padding: 32px 24px;
-
-    text-align: center;
-
-    background: var(--bg);
-    color: var(--fg);
-  }
-
-  .sc-mobile-warning h1 {
-    font-size: 1.4rem;
-    letter-spacing: .02em;
-  }
-
-  .sc-mobile-warning p {
-    color: var(--fg-dim);
-    line-height: 1.5;
-    max-width: 28ch;
-  }
-
-  body {
-    overflow: auto;
-  }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-  }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prankster Dashboard - Instagram Post (4:5)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#FF2A5F',
+                            glow: '#FF003C',
+                            dark: '#0B0B0F',
+                            card: '#14141E',
+                            border: '#2A2A3C',
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 25px rgba(255, 0, 60, 0.4)',
+                        'neon-sm': '0 0 10px rgba(255, 0, 60, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for inner container */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #0b0b0f;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #2a2a3c;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #ff2a5f;
+        }
+        
+        /* Scanline Effect */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Glitch Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 15px rgba(255, 0, 60, 0.6)); }
+            50% { opacity: 0.9; filter: drop-shadow(0 0 25px rgba(255, 0, 60, 0.9)); }
+        }
+        .animate-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+    </style>
 </head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col items-center justify-center p-2 sm:p-6 font-sans antialiased selection:bg-brand-red selection:text-white">
 
-<body>
+    <!-- Header Actions -->
+    <header class="w-full max-w-xl mb-4 flex justify-between items-center px-2">
+        <div class="flex items-center gap-2">
+            <i data-lucide="instagram" class="text-brand-red w-6 h-6"></i>
+            <span class="font-bold text-sm tracking-wide text-gray-300">PREVIEW FORMÁTU 4:5</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="copyCaptionText()" class="flex items-center gap-1.5 text-xs bg-brand-card hover:bg-brand-border text-gray-200 px-3 py-2 rounded-lg transition border border-brand-border active:scale-95">
+                <i data-lucide="copy" class="w-4 h-4 text-brand-red"></i>
+                <span id="copy-btn-text">Kopírovat text</span>
+            </button>
+            <button onclick="toggleInteractivity()" class="flex items-center gap-1.5 text-xs bg-brand-red hover:bg-red-600 text-white font-semibold px-3 py-2 rounded-lg transition shadow-neon-sm active:scale-95">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Demo Režim</span>
+            </button>
+        </div>
+    </header>
 
-<!-- ---------- Mobilní upozornění ---------- -->
-<div class="sc-mobile-warning" role="alert">
-  <h1>Nepodporované zobrazení</h1>
-  <p>Prosím přepněte do desktopové verze.</p>
-</div>
+    <!-- Main Instagram Card (4:5 Aspect Ratio Container) -->
+    <!-- standard 4:5 ratio is width: 1080px by height: 1350px. Max display height tuned for viewports -->
+    <main class="relative w-full max-w-[440px] aspect-[4/5] bg-brand-dark rounded-2xl border border-brand-border overflow-hidden shadow-2xl flex flex-col justify-between custom-scroll">
+        
+        <!-- Scanline Overlay -->
+        <div class="absolute inset-0 pointer-events-none scanline z-20 opacity-30"></div>
 
+        <!-- Scrollable Inner Content Area -->
+        <div id="card-scroll-area" class="overflow-y-auto h-full flex flex-col custom-scroll relative z-10">
+            
+            <!-- Hero Graphic Header Section -->
+            <div class="relative w-full h-48 sm:h-56 shrink-0 overflow-hidden bg-black border-b border-brand-border">
+                <!-- Background Image from user input -->
+                <img src="prankster-dashboard.jpg" alt="Prankster Dashboard Visual" class="w-full h-full object-cover object-center opacity-85 transition transform duration-500 hover:scale-105">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-black/40"></div>
+                
+                <!-- Glowing Tag Overlay -->
+                <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-md border border-brand-red/40 flex items-center gap-1.5 shadow-neon-sm">
+                    <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+                    <span class="text-[10px] font-mono font-semibold tracking-wider text-red-400 uppercase">Digitální Cela</span>
+                </div>
 
-<!-- ---------- Úvodní prohlášení (16:9) ---------- -->
-<main class="sc-intro">
+                <div class="absolute bottom-3 left-4 right-4">
+                    <span class="text-[11px] font-mono text-brand-red uppercase tracking-widest font-bold">Experimentální Prototyp</span>
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-white leading-tight drop-shadow-md">
+                        Prankster Dashboard
+                    </h1>
+                </div>
+            </div>
 
-  <h1 class="sc-intro-title">Prohlášení k mému profesnímu zaměření a aktuálnímu kontextu mé práce</h1>
+            <!-- Main Post Body Content -->
+            <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between gap-4 text-xs sm:text-sm">
+                
+                <!-- Subtitle / Intro -->
+                <div>
+                    <h2 class="font-bold text-gray-100 text-sm sm:text-base leading-snug mb-2 flex items-center gap-1.5">
+                        <span>Když se digitální manipulace stane viditelnou</span>
+                        <span class="text-base">🔍💡</span>
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed text-[12.5px] sm:text-xs">
+                        Co se stane, když změníte pár obrázků ve výsledcích vyhledávání, upravíte pořadí fotek nebo zprávě dodáte jiný kontext?
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-[12px] sm:text-[12.5px] mt-1.5">
+                        V rámci projektu <strong class="text-gray-200">Digitální cela</strong> jsem vytvořil interaktivní aplikaci převádějící abstraktní téma manipulace do konkrétních ukázek.
+                    </p>
+                </div>
 
-  <p class="sc-intro-lead">
-    Jako Frontend Developer na volné noze, který aktuálně nepracuje na komerčních zakázkách, využívám tento čas k intenzivnímu odbornému růstu a přechodu na úroveň Medior developer. V rámci tohoto rozvoje se hloubkově věnuji architektuře webových aplikací, bezpečnosti frontendového rozhraní a integraci moderních AI nástrojů.
-Vzhledem k neobvyklým okolnostem mého aktuálního pracovního prostředí považuji za nutné veřejně deklarovat následující fakta:
-  </p>
+                <!-- Interactive Modules Grid / Selector -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-[11px] font-mono text-gray-400 uppercase tracking-wider">
+                        <span>Co v aplikaci najdete?</span>
+                        <span class="text-brand-red text-[10px]">(Klikni pro simulaci)</span>
+                    </div>
 
-  <div class="sc-intro-columns">
+                    <div class="grid grid-cols-1 gap-1.5">
+                        <!-- Module 1 -->
+                        <div onclick="selectModule('search')" id="mod-search" class="module-card group cursor-pointer bg-brand-card hover:bg-brand-border p-2.5 rounded-xl border border-brand-border/60 transition flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-110 transition">
+                                    🔎
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-200 text-xs">Simulace vyhledávání</div>
+                                    <div class="text-[10.5px] text-gray-400">Vliv výměny vizuálů na vyznění</div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-500 group-hover:text-brand-red transition"></i>
+                        </div>
 
-    <div class="sc-intro-column">
-      <h2>1. Práce v kompromitovaném prostředí a reakce na útoky</h2>
-      <p>
-        Dlouhodobě pracuji v podmínkách a na zařízení, které vykazují známky kompromitace a podléhají neoprávněným zásahům třetí strany (včetně manipulací s vyhledáváním, injektování kódu do rozhraní či zneužívání reklamních ploch).
-Z tohoto důvodu mohou některé moje veřejné příspěvky, kódy nebo komentáře působit jako přímá odpověď či reakce vůči tomuto útočníkovi. Jedná se o můj způsob vymezování hranic a pasivní reakce na cílenou manipulaci mého pracovního prostoru.
-      </p>
+                        <!-- Module 2 -->
+                        <div onclick="selectModule('sequence')" id="mod-sequence" class="module-card group cursor-pointer bg-brand-card hover:bg-brand-border p-2.5 rounded-xl border border-brand-border/60 transition flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition">
+                                    🖼️
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-200 text-xs">Obrazové sekvence</div>
+                                    <div class="text-[10.5px] text-gray-400">Jak pořadí fotek mění vykládání</div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-500 group-hover:text-brand-red transition"></i>
+                        </div>
+
+                        <!-- Module 3 -->
+                        <div onclick="selectModule('messenger')" id="mod-messenger" class="module-card group cursor-pointer bg-brand-card hover:bg-brand-border p-2.5 rounded-xl border border-brand-border/60 transition flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition">
+                                    💬
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-200 text-xs">Simulace messengeru</div>
+                                    <div class="text-[10.5px] text-gray-400">Změna významu doprovodným textem</div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-500 group-hover:text-brand-red transition"></i>
+                        </div>
+
+                        <!-- Module 4 -->
+                        <div onclick="selectModule('keyboard')" id="mod-keyboard" class="module-card group cursor-pointer bg-brand-card hover:bg-brand-border p-2.5 rounded-xl border border-brand-border/60 transition flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 transition">
+                                    ⌨️
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-200 text-xs">Softwarová klávesnice</div>
+                                    <div class="text-[10.5px] text-gray-400">Detekce sekvencí & časování vstupů</div>
+                                </div>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-500 group-hover:text-brand-red transition"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Demo Interactive Simulation Box (Hidden by default, shown on module click) -->
+                <div id="simulation-box" class="hidden bg-black/80 rounded-xl p-3 border border-brand-red/50 relative overflow-hidden transition-all duration-300">
+                    <div class="flex items-center justify-between pb-2 mb-2 border-b border-gray-800 text-[10px] font-mono">
+                        <span id="sim-title" class="text-brand-red font-bold uppercase tracking-wider flex items-center gap-1">
+                            <i data-lucide="terminal" class="w-3 h-3"></i> Interaktivní Ukázka
+                        </span>
+                        <button onclick="closeSimulation()" class="text-gray-400 hover:text-white">
+                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                    <div id="sim-content" class="text-xs text-gray-300">
+                        <!-- Dynamic JS Content Injected Here -->
+                    </div>
+                </div>
+
+                <!-- Footer CTA & Link -->
+                <div class="pt-2 border-t border-brand-border/60 space-y-2">
+                    <a href="https://turektomas474.github.io/prankster-dashboard/app.html" target="_blank" class="w-full py-2.5 px-3 bg-gradient-to-r from-brand-red to-red-600 hover:from-red-600 hover:to-brand-red text-white font-semibold rounded-xl text-xs flex items-center justify-center gap-2 shadow-neon transition transform active:scale-95">
+                        <span>👉 Vyzkoušet živé demo</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                    <div class="text-[10px] text-center font-mono text-gray-400 truncate">
+                        turektomas474.github.io/prankster-dashboard/app.html
+                    </div>
+                </div>
+
+                <!-- Hashtags -->
+                <div class="flex flex-wrap gap-1 pt-1">
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#DigitálníCela</span>
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#CyberSecurity</span>
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#DigitalPrivacy</span>
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#WebDevelopment</span>
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#DigitalLiteracy</span>
+                    <span class="text-[9.5px] font-mono bg-brand-card border border-brand-border px-1.5 py-0.5 rounded text-gray-400">#JavaScript</span>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 bg-brand-red text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-neon opacity-0 pointer-events-none transition duration-300 flex items-center gap-2 z-50">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        <span id="toast-msg">Text byl zkopírován do schránky!</span>
     </div>
 
-    <div class="sc-intro-column">
-      <h2>2. Pochopení mechaniky útoků (analýza hrozeb)</h2>
-      <p>
-        Během analýzy těchto zásahů jsem do hloubky pochopil mentální model a technické postupy útočníka — například:
-      </p>
-      <ul>
-        <li><strong>Prompt / Data Injection:</strong> injektování řetězců do AI rozhraní za účelem vyvolání chyb či selhání logiky</li>
-        <li><strong>Manipulace vyhledávání a databází:</strong> dávkové zkreslování výsledků a manipulace s vizuálními daty (adversarial manipulation)</li>
-        <li><strong>Zneužití reklamních ploch (Malvertising/XSS):</strong> propojování škodlivého kódu s reklamními elementy k narušení integrity aplikace</li>
-      </ul>
-    </div>
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-    <div class="sc-intro-column">
-      <h2>3. Etický rámec a profesní cíl</h2>
-      <p>
-        Chci zdůraznit, že pochopení těchto útočných vzorců je z mé strany čistě defenzivní povahy.
-Nemám a nikdy jsem neměl v úmyslu vytvářet škodlivý kód nebo navrhovat útočné vektory pro reálné zneužití. Mým cílem je stavět robustní, bezpečné frontendové aplikace (s důrazem na striktní CSP, izolaci třetích stran a validaci vstupů), které jsou vůči těmto moderním hrozbám odolné.
-Své know-how rozvíjím výhradně s cílem chránit aplikace a jejich uživatele.s
-      </p>
-    </div>
+        const postTextCaption = `Prankster Dashboard: Když se digitální manipulace stane viditelnou 🔍💡
 
-  </div>
+Co se stane, když změníte pár obrázků ve výsledcích vyhledávání, upravíte pořadí fotek nebo zprávě dodáte jiný kontext?
 
-  <div class="sc-intro-footer">
+V rámci projektu Digitální cela jsem vytvořil interaktivní webovou aplikaci Prankster Dashboard, která převádí abstraktní téma digitální manipulace do konkrétních ukázek přímo v prohlížeči.
 
-    <label class="sc-intro-consent">
-      <input type="checkbox" id="consent-checkbox">
-      <span>
-        Rozuměl jsem výše uvedeným informacím a beru je na vědomí. Souhlasím s podmínkami
-        uvedenými v tomto prohlášení a potvrzuji, že jsem si je přečetl(a) v plném rozsahu.
-      </span>
-    </label>
+Co v aplikaci najdete?
+- 🔎 Simulace vyhledávání: Jak výběr vizuálů ovlivňuje vyznění výsledků.
+- 🖼️ Obrazové sekvence: Jak pořadí fotek mění interpretaci sdělení.
+- 💬 Simulace messengeru: Vliv kontextu na význam zprávy.
+- ⌨️ Softwarová klávesnice: Ukázka reakce na konkrétní posloupnosti vstupů.
 
-    <button type="button" class="sc-intro-enter" id="enter-btn" disabled>
-      Vstup
-    </button>
+Cílem je ukázat, jak pracujeme s obsahem rozhraní, proč záleží na kontextu a jak důležité je rozlišovat mezi výkladem a technickými fakty.
 
-  </div>
+👉 Vyzkoušejte živé demo:
+🔗 https://turektomas474.github.io/prankster-dashboard/app.html
 
-</main>
+#DigitálníCela #CyberSecurity #DigitalPrivacy #WebDevelopment #DigitalLiteracy #JavaScript`;
 
-<script>
-  (function () {
-    const checkbox = document.getElementById('consent-checkbox');
-    const enterBtn = document.getElementById('enter-btn');
+        // Copy Text Function
+        function copyCaptionText() {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = postTextCaption;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
 
-    checkbox.addEventListener('change', () => {
-      enterBtn.disabled = !checkbox.checked;
-    });
+            showToast("Text příspěvku zkopírován!");
+        }
 
-    // Vstup do aplikace: tlačítko je aktivní až po zaškrtnutí pole výše.
-    // Cílovou stránku uprav podle skutečné adresy hlavní aplikace.
-    enterBtn.addEventListener('click', () => {
-      if (enterBtn.disabled) return;
-      window.location.href = 'app.html';
-    });
-  })();
-</script>
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none');
+                toast.classList.remove('opacity-100');
+            }, 2500);
+        }
 
+        // Module Simulations
+        const simulations = {
+            search: {
+                title: "🔎 Simulace Vyhledávání",
+                content: `
+                    <p class="text-[11px] text-gray-400 mb-2">Přepněte sadu výsledků pro změnu vnímání:</p>
+                    <div class="flex gap-2 mb-2">
+                        <button onclick="toggleSearchSet('neutral')" id="btn-set-a" class="px-2 py-1 bg-brand-red text-white text-[10px] rounded font-bold">Sada A (Neutrální)</button>
+                        <button onclick="toggleSearchSet('biased')" id="btn-set-b" class="px-2 py-1 bg-brand-border text-gray-300 text-[10px] rounded hover:bg-gray-700">Sada B (Manipulovaná)</button>
+                    </div>
+                    <div id="search-preview" class="p-2 bg-brand-card rounded border border-gray-800 text-[11px]">
+                        🟢 <strong class="text-white">Oficiální Zpráva:</strong> "Projekt probíhá podle plánu."
+                    </div>
+                `
+            },
+            sequence: {
+                title: "🖼️ Obrazové Sekvence",
+                content: `
+                    <p class="text-[11px] text-gray-400 mb-2">Jak pořadí fotek vytváří odlišný příběh:</p>
+                    <div class="flex justify-between items-center bg-brand-card p-2 rounded border border-gray-800">
+                        <div class="text-center font-mono text-[10px] text-gray-300">
+                            [Fotka 1: Úsměv] ➔ [Fotka 2: Policie] <br><span class="text-emerald-400">Interpretace: Bezpečí</span>
+                        </div>
+                    </div>
+                    <button onclick="swapSequence()" class="w-full mt-2 py-1 bg-brand-border text-[10px] text-gray-200 rounded hover:bg-gray-700">Otočit pořadí 🔄</button>
+                `
+            },
+            messenger: {
+                title: "💬 Simulace Messengeru",
+                content: `
+                    <div class="space-y-1.5 font-sans">
+                        <div class="bg-blue-600/30 p-1.5 rounded-lg text-[11px] text-blue-200 w-3/4">
+                            "Ahoj, dorazíš dnes večer?"
+                        </div>
+                        <div id="messenger-context" class="bg-brand-card p-1.5 rounded-lg text-[11px] text-gray-300 border border-brand-red/40">
+                            ⚠️ <span class="text-red-400 font-bold">Připojený kontext:</span> Snímky obrazovky z roku 2021.
+                        </div>
+                    </div>
+                `
+            },
+            keyboard: {
+                title: "⌨️ Softwarová Klávesnice",
+                content: `
+                    <div class="text-center space-y-2">
+                        <div class="font-mono text-[10px] text-brand-red">Zadejte sekvenci: <span id="key-seq" class="text-white font-bold">A - B - C</span></div>
+                        <div class="flex justify-center gap-1">
+                            <button onclick="pressKey('A')" class="px-2 py-1 bg-brand-card border border-gray-700 text-xs rounded hover:border-brand-red">A</button>
+                            <button onclick="pressKey('B')" class="px-2 py-1 bg-brand-card border border-gray-700 text-xs rounded hover:border-brand-red">B</button>
+                            <button onclick="pressKey('C')" class="px-2 py-1 bg-brand-card border border-gray-700 text-xs rounded hover:border-brand-red">C</button>
+                        </div>
+                        <div id="key-status" class="text-[10px] text-gray-400">Čeká na vstup...</div>
+                    </div>
+                `
+            }
+        };
+
+        function selectModule(key) {
+            const box = document.getElementById('simulation-box');
+            const title = document.getElementById('sim-title');
+            const content = document.getElementById('sim-content');
+
+            title.innerHTML = `<i data-lucide="terminal" class="w-3 h-3"></i> ${simulations[key].title}`;
+            content.innerHTML = simulations[key].content;
+            box.classList.remove('hidden');
+
+            lucide.createIcons();
+
+            // Smooth scroll to simulation box
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function closeSimulation() {
+            document.getElementById('simulation-box').classList.add('hidden');
+        }
+
+        // Demo Actions
+        function toggleSearchSet(type) {
+            const prev = document.getElementById('search-preview');
+            const btnA = document.getElementById('btn-set-a');
+            const btnB = document.getElementById('btn-set-b');
+
+            if(type === 'neutral') {
+                prev.innerHTML = `🟢 <strong class="text-white">Oficiální Zpráva:</strong> "Projekt probíhá podle plánu."`;
+                btnA.className = "px-2 py-1 bg-brand-red text-white text-[10px] rounded font-bold";
+                btnB.className = "px-2 py-1 bg-brand-border text-gray-300 text-[10px] rounded hover:bg-gray-700";
+            } else {
+                prev.innerHTML = `🔴 <strong class="text-red-400">Vytrženo z kontextu:</strong> "Projekt vykazuje nečekané anomálie."`;
+                btnB.className = "px-2 py-1 bg-brand-red text-white text-[10px] rounded font-bold";
+                btnA.className = "px-2 py-1 bg-brand-border text-gray-300 text-[10px] rounded hover:bg-gray-700";
+            }
+        }
+
+        let isSwapped = false;
+        function swapSequence() {
+            const content = document.getElementById('sim-content');
+            isSwapped = !isSwapped;
+            if (isSwapped) {
+                content.querySelector('.text-center').innerHTML = `[Fotka 2: Policie] ➔ [Fotka 1: Úsměv] <br><span class="text-red-400">Interpretace: Zatčení / Konflikt</span>`;
+            } else {
+                content.querySelector('.text-center').innerHTML = `[Fotka 1: Úsměv] ➔ [Fotka 2: Policie] <br><span class="text-emerald-400">Interpretace: Bezpečí</span>`;
+            }
+        }
+
+        let enteredKeys = [];
+        function pressKey(k) {
+            enteredKeys.push(k);
+            if(enteredKeys.length > 3) enteredKeys.shift();
+            document.getElementById('key-seq').innerText = enteredKeys.join(' - ');
+            const status = document.getElementById('key-status');
+            if (enteredKeys.join('') === 'ABC') {
+                status.innerHTML = `<span class="text-emerald-400 font-bold">✓ Sekvence rozpoznána! Trigger aktivován.</span>`;
+            } else {
+                status.innerText = `Poslední vstup: ${k}`;
+            }
+        }
+
+        function toggleInteractivity() {
+            selectModule('search');
+            showToast("Demo režim aktivován!");
+        }
+    </script>
 </body>
 </html>
