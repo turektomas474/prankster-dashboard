@@ -2269,6 +2269,134 @@
 
         /* 13 DEMO */
 
+
+
+        /* 14 SOFTWAROVÁ KLÁVESNICE – izolované styly */
+        .keyboard-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 14px;
+            overflow: auto;
+            background: #20262b;
+        }
+        .keyboard-heading {
+            margin: 0;
+            color: #d7dde2;
+            font-size: clamp(17px, 1.4vw, 23px);
+            letter-spacing: .04em;
+        }
+        .keyboard-left-layout {
+            display: grid;
+            grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) auto;
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+        }
+        .keyboard-sample-wrap,
+        .keyboard-input-wrap,
+        .keyboard-keys-wrap {
+            min-height: 0;
+            border: 1px solid #59636b;
+            border-radius: 8px;
+            padding: 10px;
+            background: #292f35;
+        }
+        .keyboard-mini-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #c9a227;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+        .keyboard-sample {
+            overflow: auto;
+            max-height: calc(100% - 22px);
+            margin: 0;
+            color: #d7dde2;
+            font-size: 13px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .keyboard-textarea {
+            display: block;
+            width: 100%;
+            height: calc(100% - 22px);
+            min-height: 58px;
+            resize: none;
+            border: 1px solid #6b7355;
+            border-radius: 6px;
+            padding: 9px;
+            color: #f1f3e9;
+            background: #171b1e;
+            font: 14px/1.5 Consolas, monospace;
+            outline-offset: 2px;
+        }
+        .keyboard-textarea:focus { outline: 2px solid #c9a227; }
+        .keyboard-keys-wrap { padding: 8px; }
+        .keyboard-rows { display: grid; gap: 6px; }
+        .keyboard-row { display: flex; justify-content: center; gap: 5px; }
+        .keyboard-key {
+            flex: 1 1 0;
+            min-width: 0;
+            min-height: 35px;
+            border: 1px solid #59636b;
+            border-radius: 5px;
+            padding: 5px 3px;
+            color: #eef0e7;
+            background: #3b444b;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.1;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .keyboard-key:hover { background: #4a555d; }
+        .keyboard-key:active { transform: translateY(1px); background: #5a6248; }
+        .keyboard-key.keyboard-wide { flex: 1.7 1 0; font-size: 11px; }
+        .keyboard-key.keyboard-space { flex: 4 1 0; }
+        .keyboard-key.keyboard-active { border-color: #c9a227; color: #fff1b5; box-shadow: inset 0 0 0 1px #c9a227; }
+        .keyboard-right-panel { gap: 12px; padding: 16px; overflow: auto; }
+        .keyboard-right-intro { margin: 0; color: #d4d6b8; font-size: 13px; line-height: 1.5; }
+        .keyboard-prank-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px 12px;
+            align-items: center;
+            border: 1px solid #59604a;
+            border-radius: 8px;
+            padding: 12px;
+            background: #343a2c;
+        }
+        .keyboard-prank-title { margin: 0; color: #f0f0dd; font-size: 14px; }
+        .keyboard-prank-description { margin: 4px 0 0; color: #c2c7a7; font-size: 12px; line-height: 1.4; }
+        .keyboard-prank-toggle { display: flex; align-items: center; gap: 7px; color: #e1e4cd; font-size: 12px; white-space: nowrap; }
+        .keyboard-prank-status { grid-column: 1 / -1; padding-top: 7px; border-top: 1px solid #505743; color: #c9a227; font-size: 12px; }
+        .keyboard-prank-count { color: #e2e5d1; font-variant-numeric: tabular-nums; }
+        .keyboard-reset {
+            border: 1px solid #777e61;
+            border-radius: 5px;
+            padding: 8px 11px;
+            color: #f0f0dd;
+            background: #424936;
+            cursor: pointer;
+        }
+        .keyboard-reset:hover { background: #515a40; }
+        @media (max-height: 760px) {
+            .keyboard-panel { gap: 6px; padding: 8px; }
+            .keyboard-left-layout { gap: 6px; }
+            .keyboard-key { min-height: 29px; }
+            .keyboard-sample-wrap, .keyboard-input-wrap { padding: 7px; }
+        }
+        @media (max-width: 1100px) {
+            .keyboard-key { min-height: 30px; font-size: 11px; }
+            .keyboard-prank-card { padding: 9px; }
+        }
+
     </style>
 </head>
 <body>
@@ -2310,6 +2438,11 @@
                         <li>
                             <button class="btn-round" data-section="demo" aria-label="Demo" title="Demo">
                                 <span class="material-symbols-outlined">preview</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn-round" data-section="keyboard" aria-label="Softwarová klávesnice" title="Softwarová klávesnice">
+                                <span class="material-symbols-outlined">keyboard</span>
                             </button>
                         </li>
                     </ul>
@@ -2373,6 +2506,24 @@
                             <span class="demo-empty-hint">klikni nebo přetáhni soubor</span>
                         </button>
                         <input type="file" class="demo-file" accept="image/*" hidden>
+                    </div>
+
+                    <!-- SOFTWAROVÁ KLÁVESNICE -->
+                    <div class="left-panel keyboard-panel" data-panel="keyboard" hidden>
+                        <h2 class="keyboard-heading">SOFTWAROVÁ KLÁVESNICE / QWERTZ</h2>
+                        <div class="keyboard-left-layout">
+                            <div class="keyboard-sample-wrap">
+                                <span class="keyboard-mini-label">Vzorový text k opisování</span>
+                                <p class="keyboard-sample" id="keyboard-sample">Systém ověřuje rychlost a přesnost psaní. Napiš několik slov, potom pokračuj další větou. Každý nový pokus může začít jiným slovem; text obsahuje dost příležitostí pro písmena s, n a l. Sleduj výsledek, ale hlavně zachovej klid a piš dál. Slunce svítí, les šumí a náš systém zaznamenává každý stisk. Následuje další věta pro procvičení: malý náklad projel kolem staré stanice, zatímco navigace hledala správnou cestu. Nakonec si zkus napsat krátkou poznámku vlastními slovy.</p>
+                            </div>
+                            <div class="keyboard-input-wrap">
+                                <label class="keyboard-mini-label" for="keyboard-textarea">Tvoje psaní</label>
+                                <textarea class="keyboard-textarea" id="keyboard-textarea" placeholder="Piš pomocí klávesnice dole…" spellcheck="false" autocomplete="off" autocapitalize="off" readonly></textarea>
+                            </div>
+                            <div class="keyboard-keys-wrap">
+                                <div class="keyboard-rows" id="keyboard-rows" aria-label="Softwarová klávesnice"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2445,6 +2596,15 @@
                             <li>
                                 <button type="button" class="dropdown-item" data-section="demo">
                                     <span class="dropdown-item-label">Demo</span>
+                                    <span class="dot-pair" aria-hidden="true">
+                                        <span class="dot dot-red"></span>
+                                        <span class="dot dot-green is-on"></span>
+                                    </span>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item" data-section="keyboard">
+                                    <span class="dropdown-item-label">Softwarová klávesnice</span>
                                     <span class="dot-pair" aria-hidden="true">
                                         <span class="dot dot-red"></span>
                                         <span class="dot dot-green is-on"></span>
@@ -2571,6 +2731,28 @@
                             <span class="demo-empty-hint">klikni nebo přetáhni soubor</span>
                         </button>
                         <input type="file" class="demo-file" accept="image/*" hidden>
+                    </div>
+
+                    <!-- OVLÁDÁNÍ PRANK-FUNKCÍ KLÁVESNICE -->
+                    <div class="right-panel keyboard-right-panel" data-rpanel="keyboard" hidden>
+                        <h2 class="keyboard-heading">ŘÍZENÍ PRANK-FUNKCÍ</h2>
+                        <p class="keyboard-right-intro">Každou funkci lze zapnout samostatně. Po spuštění sekvence má dokončení přednost před novými triggery. Demo cooldown: 5 sekund.</p>
+                        <div class="keyboard-prank-card" data-keyboard-prank-card="sin">
+                            <div><h3 class="keyboard-prank-title">SIN / sekvence „sin“</h3><p class="keyboard-prank-description">Stiskni s, potom dvě libovolné klávesy. Vloží se s → i → n.</p></div>
+                            <label class="keyboard-prank-toggle"><input type="checkbox" id="keyboard-prank-sin"> Zapnuto</label>
+                            <div class="keyboard-prank-status" id="keyboard-status-sin" aria-live="polite">Vypnuto · dokončeno: <span class="keyboard-prank-count" id="keyboard-count-sin">0</span></div>
+                        </div>
+                        <div class="keyboard-prank-card" data-keyboard-prank-card="ns">
+                            <div><h3 class="keyboard-prank-title">NS / sekvence „ns“</h3><p class="keyboard-prank-description">Stiskni n, potom jednu libovolnou klávesu. Vloží se n → s.</p></div>
+                            <label class="keyboard-prank-toggle"><input type="checkbox" id="keyboard-prank-ns"> Zapnuto</label>
+                            <div class="keyboard-prank-status" id="keyboard-status-ns" aria-live="polite">Vypnuto · dokončeno: <span class="keyboard-prank-count" id="keyboard-count-ns">0</span></div>
+                        </div>
+                        <div class="keyboard-prank-card" data-keyboard-prank-card="lrun">
+                            <div><h3 class="keyboard-prank-title">LLLLLLLLLLL / 11× „l“</h3><p class="keyboard-prank-description">Stiskni l, potom deset libovolných kláves. Výsledkem je jedenáct písmen l.</p></div>
+                            <label class="keyboard-prank-toggle"><input type="checkbox" id="keyboard-prank-lrun"> Zapnuto</label>
+                            <div class="keyboard-prank-status" id="keyboard-status-lrun" aria-live="polite">Vypnuto · dokončeno: <span class="keyboard-prank-count" id="keyboard-count-lrun">0</span></div>
+                        </div>
+                        <button type="button" class="keyboard-reset" id="keyboard-reset-stats">Vynulovat počítadla</button>
                     </div>
                 </div>
             </div>
@@ -5136,7 +5318,229 @@ const searchDatasets = {
     DEFAULT_IMAGES.length
   );
 
-})();
+
+
+  /* =========================================================
+     SOFTWAROVÁ KLÁVESNICE A IZOLOVANÝ ENGINE PRANK-FUNKCÍ
+     ========================================================= */
+  const keyboardRoot = document.getElementById('keyboard-rows');
+  const keyboardTextarea = document.getElementById('keyboard-textarea');
+  const keyboardPranks = {
+    sin:  { trigger: 's', output: 'sin', total: 3, enabled: false, progress: 0, cooldownUntil: 0, completed: 0, lastCompleted: null },
+    ns:   { trigger: 'n', output: 'ns', total: 2, enabled: false, progress: 0, cooldownUntil: 0, completed: 0, lastCompleted: null },
+    lrun: { trigger: 'l', output: 'l'.repeat(11), total: 11, enabled: false, progress: 0, cooldownUntil: 0, completed: 0, lastCompleted: null }
+  };
+  const KEYBOARD_COOLDOWN_MS = 5000;
+  let keyboardShift = false;
+  let keyboardSymbols = false;
+  let keyboardRunningPrank = null;
+
+  const keyboardLayouts = {
+    letters: [
+      ['q','w','e','r','t','z','u','i','o','p'],
+      ['a','s','d','f','g','h','j','k','l'],
+      [{label:'Shift', action:'shift', wide:true},'y','x','c','v','b','n','m',{label:'⌫',action:'backspace',wide:true}],
+      [{label:'?123',action:'symbols',wide:true},',',{label:'😃',value:'😃'}, {label:'Space',action:'space',space:true},'.',{label:'↵',action:'enter',wide:true}]
+    ],
+    symbols: [
+      ['1','2','3','4','5','6','7','8','9','0'],
+      ['@','#','$','%','&','-','+','(',')','/'],
+      [{label:'Shift',action:'shift',wide:true},':',';','!','?','"',"'",{label:'⌫',action:'backspace',wide:true}],
+      [{label:'ABC',action:'symbols',wide:true},',',{label:'😃',value:'😃'}, {label:'Space',action:'space',space:true},'.',{label:'↵',action:'enter',wide:true}]
+    ]
+  };
+
+  function renderKeyboard() {
+    if (!keyboardRoot) return;
+    keyboardRoot.replaceChildren();
+    (keyboardSymbols ? keyboardLayouts.symbols : keyboardLayouts.letters).forEach(rowKeys => {
+      const row = document.createElement('div');
+      row.className = 'keyboard-row';
+      rowKeys.forEach(keyDef => {
+        const key = typeof keyDef === 'string' ? { label: keyDef, value: keyDef } : keyDef;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'keyboard-key';
+        if (key.wide) button.classList.add('keyboard-wide');
+        if (key.space) button.classList.add('keyboard-space');
+        if (key.action === 'shift' && keyboardShift) button.classList.add('keyboard-active');
+        button.textContent = key.label;
+        button.dataset.keyboardAction = key.action || 'insert';
+        if (key.value !== undefined) button.dataset.keyboardValue = key.value;
+        button.setAttribute('aria-label', key.action === 'space' ? 'Mezera' : key.action === 'backspace' ? 'Backspace' : key.action === 'enter' ? 'Nový řádek' : key.action === 'shift' ? 'Shift' : key.action === 'symbols' ? 'Přepnout číslice a symboly' : key.label);
+        row.appendChild(button);
+      });
+      keyboardRoot.appendChild(row);
+    });
+  }
+
+  function keyboardStatusText(id, now = Date.now()) {
+    const prank = keyboardPranks[id];
+    if (!prank.enabled) return 'Vypnuto';
+    if (keyboardRunningPrank === id && prank.progress > 0) return `Běží sekvence · ${prank.progress}/${prank.total} stisků`;
+    if (now < prank.cooldownUntil) return `Cooldown · ${Math.ceil((prank.cooldownUntil - now) / 1000)} s`;
+    if (keyboardRunningPrank) return `Připraveno · čeká funkce ${keyboardRunningPrank.toUpperCase()}`;
+    return `Připraveno · čeká na „${prank.trigger}“`;
+  }
+
+  function renderKeyboardPrankStatus() {
+    const now = Date.now();
+    Object.keys(keyboardPranks).forEach(id => {
+      const prank = keyboardPranks[id];
+      const status = document.getElementById(`keyboard-status-${id}`);
+      const count = document.getElementById(`keyboard-count-${id}`);
+      if (count) count.textContent = String(prank.completed);
+      if (status) {
+        status.replaceChildren(document.createTextNode(keyboardStatusText(id, now) + ' · dokončeno: '));
+        const countSpan = document.createElement('span');
+        countSpan.className = 'keyboard-prank-count';
+        countSpan.id = `keyboard-count-${id}`;
+        countSpan.textContent = String(prank.completed);
+        status.appendChild(countSpan);
+      }
+    });
+  }
+
+  function insertKeyboardText(text) {
+    if (!keyboardTextarea) return;
+    const start = keyboardTextarea.selectionStart;
+    const end = keyboardTextarea.selectionEnd;
+    keyboardTextarea.setRangeText(text, start, end, 'end');
+    keyboardTextarea.focus();
+    keyboardTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function removeKeyboardSelectionOrPrevious() {
+    if (!keyboardTextarea) return;
+    const start = keyboardTextarea.selectionStart;
+    const end = keyboardTextarea.selectionEnd;
+    if (start !== end) {
+      keyboardTextarea.setRangeText('', start, end, 'end');
+    } else if (start > 0) {
+      const before = keyboardTextarea.value.slice(0, start);
+      const lastCodePoint = Array.from(before).pop();
+      const removeLength = lastCodePoint ? lastCodePoint.length : 1;
+      keyboardTextarea.setRangeText('', start - removeLength, start, 'end');
+    }
+    keyboardTextarea.focus();
+    keyboardTextarea.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function finishKeyboardPrank(id) {
+    const prank = keyboardPranks[id];
+    prank.completed += 1;
+    prank.lastCompleted = Date.now();
+    prank.cooldownUntil = prank.lastCompleted + KEYBOARD_COOLDOWN_MS;
+    prank.progress = 0;
+    keyboardRunningPrank = null;
+    renderKeyboardPrankStatus();
+  }
+
+  function processKeyboardCharacter(rawCharacter) {
+    const now = Date.now();
+    let character = rawCharacter;
+
+    // Rozběhnutá sekvence má přednost: další stisky přepisuje podle své definice.
+    if (keyboardRunningPrank) {
+      const active = keyboardPranks[keyboardRunningPrank];
+      const outputChars = Array.from(active.output);
+      character = outputChars[active.progress] || character;
+      active.progress += 1;
+      insertKeyboardText(character);
+      if (active.progress >= active.total) finishKeyboardPrank(keyboardRunningPrank);
+      else renderKeyboardPrankStatus();
+      return;
+    }
+
+    // Pevné pořadí priorit pro případ budoucích funkcí se stejným triggerem.
+    const priority = ['sin', 'ns', 'lrun'];
+    const triggeredId = priority.find(id => {
+      const prank = keyboardPranks[id];
+      return prank.enabled && now >= prank.cooldownUntil && character.toLowerCase() === prank.trigger;
+    });
+
+    // Trigger vloží svůj první znak normálně, pak se aktivuje sekvence.
+    if (triggeredId) {
+      const prank = keyboardPranks[triggeredId];
+      const outputChars = Array.from(prank.output);
+      insertKeyboardText(outputChars[0]);
+      prank.progress = 1;
+      keyboardRunningPrank = triggeredId;
+      if (prank.progress >= prank.total) finishKeyboardPrank(triggeredId);
+      else renderKeyboardPrankStatus();
+      return;
+    }
+
+    insertKeyboardText(character);
+  }
+
+  function handleKeyboardAction(action, value) {
+    if (action === 'shift') {
+      keyboardShift = !keyboardShift;
+      renderKeyboard();
+      return;
+    }
+    if (action === 'symbols') {
+      keyboardSymbols = !keyboardSymbols;
+      renderKeyboard();
+      return;
+    }
+    if (action === 'backspace') {
+      removeKeyboardSelectionOrPrevious();
+      return;
+    }
+    if (action === 'space') {
+      processKeyboardCharacter(' ');
+      return;
+    }
+    if (action === 'enter') {
+      processKeyboardCharacter('\n');
+      return;
+    }
+    let character = value || '';
+    if (keyboardShift && /^[a-z]$/.test(character)) {
+      character = character.toUpperCase();
+      keyboardShift = false;
+      renderKeyboard();
+    }
+    processKeyboardCharacter(character);
+  }
+
+  if (keyboardRoot) {
+    renderKeyboard();
+    keyboardRoot.addEventListener('click', event => {
+      const button = event.target.closest('button[data-keyboard-action]');
+      if (!button) return;
+      handleKeyboardAction(button.dataset.keyboardAction, button.dataset.keyboardValue || button.textContent);
+    });
+  }
+
+  Object.keys(keyboardPranks).forEach(id => {
+    const toggle = document.getElementById(`keyboard-prank-${id}`);
+    if (!toggle) return;
+    toggle.addEventListener('change', () => {
+      const prank = keyboardPranks[id];
+      prank.enabled = toggle.checked;
+      if (!prank.enabled && keyboardRunningPrank === id) {
+        keyboardRunningPrank = null;
+        prank.progress = 0;
+      }
+      renderKeyboardPrankStatus();
+    });
+  });
+
+  const resetKeyboardStats = document.getElementById('keyboard-reset-stats');
+  if (resetKeyboardStats) {
+    resetKeyboardStats.addEventListener('click', () => {
+      Object.values(keyboardPranks).forEach(prank => { prank.completed = 0; });
+      renderKeyboardPrankStatus();
+    });
+  }
+  renderKeyboardPrankStatus();
+  // Cooldown vychází z uloženého času dokončení; interval obnovuje jen jeho zobrazení.
+  window.setInterval(renderKeyboardPrankStatus, 250);
+
+  })();
 </script>
 
 </body>
